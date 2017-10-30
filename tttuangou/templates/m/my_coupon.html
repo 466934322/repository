@@ -1,0 +1,31 @@
+<!--{template @m/header_my}-->
+<div class="pFilter">
+<ul class="clearfix"> 
+<a class="m {$_s1}" href="?mod=me&code=coupon">全部</a>
+<a class="m {$_s2}" href="?mod=me&code=coupon&status=0">未消费</a>
+<a class="m {$_s3}" href="?mod=me&code=coupon&status=1">已消费</a>
+<a class="m {$_s4}" href="?mod=me&code=coupon&status=2">已过期</a>
+</ul>
+</div>
+<!--{loop $ticket_all $i $value}-->
+<div class="box-style">
+<a class="inlink"><h2><i class="am-icon-angle-double-right"></i> {$value['flag']}</h2></a>
+<ul class="com_adr">
+<li style="height:auto;padding-top: 10px;"><span class="info"><img src="
+{eval echo driver('qrcode')->url($value['number'].'#'.$value['password']);}" width="200" /></span></li>
+<li><span class="info">{TUANGOU_STR}券号码：{$value['number']}</span></li>
+<li><span class="info">{TUANGOU_STR}券密码：{$value['password']}</span></li>
+<li><span class="info">使用状态：{if $value['status']==0}未消费{elseif $value['status']==1}已消费{elseif $value['status']==3} 已作废{else}已过期{/if}</span></li>
+<li><span class="info">
+{if $value['status']==1} 
+使用时间：<font color="blue">$value['usetime']</font>
+{else}
+过期时间：{echo date('Y-m-d', $value['perioddate']);}&nbsp;&nbsp;({echo DateLess($value['perioddate']-time(), 2);} )
+{/if}</span></li>
+</ul>
+</div>
+<!--{/loop}-->
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<!--{template @m/footer}-->

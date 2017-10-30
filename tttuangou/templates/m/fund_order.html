@@ -1,0 +1,48 @@
+<!--{template @m/header_seller}-->
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->addon('picker.date')}
+<div class="pFilter"> 
+<ul class="clearfix"> 
+<li class="liL_{$_s3}"><a class="m ui-link" href="?mod=fund&code=order&pay=no">等待处理</a></li>
+<li class="liL_{$_s2}"><a class="m ui-link" href="?mod=fund&code=order&pay=doing">正在处理</a></li>
+<li class="liL_{$_s4}"><a class="m ui-link" href="?mod=fund&code=order&pay=yes">结算成功</a></li>
+<li class="liL_{$_s1}"><a class="m ui-link" href="?mod=fund&code=order&pay=error">结算失败</a></li>
+</div>
+<!--{loop $list $one}-->
+<div class="box-style">
+<a class="inlink"><h2><i class="am-icon-info-circle"></i> 结算记录号：{$one['orderid']}</h2></a>
+<ul class="com_adr">
+<li><span class="info">结算金额：{$one['money']} 元</span></li>
+{if $one['paytype'] =='money'}
+<li><span class="info">结算方式：上门提现</span></li>
+{elseif $one['paytype'] =='bank'}
+<li><span class="info">结算方式：银行转帐</span></li>
+<li><span class="info">结算银行：{$one['bankname']}</span></li>
+<li><span class="info">真实姓名：{$one['bankusername']}</span></li>
+<li><span class="info">银行卡号：{$one['bankcard']}</span></li>
+{elseif $one['paytype'] =='alipay'}
+<li><span class="info">结算方式：支付宝</span></li>
+<li><span class="info">真实姓名：{$one['bankusername']}</span></li>
+<li><span class="info">支付宝账号：{$one['alipay']}</span></li>
+{/if}
+<li><span class="info">{if $one['paytime'] > 0}受理时间：{echo date('Y-m-d H:i:s', $one['paytime'])}{else}受理时间：等待受理</span></li>
+{/if}  
+<li><span class="info">{if $one['from']=='admin'}结算类型：后台直结{else}结算类型：前台申请{/if}</span></li>
+<li><span class="info">管理备注：{eval echo($log[info] && '管理员后台操作'!=$log[info] ? $log[info] : '无备注');}</span></li>
+{eval $log=logic('fund')->get_last_log($one['orderid']);}
+{if $one['status']=='no'}
+<li><span class="info"><a href="?mod=fund&code=del&id={$one['orderid']}"><input type="submit" class="search-submit formbutton"  value="取消结算"></a></span></li>
+{elseif $one['status']=='yes'}
+<li><span class="info">结算状态：<font color="green">结算成功</font></span></li>
+{elseif $one['status']=='doing'}
+<li><span class="info">结算状态：正在处理</span></li>
+{elseif $one['status']=='error'}
+<li><span class="info">结算状态：<font color="red">结算失败</font></span></li>
+{/if}
+</ul>
+</div>
+<!--{/loop}-->
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<!--{template @m/footer}-->

@@ -1,0 +1,16 @@
+<!--{template @m/header_back}-->
+<div class="box-style">
+<ul class="am-list am-list-static">
+{~user()->get('name')} <span class="am-badge am-badge-warning am-radius">{eval logic('me')->growth(1);}</span><br>
+账户余额： <font class="R12">{~user()->get('money')}</font><br>
+账户积分： <font class="R12">{~user()->get('scores')}</font><br>
+</ul>
+<ul class="am-list">
+<li><a href="?mod=me&code=coupon"><i class="am-icon-ticket"></i> 我的{TUANGOU_STR}券</a></li>
+<li><a href="?mod=me&code=order"><i class="am-icon-file-text"></i> 我的订单</a></li>
+<li><a href="?mod=me&code=transfer"><i class="am-icon-gift"></i> 转赠积分</a></li>
+<li><a href="?mod=me&code=ask"><i class="am-icon-question-circle"></i> 在线问答</a></li>
+<li><a href="?mod=me&code=invite"><i class="am-icon-users"></i> 邀请有奖</a></li>
+</ul>
+</div>
+<!--{template @m/footer}-->

@@ -1,0 +1,167 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="{ini:settings.charset}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>$this->Title - {ini:settings.site_name}</title>
+<meta name="keywords" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_keywords')}" />
+<meta name="description" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_description')}{if $__p = productCurrentView()},{echo strip_tags($__p['intro'])}{/if}" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--{~ui('loader')->css('@amazeui.min')}-->
+<!--{~ui('loader')->css('#m/styles/app')}-->
+<!--{~ui('loader')->js('@jquery')}-->
+<!--{~ui('loader')->js('@amazeui.min')}-->
+<!--{~ui('loader')->js('@time.lesser')}-->
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+<a href="javascript:history.go(-1);" class="am-icon-chevron-left"> </a>{$product['flag']}
+</h1></header>
+<style>.am-menu-offcanvas1 .am-menu-toggle{ bottom:3.6em;}</style>  
+<div class="imgs_displayer" style="position:relative;">
+{if $favorited && MEMBER_ID > 0} <a class="arrowside-fun" href="?mod=me&code=favorite"><i class="am-icon-heart"></i></a> {elseif MEMBER_ID > 0} <a id="favorite" href="javascript:void(0);" tourl="?mod=me&code=favorite&op=add&id={$product['id']}" onclick="addfavorite()" class="arrowside-fun"><i class="am-icon-heart-o"></i></a> {/if} 
+<img src="{echo imager($product['imgs'][0], IMG_Normal);}" style="width:100%;min-height:100px;" />
+</div>
+<div class="section-detailbox">
+<div class="title">{$product['intro']}</div>
+<div class="deal-other">
+<ul class="oh-ul">
+<li class="oh-num"><i class="am-icon-check-square-o"></i> {if $product['type'] == 'prize'}{echo logic('prize')->allCount($product['id'])}人成功抽奖
+{else}
+{if $product['is_countdown'] == 1}
+{if $product['maxnum']==0 }
+剩余99+份
+{else}
+{eval $product['num'] = $product['maxnum'] - $product['successnum'];}
+{if $product['num']<1}
+已售罄
+{else}
+剩余{$product['num']}份
+{/if}
+{/if}
+{else}
+{if $product['sells_real'] < $product['succ_buyers']}已售出{$product['succ_buyers']}份！{else}已售出{$product['sells_real']}份！{/if}
+{/if}
+{/if} </li>
+<li class="oh-time"><i class="am-icon-clock-o"></i> {if $product['begin_date']}
+{$product['begin_date']}开抢
+{elseif $product['limit_time']} <font class="deal_djs" id="remainTime_{$product['id']}"></font>后开始
+<script language="javascript">addTimeLesser($product['id'], $product['limit_time']);</script>
+{else}
+{if $product['overtime'] && $product['time_remain'] < 0}<span>0</span>{/if} <font class="deal_djs" id="remainTime_{$product['id']}"></font>
+{if $product[overtime]}<script language="javascript">addTimeLesser($product['id'], $product['time_remain']);</script>{/if}
+{/if} </li>
+</ul>
+</div>
+</div>
+{if !meta('p_hs_'.$product['id'])}
+<div class="box-style">
+<h2><i class="am-icon-building-o"></i> 商家信息</h2>
+<div class="biz-info">
+<div class="biz-detail">
+<p class="title ell">商　家：{$product['sellername']}</p>
+<p class="title ell">地　址：{$product['selleraddress']}</p>
+<a class="phone" href="tel:{$product['sellerphone']}" data-tele="{$product['sellerphone']}">
+<p class="title ell">电　话：{$product['sellerphone']}</p>
+</a> </div>
+</div>
+</div>
+{/if}
+<!--{if false != ($data = logic('product')->GetOwnerList($product['sellerid'],5,0,$product['id']))}-->
+<div class="box-style">
+<h2><i class="am-icon-heart-o"></i> 商家推荐</h2>
+<ul class="com_adr">
+<!--{loop $data $product2}-->
+<!--{if $product2['id']!=$product['id']}-->
+<li> <a href="?view={$product2['id']}" class="clearfix"> <span class="money"><span class="price">&yen;{$product2['nowprice']}</span></span> <span class="info">{$product2['name']}</span> </a> </li>
+<!--{/if}-->
+<!--{/loop}-->
+</ul>
+</div>
+<!--{/if}-->
+{if $product['content']}
+<div  class="box-style">
+<h2><i class="am-icon-align-justify"></i> 云购详情</h2>
+<div class="term">
+<div class="product_detail_cnt"> {$product['content']} </div>
+</div>
+</div>
+{/if}
+{if $product['cue']}
+<div class="box-style">
+<h2><i class="am-icon-paper-plane-o"></i> 购买须知</h2>
+<div class="term">
+<div class="product_detail_cnt"> {$product['cue']} </div>
+</div>
+</div>
+{/if}
+{if $product['theysay']}
+<div class="box-style">
+<h2><i class="am-icon-photo"></i> 云购实拍</h2>
+<div class="term">
+<div class="product_detail_cnt"> {$product['theysay']} </div>
+</div>
+</div>
+{/if}
+{if $product['wesay']}
+<div class="box-style">
+<h2 gaevent="imt/deal/terms"><i class="am-icon-comments-o"></i> 我们说</h2>
+<div class="term">
+<div class="product_detail_cnt"> {$product['wesay']} </div>
+</div>
+</div>
+{/if}
+<script type="text/javascript" src="static/js/jquery.lazyload.js"></script>
+<script type="text/javascript">
+$(".box-style img").lazyload({    
+placeholder : "static/images/1x1.gif",    
+effect : "fadeIn"   
+}); 
+</script>
+<div class="deal-buy-bottom" style="position:fixed; bottom:0px; width:100%; background-color:#fff; border: 1px solid #DDD; z-index:1; border-bottom-style:ridge">
+<div class="price">&yen;{$product['nowprice']}</div>
+<table>
+<tbody>
+<tr>
+<th>市场价</th>
+<th>折扣</th>
+</tr>
+<tr>
+<td><span>&yen;</span><del>{$product['price']}</del></td>
+<td>{$product['discount']}折</td>
+</tr>
+</tbody>
+</table>
+<div class="content-navbar_buy"> {if $product['overtime'] && $product['time_remain'] < 0} <a href="javascript:void(0)">
+<div class="landb-now">已结束</div>
+</a> {else}	
+{if $product['surplus']>0}
+<div class="cj_or_bp"> {if $product['type'] == 'prize'} <a href="?mod=buy&code=checkout&id={$product['id']}" rel="nofollow">
+<div class="landb-now">立即抽奖</div>
+</a> {else}
+{if $product['maxnum']>0 && $product['surplus']<=0} <a href="javascript:;">
+<div class="landb-now">已经售罄</div>
+</a> {elseif $product['begin_date'] || $product['limit_time']} <a href="javascript:;">
+<div class="landb-now">即将开始</div>
+</a> {else} <a href="?mod=buy&code=checkout&id={$product['id']}" rel="nofollow">
+<div class="landb-now">立即抢购</div>
+</a> {/if}
+{/if} </div>
+{else} <a href="javascript:void(0)">
+<div class="landb-now">卖光了</div>
+</a> {/if} 
+{/if} </div>
+</div>
+<Script type="text/javascript">
+$(".box-style table").each(function(){
+$(this).width("100%");
+});
+$("img").each(function(){
+$(this).width("100%");
+});
+</Script>
+<div class="footerhight"></div>
+</body>
+</html>

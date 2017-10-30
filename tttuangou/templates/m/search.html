@@ -1,0 +1,12 @@
+<!--{template @m/header_back}-->
+<div>
+<!--{eval $kw = logic('isearcher')->inputer()}-->
+<ul class="scity search">
+<!--{if false!=($ini_link=ini('link'))}-->
+<!--{loop $ini_link $i $value}-->
+<li><span><a href="?kw={$value[name]}">{$value[name]}</a></span></li>
+<!--{/loop}-->
+<!--{/if}-->
+</ul>
+</div>
+<!--{template @m/footer}-->

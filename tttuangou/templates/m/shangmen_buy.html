@@ -1,0 +1,74 @@
+<!--{template @m/header_back}-->
+<style>
+<style>
+.oh-ul li{ margin-bottom:0;}
+</style>
+<div class="box-style">
+<h2><i class="am-icon-info-circle"></i> 订单信息</h2> 
+<ul class="com_adr">
+<li>订单号：1022356</li>
+<li class="com_adr_v">上门地址：西湖区万塘路200号</li>
+<li>预约时间：2015-07-10 10:30</li>
+<li>联系电话：1022356</li>
+<li>联系人：余雨</li>
+<li>订单金额：23</li>
+</ul>
+</div>
+<div class="box-style">
+<h2><i class="am-icon-credit-card"></i> 支付方式</h2> 
+<ul class="com_adr">
+<li style="line-height:0.3em; padding:10px 0;">
+<table border="0" class="PayTypeList">
+<tbody><tr class="pay_tr" style="cursor: pointer;" onmouseover="pay_tr_mouseover(this)" onmouseout="pay_tr_mouseout(this)" onclick="pay_tr_click('1')">
+<td width="100%">余额支付</td>
+<td width="30px"><input class="mt" id="payment_id_1" name="payment_id" type="radio" value="1"></td>
+</tr>
+</tbody></table>
+</li>
+<li style="line-height:0.3em; padding:10px 0;">
+<table border="0" class="PayTypeList">
+<tbody><tr class="pay_tr" style="cursor: pointer;" onmouseover="pay_tr_mouseover(this)" onmouseout="pay_tr_mouseout(this)" onclick="pay_tr_click('16')">
+<td width="100%">支付宝手机网页支付</td>
+<td width="30px"><input class="mt" id="payment_id_16" name="payment_id" type="radio" value="16"></td>
+</tr>
+</tbody></table>
+</li>
+<li style="line-height:0.3em; padding:10px 0;">
+<table border="0" class="PayTypeList">
+<tbody><tr class="pay_tr" style="cursor: pointer;" onmouseover="pay_tr_mouseover(this)" onmouseout="pay_tr_mouseout(this)" onclick="pay_tr_click('20')">
+<td width="100%">银行卡快捷支付</td>
+<td width="30px"><input class="mt" id="payment_id_20" name="payment_id" type="radio" value="20"></td>
+</tr>
+</tbody></table>
+</li>
+<li style="line-height:0.3em; padding:10px 0;">
+<table border="0" class="PayTypeList">
+<tbody><tr class="pay_tr" style="cursor: pointer;" onmouseover="pay_tr_mouseover(this)" onmouseout="pay_tr_mouseout(this)" onclick="pay_tr_click('26')">
+<td width="100%">财付通手机支付</td>
+<td width="30px"><input class="mt" id="payment_id_26" name="payment_id" type="radio" value="26"></td>
+</tr>
+</tbody></table>
+</li>
+<li style="line-height:0.3em; padding:10px 0;">
+<table border="0" class="PayTypeList">
+<tbody><tr class="pay_tr" style="cursor: pointer;" onmouseover="pay_tr_mouseover(this)" onmouseout="pay_tr_mouseout(this)" onclick="pay_tr_click('27')">
+<td width="100%">微信手机支付</td>
+<td width="30px"><input class="mt" id="payment_id_27" name="payment_id" type="radio" value="27"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</div> 
+<div class="box-style btn-box">
+<form id="order_submit" action="?mod=buy&amp;code=order&amp;op=save" method="post">
+<input type="hidden" name="FORMHASH" value="89c41f6ba51f110d">
+<input id="order_id" name="order_id" type="hidden" value="2015071074594">
+<ul class="com_adr">
+<li><span class="info" id="timeLimit">剩余时间：11:7（过时后将禁止支付，并将商品重新开放给其他人购买）</span></li>
+<li><span class="info"><input id="order_submit_button" type="submit" class="search-submit formbutton" value="确认订单，并支付"></span></li>
+<font id="submit_status"></font>
+<input id="express_id" name="express_id" type="hidden" value="1">
+</ul>
+</form>
+</div>
+<!--{template @m/footer}-->

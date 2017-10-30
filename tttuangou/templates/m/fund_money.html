@@ -1,0 +1,31 @@
+<!--{template @m/header_seller}-->
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->addon('picker.date')}
+<form action="index.php?" method="get">
+<input type="hidden" name="mod" value="fund" />
+<input type="hidden" name="code" value="money" />
+<div class="pFilter"> 
+<ul class="clearfix"> 
+<li class="liL_{$_s3}"><a class="m ui-link" onclick="window.location='{$url}&day=-1'; return false;">今日明细</a></li>
+<li class="liL_{$_s2}"><a class="m ui-link" onclick="window.location='{$url}&day=1'; return false;">昨日明细</a></li>
+<li class="liL_{$_s4}"><a class="m ui-link" onclick="window.location='{$url}&day=7'; return false;">最近7日</a></li>
+<li class="liL_{$_s1}"><a class="m ui-link" onclick="window.location='{$url}'; return false;">全　部</a></li>
+</div>
+</form>
+<!--{loop $list $one}-->
+<div class="box-style">
+<a class="inlink" href="?mod=seller&code=order&op=list&search=wd:{$one['orderid']}&ssrc=order_id&sstr={$one['orderid']}"><h2><i class="am-icon-list-ol"></i> 订单编号：{$one['orderid']}</h2></a>
+<ul class="com_adr">
+<li><span class="info">商品信息：{$one['flag']}</span></li>
+<li><span class="info">消费金额：{$one['deal_money']} 元</span></li>
+<li><span class="info">分成比例：{$one['salary_pre']}</span></li>
+<li><span class="info">结算金额：{$one['salary_money']} 元</span></li>
+<li><span class="info">资金到账日期：{echo date('Y-m-d H:i:s', $one['addtime'])}</span></li>
+</ul>
+</div>
+<!--{eval $total_mutis +=$one['mutis']; $total_deal_money +=$one['deal_money']; $total_salary_money +=$one['salary_money'];}-->
+<!--{/loop}-->
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<!--{template @m/footer}-->

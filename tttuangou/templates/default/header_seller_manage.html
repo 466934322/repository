@@ -1,0 +1,48 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>商家功能</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+{~ui('loader')->js('@jquery')}
+{~ui('loader')->js('@amazeui.min')}
+{~ui('loader')->css('@amazeui.min')}
+<link rel="stylesheet" href="templates/default/styles/h5_seller.css">
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default">
+<h1 class="am-header-title">
+<a href="#title-link">{$this->Title}</a>
+</h1>
+</header>
+<nav data-am-widget="menu" class="am-menu  am-menu-offcanvas1" data-am-menu-offcanvas>
+<a href="javascript:history.go(-1);" class="am-menu-goback">
+<i class="am-icon-angle-left"></i>
+</a>
+<a href="javascript: void(0)" class="am-menu-toggle">
+<i class="am-menu-toggle-icon am-icon-bars"></i>
+</a>
+<div class="am-offcanvas">
+<div class="am-offcanvas-bar">
+<ul class="am-menu-nav sm-block-grid-1">
+<li class="">
+<a href="?mod=seller&code=h5_seller_ckticket">{TUANGOU_STR}券验证记录</a>
+</li>
+<li class="">
+<a href="?mod=seller&code=h5_order_list">销售订单记录</a>
+</li>
+<li class="">
+<a href="?mod=seller&code=h5_fund">申请结算</a>
+</li>
+<li class="">
+<a href="?mod=seller&code=h5_fund_list">结算记录</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>

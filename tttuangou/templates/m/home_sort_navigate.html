@@ -1,0 +1,13 @@
+<li class="dropdown-toggle" onclick="document.getElementById('homesort').style.display='block'"> <span> {loop $sorts $key $sort}
+{if $sort['selected']}{$sort['name']}{/if}
+{/loop}</span> <b class="caret"></b> </li>
+<div id="homesort" onclick="document.getElementById('homesort').style.display='';">
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+<a href="javascript:history.go(-1);" class="am-icon-chevron-left"> </a>筛选商品</h1>
+</header>
+<ul class="scity">
+{loop $sorts $key $sort}
+<li><span><a href="{$sort['url']}" {if $sort['selected']}class="selected"{/if}>{$sort['name']}</a></span></li>
+{/loop}
+</ul>
+</div>

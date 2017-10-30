@@ -1,0 +1,82 @@
+<!--{template @m/header_my}-->
+<script type="text/javascript">
+function trim(str){
+var re=/\s*(\S[^\0]*\S)\s*/;
+re.exec(str);
+return RegExp.$1;
+}
+function check()
+{
+var money = Math.round($('#money').val()*100)/100;
+var maxmoney = {$info['paymoney']};
+if (isNaN(money) || money <= 0)
+{
+Error('money','退款金额必须是一个有效数字！');
+return false;
+}
+if (money > maxmoney)
+{
+Error('money','退款金额过大，您最大可退款金额为' + maxmoney + '元');
+return false;
+}
+var ci = 0;
+$(":checkbox").each(function(){
+if($(this).attr("checked") == "checked"){ci++;}
+});
+if (ci == 0)
+{
+Error('reason','请输入退款理由');
+return false;
+}
+return true;
+}
+function Error(id,msg){$('#error_msg').html(msg);$('#'+id).focus();}
+$(document).ready(function() {$("#money").focus();});
+</script>
+<style>
+label {
+display: inline-block;
+margin-bottom: 5px;
+font-weight: 500;
+color: #999;
+width: 100%;
+}
+</style>
+<form action="?mod=refund&code=refundsave" method="post" onsubmit="return check();">
+<input type="hidden" name="orderid" value="{$order_id}"/>
+<div class="box-style"> 
+<h2><i class="am-icon-angle-double-right"></i> 退款产品名称：{$info['product']['flag']}</h2>
+<ul class="com_adr">
+<li><span class="info">订单号码：{$order_id}</span></li>
+<li><span class="info">退款金额：<input type="text" id="money" name="money" value="{$info['paymoney']}" class="inputsearch" style="width:50px;"> 元</span></li>
+</ul>
+</div>
+<!--{if true == logic('refund')->can_cash($order_id)}-->
+<input type="hidden" name="cash_type" value="" checked="checked">
+<!--{/if}-->	
+<div class="box-style"> 
+<h2><i class="am-icon-info-circle"></i> 请填写退款理由：</h2>
+<ul class="com_adr">	
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='买多了/买错了'> 买多了/买错了</span></li></label>
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='计划有变，没时间消费'> 计划有变，没时间消费</span></li></label>
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='预约不上'> 预约不上</span></li></label>
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='去过了，不太满意'> 去过了，不太满意</span></li></label>
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='朋友/网上评价不好'> 朋友/网上评价不好</span></li></label>
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='后悔了，不想要了'> 后悔了，不想要了</span></li></label>
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='商家说可以直接{TUANGOU_STR}价到店消费'> 商家说可以直接{TUANGOU_STR}价到店消费</span></li></label>
+<label><li><span class="info"><input type='checkbox' name='reason[]' value='其它原因'> 其它原因</span></li></label>
+<li style="height:auto"><span class="info"><textarea style="width:100%; height:40px; border:none" placeholder="请在此处填写退款理由" class="extmsg" name="reason[]"></textarea></span></li>    
+</ul>
+</div>
+<div class="box-style">
+<ul class="com_adr"> 
+<span class="info" id="error_msg" style="color:red"></span>
+<!--{if $info['paymoney'] > 0}-->
+<li><span class="info"><input id="checkout_submit_button"  type="submit" name="buy" class="search-submit formbutton" value="提交退款申请"></span></li>
+<!--{else}-->
+<li><span class="info"><input type="button" class="search-submit formbutton" value="免费产品不支持退款" disabled></span></li>
+<!--{/if}--> 
+</ul>
+</div>
+</form>
+<!--{template @m/footer}-->

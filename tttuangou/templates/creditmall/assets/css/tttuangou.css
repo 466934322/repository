@@ -1,0 +1,73 @@
+@charset "utf-8";
+/* CSS Document
+   Some revise by tttuangou.com 2014.12.24
+*/
+
+.am-header-default {
+	/*background-color: #ff8400;*/
+    background-color: #34BAAF;
+}
+.am-navbar-default .am-navbar-nav {
+	/*background-color: #ff8400;*/
+    background-color: #34BAAF;
+}
+.am-header .am-header-title {
+	margin: 0 20%;
+}
+.am-list a {
+	display: block;
+	clear: both;
+	border-bottom: 1px solid #eee;
+}
+.price {
+	color: #f63;
+	font-size: 21px;
+	display: inline-block;
+	font-weight: 600;
+	font-style: inherit;
+}
+.tg .am-table {
+	font-size: 1.4rem
+}
+.tg .am-list-news-hd h2 {
+	line-height: 1.6;
+}
+.am-table>thead>tr>th, .am-table>tbody>tr>th, .am-table>tfoot>tr>th, .am-table>thead>tr>td, .am-table>tbody>tr>td, .am-table>tfoot>tr>td {
+	color: #666;
+padding: .5rem;
+	font-size: 14px;
+}
+.tg td.page-btn-3g {
+	padding: 10px 0;
+}
+.page-btn-3g a {
+	font-size: 14px
+}
+.am-table .page_first {
+	padding: 2px 0;
+	background: #fff;
+	margin: 0;
+	border: none;
+}
+.am-table .page_up,.am-table .page_down,.am-table .page_last {
+	padding: 2px 5px;
+	font-weight: 500;
+	background: #fff;
+	margin: 0;
+	border: none;
+}
+.am-table .page_number {
+	padding: 2px 5px;
+	background: #fff;
+	margin: 0;
+	border: none;
+}
+.am-table .page_current {
+	padding: 2px 5px;
+	background: #fff;
+	margin: 0;
+	font-weight: 600;
+	color: #ff8800;
+	font-size: 14px;
+}
+.am-table .page_count{ margin:0;}

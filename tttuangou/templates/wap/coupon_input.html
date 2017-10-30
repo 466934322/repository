@@ -1,0 +1,39 @@
+<!--{template @wap/header}-->
+{if MEMBER_ID}	
+<div class="well">欢迎你，{MEMBER_NAME}！</div><a class="tui" href="{ini:settings.site_url}/?mod=wap&code=account&op=logout">退出</a>
+{else}
+<a class="login" href="{ini:settings.site_url}/?mod=wap&code=account&op=login">登录</a>
+{/if}
+<form action="?mod=wap&code=coupon&op=verify" method="post">
+<div class="dl">
+<div class="line"></div>
+<div class="zh">号码</div>
+<input class="zh1" type="text" name="number" value="{$number}" placeholder="请输入号码" />
+</div>
+<div class="line"></div>
+<div class="dl">
+<div class="zh">密码</div>
+<input class="zh1" type="password" name="password" value="{$password}" placeholder="请输入密码" />
+</div>
+<div class="line"></div>
+<div class="msg">{if $msg}
+{$msg}
+{/if}<br>
+{if $product}
+{$product['flag']} / 份数 {$product['coupon']['mutis']}
+{if isset($product['coupon']['attrs']) && $product['coupon']['attrs']}
+<br/>
+{loop $product['coupon']['attrs']['dsp'] $attr}
+{$attr['name']}<br/>
+{/loop}
+{/if}
+{/if}
+</div>
+<input class="xf" type="submit" value="验证并消费" />
+</form>
+<form action="?mod=wap&code=coupon&op=input" method="post">
+<div class="yan">	
+<input class="qk" type="submit" value="清空输入框" />
+</div>
+</form>
+<!--{template @wap/footer}-->

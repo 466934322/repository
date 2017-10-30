@@ -1,0 +1,11 @@
+<div style="width:500px; margin:10% auto; text-align:center; min-height:175px;  border: 1px solid #eee;"> <h3 style="  background: #f6f6f6;
+padding: 10px;
+border-bottom: 1px solid #eee;
+margin: 0;
+margin-bottom: 50px;">{ini:settings.site_name} 提示</h3> <div style=""> <!--{if is_array($message)==false}-->
+{$message}
+<!--{else}--> <!--{loop $message $k $one_message}-->
+{if $k}{$k}{/if}
+{$one_message}<br> <!--{/loop}--> <!--{/if}--> <!--{if $return_msg==""}--> <br /><br /><br /> <!--{if $time!==null}--> <script>setTimeout("redirect('{$redirectto}');", {$time}*1000);</script> <a href="{$redirectto}">如果您的浏览器没有自动跳转，请点这里继续</a> <!--{else}--> <a href="{$redirectto}">{$to_title}</a> <!--{/if}--> <!--{else}-->
+{$return_msg}
+<!--{/if}--> </div> </div>

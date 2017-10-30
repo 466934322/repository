@@ -1,0 +1,17 @@
+
+{~ui('loader')->js('#html/catalog/catalog.inputer')}
+<select id="__catalog_topclass" name="__catalog_topclass" onchange="home_catalog_master_change()">
+{loop $catalog $i $topclass}
+{eval if ($topclass['id']==0) continue;}
+<option value="{$topclass['id']}">{$topclass['name']}</option>
+{/loop}
+</select>
+<select id="__catalog_subclass" name="__catalog_subclass">
+<option value="-1">正在加载</option>
+</select>
+<script type="text/javascript">
+$.hook.add('catalog.add.finish', function(id){
+catalog_product_category = id;
+catalog_master_change();
+});
+</script>

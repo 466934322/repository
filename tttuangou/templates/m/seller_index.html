@@ -1,0 +1,37 @@
+<!--{template @m/header_home}-->
+<div> <a style="height:85px" class="my-account" href="?mod=me&code=setting">
+<p class="my-account-remain" style="top:10px;color: #000;">累计销售额：{$money} 元</p>
+<p class="my-account-remain" style="top:30px">总结算金额：{$total_money} 元</p>
+<p class="my-account-remain" style="top:50px">可结算金额：{$account_money} 元</p>
+<!--{if $forbid_money > 0}--><p class="my-account-remain" style="top:70px">处理中金额：{$forbid_money} 元</p><!--{/if}-->
+<img src="./images/my-photo.png" height="85px"> </a> </div>
+{eval $mecss[$_GET['mod'].$_GET['code']] = ' class="snu_cur"'}
+<div class="box-style">
+<ul class="mg-4 my-mt cf">
+<li><a href="?mod=seller&code=product&op=list"><i class="icon-font">U</i><span>产品列表</span></a></li>
+<li><a href="?mod=seller&code=order&op=list"><i class="icon-font">N</i><span>订单列表</span></a></li>
+<li><a href="?mod=seller&code=ticket&op=list"><i class="icon-font">M</i><span>{TUANGOU_STR}券列表</span></a></li>
+<li><a href="?mod=seller&code=delivery&op=list"><i class="icon-font">V</i><span>发货清单</span></a></li>
+</ul>
+<ul class="ml-link">
+<li> <a class="ml-item" href="?mod=fund">申请结算</a> </li>
+<li> <a class="ml-item" href="?mod=fund&code=order">结算记录</a> </li>
+<li> <a class="ml-item" href="?mod=fund&code=money">结算金额明细</a> </li>
+</ul>
+</div>
+<div class="box-style">
+<ul class="ml-link">
+<li> <a class="ml-item ml-first" href="?mod=seller&code=comment&op=list">我的评价</a> </li>
+<li> <a class="ml-item" href="?mod=list&code=ckticket">{TUANGOU_STR}券验证</a> </li>
+</ul>
+</div>
+<div class="box-style">
+<ul class="ml-link">
+<li> <a class="ml-item ml-first" href="?mod=me&code=setting">账号设置</a> </li>
+<li> <a class="ml-item" href="?mod=me&code=index">进入个人用户中心</a> </li>
+</ul>
+</div>
+<nav class="pageinator" style="display: block;padding-top: 0px;">
+<div id="nav-top" class="pg-top"><a href="?mod=account&code=logout"> <span class="btn">退出登录</span></a> </div>
+</nav>
+<!--{template @m/footer}-->

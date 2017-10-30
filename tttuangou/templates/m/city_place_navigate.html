@@ -1,0 +1,13 @@
+<li class="dropdown-toggle" onclick="document.getElementById('cityplace').style.display='block'"> <span> {loop $places $i $region}
+{if $region['selected']}{$region['name']}{/if}
+{/loop}</span> <b class="caret"></b> </li>
+<div id="cityplace" onclick="document.getElementById('cityplace').style.display='';">
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+<a href="javascript:history.go(-1);" class="am-icon-chevron-left"> </a>全部商圈</h1>
+</header>
+<ul class="scity">
+{loop $places $i $region}
+<li><span><a href="{$region['url']}" {if $region['selected']}class="selected"{/if}>{$region['name']}</a></span></li>
+{/loop}
+</ul>
+</div>

@@ -1,0 +1,14 @@
+<!--{template @admin/header}-->
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->js('#admin/js/sdb.parser')}
+{~ui('loader')->js('#html/catalog/catalog.mgr.ajax')}
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <tr class="tr_nav"> <td width="20%">显示顺序</td> <td width="40%">分类名称</td> <td width="20%">短标记（用于url）</td> <td>管理</td> </tr> <!--{if count($catalog)==0}--> <tr class="tips"> <td colspan="8"> <font color="red">提醒：如果您启用了分类功能，那么您必须至少添加一个主分类才可以，否则添加或编辑产品时是无法选择分类的！</font> </td> </tr> <!--{/if}--> <!--{loop $catalog $i $topclass}--> <tr> <td style="white-space:nowrap;">{$topclass['order']}</td> <td>{$topclass['name']}</td> <td>{$topclass['flag']}</td> <td><a href="javascript:;" onclick="__goods_catalog_del($topclass['id'], after_catalog_delete)">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="admin.php?mod=catalog&code=goodscate_edit&id={$topclass['id']}">编辑</a></td> </tr> <!--{/loop}--> <tr class="tips"> <td colspan="8"> <a href="admin.php?mod=catalog&code=goodscate_add">添加主分类</a> </td> </tr> </table> <script type="text/javascript">
+$.hook.add('catalog.add.finish', function(id){
+location.href = location.href;
+});
+function after_catalog_delete(id)
+{
+location.href = location.href;
+}
+</script> <!--{template @admin/footer}-->

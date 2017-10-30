@@ -1,0 +1,51 @@
+<!--{template @m/header_seller}-->
+<!--{loop $comments['comment'] $one}-->
+<div class="box-style"> <a class="inlink">
+<h2><i class="am-icon-comment-o"></i> {$one['flag']}</h2>
+</a>
+<ul class="com_adr">
+<li><span class="info">评论用户：{$one['user_name']}</span></li>
+<li><span class="info">评论分值：{$one['score']} 分</span></li>
+<li style="white-space: inherit;"><span class="info">评论内容：{$one['content']}</span></li>
+<li><span class="info">发表时间：{echo date('Y-m-d H:i:s', $one['timestamp_update'])}</span></li>
+{if $one['reply']}
+<li style="white-space: inherit;"><span class="info">商家回复：{$one['reply']}</span></li>
+{/if}
+<div id="replycontent_{$one['id']}"></div>
+{if !$one['reply']}
+<div id="replybutton_{$one['id']}">
+<li><span class="info"><a href="javascript:comment_reply({$one['id']});">
+<input type="button" class="search-submit formbutton" style="width:100%;" value="回复">
+</a></span></li>
+</div>
+{/if}
+</ul>
+</div>
+<!--{/loop}-->
+<div id="hiddenform" style="display:none;">
+<iframe name="reply_iframe" width="0" height="0" style="margin:0px padding:0px;border:0px;"></iframe>
+<form id="replyform_defaultid" method="post" action="index.php?mod=comment&code=ajaxsubmit" target="reply_iframe">
+<input type="hidden" name="id" value="defaultid">
+<textarea name="reply" id="replypost_defaultid" style="width:100%; height:40px;" placeholder="请填写回复内容"></textarea>
+<li><span class="info">
+<input onclick="fromsubmit(defaultid);" type="button" value="提交回复" class="search-submit formbutton" style="width:100%;" >
+</span></li>
+</form>
+</div>
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<script>
+function comment_reply(id){var html = $('#hiddenform').html();html = html.replace(/defaultid/g, id);$('#replycontent_'+id).html(html);}
+function fromsubmit(id){
+var reply = $('#replypost_'+id).val();
+if(id > 0 && reply != ''){
+$('#replyform_'+id).submit();$('#replybutton_'+id).html('');
+$('#replycontent_'+id).html('<font style="color:#af874d">'+reply+'</font>');
+}else{
+alert('请输入答复内容！');return false;
+}
+}
+function unsubmit(id){$('#replycontent_'+id).html('');}
+</script>
+<!--{template @m/footer}-->

@@ -1,0 +1,148 @@
+<!--{template @m/header_seller_manage}-->
+<script>
+function checkmoney(){
+var value = Math.round($('#fund_money').val()*100)/100;
+var maxmoney = {$max_money};
+var minmoney = {$min_money};
+var permoney = {$per_money};
+if(permoney && value < maxmoney && value > minmoney){
+var money = Math.floor(value/permoney)*permoney;
+$('#fund_money').val(money);
+}
+}
+function checkFund()
+{
+var money = Math.round($('#fund_money').val()*100)/100;
+var maxmoney = {$max_money};
+var minmoney = {$min_money};
+var paytype = $("input[name='paytype']:checked").val();
+if (isNaN(money) || money <= 0)
+{
+foundError('结算金额必须是一个有效数字！');
+return false;
+}
+if (money < minmoney)
+{
+foundError('请输入结算金额，或结算金额输入错误，结算金额必须大于或等于'+minmoney+'元');
+return false;
+}
+if (money > maxmoney)
+{
+foundError('结算金额过大，您的帐户最大可结算金额为' + maxmoney + '元');
+return false;
+}
+if(paytype=='alipay'){
+var alipaynumber = trim($('#alipaynumber').val());
+var aliusername = trim($('#aliusername').val());
+if(alipaynumber.length < 6){
+foundError('您没有填写支付宝帐号或支付宝帐号填写错误！');
+return false;
+}else if(aliusername.length < 2){
+foundError('您没有填写收款人姓名或收款人姓名填写错误！');
+return false;
+}
+}else if(paytype=='bank'){
+var bankname = $('#bankname').val();
+var banknumber = trim($('#banknumber').val());
+var bankusername = trim($('#bankusername').val());
+if(bankname.length < 3){
+foundError('请选择一个转帐银行！');
+return false;
+}else if(banknumber.length < 8){
+foundError('您没有填写银行卡号或银行卡号填写错误！');
+return false;
+}else if(bankusername.length < 2){
+foundError('您没有填写开户人姓名或开户人姓名填写错误！');
+return false;
+}
+if('~other~' == bankname && ($('#other_bank_name').val()).length < 4) {
+foundError('请正确填写其他银行的银行名称！');
+return false;
+}
+}
+return true;
+}
+function getpay(type)
+{
+$("#get_paytype").attr("value",type);
+}
+</script>
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<div class="am-list-news-hd am-cf">
+您最大提现金额为：<span class="tg-b">{$min_money}元</span>
+</div>
+<div class="am-list-news-bd">
+<ul class="am-list">
+<form class="am-form" action="" method="post" onsubmit="return checkFund();" >
+<li class="am-g">
+<div class="am-form-group"><label>请输入提现金额</label><input type="text" id="fund_money" name="money" class="" onblur="checkmoney();" placeholder="请输入提现金额"></div>
+<div class="am-form-group">
+<label>请选择提现方式</label>
+<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{  }' style="margin:0;">
+<input type="hidden" name="paytype" id="get_paytype" value="alipay">
+<dl class="am-accordion-item am-active">
+<dt class="am-accordion-title" onclick="getpay('alipay');">
+支付宝
+</dt>
+<dd class="am-accordion-bd am-collapse am-in">
+<div class="am-accordion-content">
+<label>支付宝帐号</label>
+<input id="alipaynumber" name="alipaynumber" type="text" placeholder="请输入支付宝帐号"/>
+<label>收款人姓名</label>
+<input id="aliusername" name="aliusername" type="text" placeholder="请输入收款人姓名"/>
+</div>
+</dd>
+</dl>
+<dl class="am-accordion-item">
+<dt class="am-accordion-title" onclick="getpay('bank');">
+银行转账
+</dt>
+<dd class="am-accordion-bd am-collapse ">
+<div class="am-accordion-content">
+<label>转帐银行</label>
+<select onchange="bankname_change()" id="bankname" name="bankname"><option value="">请选择...</option>
+<!--{loop $bank $key $val}-->
+<option value="{$key}">{$val}</option>
+<!--{/loop}-->
+</select>
+<script>
+function bankname_change() {
+if('~other~' == $('#bankname').val()) {
+$('#P_other_bank_name').show();
+} else {
+$('#P_other_bank_name').hide();
+}
+}
+</script>
+<p id="P_other_bank_name" >
+<label style=" overflow:hidden;">银行名称</label><input id="other_bank_name" name="other_bank_name" type="text"/> （请准确填写银行的全称，例如“杭州联合农村商业银行”）
+</p>
+<label style=" overflow:hidden;">银行卡号</label><input id="banknumber" name="banknumber" type="text"/>
+<label style=" overflow:hidden;">开户人姓名</label><input id="bankusername" name="bankusername" type="text"/>
+</div>
+</dd>
+</dl>
+<dl class="am-accordion-item">
+<dt class="am-accordion-title" onclick="getpay('money');">
+上门提现
+</dt>
+<dd class="am-accordion-bd am-collapse ">
+<div class="am-accordion-content">
+上门提现地址：{$payaddress}
+</div>
+</dd>
+</dl>
+</section>
+</div>
+<!--{if $counter == 1}-->
+<div class="am-form-group">
+<p class="tg_11">如有疑问，请咨询你的客户经理：{$counter_tel} ($counter_name)</p>
+</div>
+<!--{/if}-->
+</li>    
+<button id="fundSubmit" type="submit" class="am-btn am-btn-tt01 am-btn-block">提交申请</button>
+</form>
+</ul>
+</div>
+</div>
+<!--{template @m/footer_seller_manage}-->

@@ -1,0 +1,24 @@
+<style>#report th{ text-align:left;}#report tr td{ padding-left:10px;}</style>
+<div class="R14N">提现账户只限以下账户，填写其他账户可能会导致提现失败</div>
+<table id="report"  class="am-table am-table-bordered am-table-radius am-table-striped">
+<thead>
+<tr>
+<th> 账户名称 </th>
+<th> 账号信息 </th>
+<th> 消费次数 </th>
+<th> 该账户累计消费 </th>
+</tr>
+</thead>
+<tbody>
+<!--{if $pays}-->
+<!--{loop $pays $one}-->
+<tr>
+<td width="30%" > {$one['pname']} </td>
+<td width="30%" > {$one['payfrom']} </td>
+<td width="20%" > {$one['paynum']}次 </td>
+<td width="20%" > &yen;{$one['paysum']}元 </td>
+</tr>
+<!--{/loop}-->
+<!--{/if}-->
+</tbody>
+</table>

@@ -1,0 +1,72 @@
+/**
+ * 商家功能（H5）
+ */
+
+.am-header-default {
+	background-color: #EFEFEF;
+}
+.am-header-default .am-header-title, .am-header-default .am-header-title a {
+	color: #252525;
+}
+.am-menu-offcanvas1 .am-menu-toggle {
+	color: #666;
+}
+.am-offcanvas-bar {
+	width: 225px;
+}
+.am-navbar-default .am-navbar-nav, .am-datepicker tr.am-datepicker-header {
+	background-color: #2BB8AA;
+}
+.am-navbar-nav a [class*=am-icon] {
+	margin-bottom: 4px;
+}
+.am-btn-tt01 {
+	color: #fff;
+	background-color: #2BB8AA;
+	border-color: #2BB8AA;
+}
+.am-alert-warning2 {
+	color: #f30;
+	border: none;
+	background: none;
+}
+.am-table>thead:first-child>tr:first-child>th, .am-table>tbody>tr>td {
+	font-size: 1.4rem;
+}
+.am-list-main em {
+	font-style: normal;
+}
+.tg-a {
+	color: #3bb4f2;
+}
+.tg-b {
+	color: #F30;
+}
+.tg-c {
+	color: #dd514c;
+}
+.tg-d {
+	color: #5eb95e;
+}
+.tg-e {
+	color: #f37b1d;
+}
+.tg_10 {
+	margin-top: 0;
+}
+.tg_11 {
+	margin-top: 0;
+	color: #999;
+}
+.am-menu-offcanvas1 .am-menu-goback {
+	position: absolute;
+	left: 10px;
+	top: -38px;
+	width: 44px;
+	color: #666;
+}
+
+.pageA{ display:block;}
+.pageA a{     display: inline-block;
+    margin: 0 0 15px 0;}
+

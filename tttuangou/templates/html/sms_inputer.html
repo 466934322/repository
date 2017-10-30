@@ -1,0 +1,51 @@
+<div class="pro-phone">
+<p class="title"><i class="am-icon-mobile-phone"></i> 手机号：</p>
+<div class="field">
+{if ini('product.default_close_phone_verify')}
+<input type="text" name="phone" id="sms_phone" value="{~user()->get('phone')}" class="f_input input_h" size="30">
+<font id="phone_result"></font>
+<span class="hint">{echo $product['type']=='ticket'?ini('settings.tuangou_str').'券密码将通过短信发到手机上':ini('settings.tuangou_str').'成功的通知短信会发送到您的手机'} (节假日期间短信稍有延迟，请耐心等待)</span>
+{else}
+<input type="text" name="phone" id="sms_phone" value="{~logic('phone')->view()}" class="f_input input_h" size="30" readonly disabled="true">
+<font id="phone_result"></font>
+&nbsp;&nbsp;
+{if user()->get('phone_validate')}
+完成绑定，<a target="_blank" href="?mod=me&code=phone&act=rebind">请点此进行更改</a>
+{else}
+未绑定，<a target="_blank" href="?mod=me&code=phone&act=bind">点此进行验证绑定</a>
+{/if}
+{/if}
+</div>  
+</div>
+<script type="text/javascript">
+//$(document).ready(function(){
+$.hook.add('checkout_submit', function() {
+var tipContent = '';
+var phone = $('#sms_phone').val();
+{if ini('product.default_close_phone_verify')}
+if(phone == '' || phone == undefined || isNaN(phone) || phone.length != 11) {
+tipContent = '请输入有效的手机号';
+}
+{else}
+{if false == user()->get('phone_validate')}
+tipContent = '您的手机号还未绑定，请先进行验证绑定';
+{/if}
+{/if}
+if('' != tipContent) {
+$('#sms_phone').tipTip({
+content:tipContent,
+keepAlive:true,
+activation:"focus",
+defaultPosition:"top",
+edgeOffset:8,
+maxWidth:"300px"
+});
+$('#sms_phone').focus();
+df_allow_to_submit('sms.inputer', false);
+} else {
+checkout_field_append('phone', phone);
+df_allow_to_submit('sms.inputer', true);
+}
+});
+//});
+</script>

@@ -1,0 +1,57 @@
+<!--{template @creditmall/header_3g}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<div class="am-list-news-hd am-cf">
+<h2>您的积分：</h2>
+<span class="am-list-news-more"><em class="price">{$this->user[scores]}</em></span>
+</div>
+<table class="am-table">
+<thead>
+<tr>
+<th colspan="2">商品信息概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商品名称</td>
+<td>{$one[name]}</td>
+</tr>
+<tr>
+<td>所需积分</td>
+<td><span class="am-badge am-badge-warning">{$one[price]}</span></td>
+</tr>
+<tr>
+<td>库存数量</td>
+<td><span class="am-badge am-badge-warning">{$one[total]}</span></td>
+</tr>
+</tbody>
+</table>
+<form method="POST" action="">
+<input type="hidden" name="id" value="{$id}" />
+<table class="am-table">
+<thead>
+<tr>
+<th colspan="2">填写您的联系信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>您的地址</td>
+<td><input type="text" name="data[address]" value="{$last[address]}" class="am-form-field am-input-sm"/></td>
+</tr>
+<tr>
+<td>您的电话</td>
+<td><input type="text" name="data[tel]" value="{$last[tel]}" class="am-form-field am-input-sm"/></td>
+</tr>
+<tr>
+<td>您的QQ</td>
+<td><input type="text" name="data[qq]" value="{$last[qq]}" class="am-form-field am-input-sm"/><br />可以留空</td>
+</tr>
+<tr>
+<td>&nbsp;  </td>
+<td><input type="submit" value=" 提 交 " class="am-btn am-btn-warning am-btn-sm" /></td>
+</tr>
+</tbody>
+</table>
+</form>
+</div>
+<!--{template @creditmall/footer_3g}-->

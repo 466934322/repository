@@ -1,0 +1,45 @@
+<!--{template @admin/header}--> <div class="header"> <a href="?mod=order&code=vlist"> 订单列表 </a> </div>
+说明：<font style="color:red">订单支持组合方式搜索。</font>例如：输入产品A，点击“搜索”。再输入开始和结束时间段B，点击“确认”，其得到的结果为A产品在B时段里的全部信息。直接通过下拉列表选择，还可以在这个结果里查看订单状态和处理进程。
+{~ui('isearcher')->load('admin.order_list')}
+<div class="export_link"> <a class="button  back1 back2 fr" href="?mod=export&code=order&referrer={echo urlencode($_SERVER['QUERY_STRING'])}">导出数据</a> </div> <table id="orderTable" cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td width="15%">订单信息</td> <td width="10%">用户信息</td> <td width="10%">商家信息</td> <td width="10%">下单时间</td> <td width="10%">付款时间</td> <td width="10%">订单金额</td> <td width="10%">实付金额</td> <td width="10%">优惠码</td> <td width="10%">付款方式</td> <td width="10%" title="抢购失效：限时抢购的订单超过15分钟还未支付所显示的状态">订单操作</td> </tr> </thead> <tbody> <!--{loop $list $one}--> <tr> <td>
+{if '99999'==$one['productid'] && $one['sid']>0}到店买单{else}<a href="index.php?view=$one['productid']" target="_blank">{$one['product']['flag']}</a> X {$one['productnum']}{/if}
+<br/>
+{$one['orderid']}
+</td> <td>
+{echo app('ucard')->load($one['userid'])}
+</td> <td>
+{echo app('ucard')->load($one['sellerid'])}
+</td> <td> <font title="下单时间 {echo timebefore($one['buytime'])}">{echo $one['buytime'] ? date('Y-m-d H:i:s', $one['buytime']) : '----'}</font> </td> <td> <font title="下单时间 {echo timebefore($one['paytime'])}">{echo $one['paytime'] ? date('Y-m-d H:i:s', $one['paytime']) : '----'}</font> </td> <td>
+&yen;{echo $one['totalprice']}
+</td> <td>
+{if $one['pay']==1}
+&yen;{$one['paymoney']}
+{else}
+还未支付
+{/if}
+</td> <td>
+{echo $one[promo_code]?$one[promo_code]:'----'}
+</td> <td>
+{echo $one['paymentinfo']['name']}
+</td> <td>
+{if $one['status'] == ORD_STA_Normal}
+{echo logic('order')->PROC_Name($one['process'])}
+{else}
+{echo logic('order')->STA_Name($one['status'])}
+{/if}
+<br/>
+{if $one['process'] == '_TimeLimit_'}
+[ <font style="text-decoration: line-through;">处理订单</font> ]
+{else}
+<a href="?mod=order&code=process&id={$one['orderid']}&referrer={echo urlencode($_SERVER['QUERY_STRING'])}">[ 处理订单 ]</a>
+{/if}
+</td> </tr> <!--{eval 
+$C0 += 1;
+$C1 += $one[totalprice];
+$one[pay] && $C2 += $one[paymoney];
+}--> <!--{/loop}--> <tr> <td colspan="5">【{$C0}】本页数值小计：</td> <td>&yen;{$C1}</td> <td>&yen;{$C2}</td> <td colspan="3"> &nbsp; </td> </tr> </tbody> <tfoot> <tr> <td colspan="10">{~page_moyo()}</td> </tr> </tfoot> </table> <script type="text/javascript">
+$(document).ready(function(){
+//$('#iscp_frc_ordproc').after('&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="service" value="批量处理" onclick="window.location=\'{$batchURL}\';" />');
+});
+</script>
+{template @admin/footer}

@@ -1,0 +1,125 @@
+<!--{template @m/header_back}-->
+{~ui('loader')->js('quickSignIn')}
+<!--{if 'step1' == $act}-->
+<div class="box-style" style="margin:0;">
+我的积分： <font class="R12">{~user()->get('scores')}</font><br>
+</div>
+<script>
+function to_step2() {
+var to_phone = $('#to_phone').val();
+var give_credit = $('#give_credit').val();
+var userid = $('#userid').val();
+var url = 'm.php?mod=me&code=check_credit';
+$.get(url,{give_credit:give_credit,userid:userid},function(data){
+//alert(data);
+if(!data){
+window.location.href='m.php?mod=me&code=transfer&act=step2&to_phone=' + to_phone + '&give_credit=' + give_credit;
+}else{
+$('#tips_error').html(data);
+}
+});
+}
+function isphone(){
+var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+if(!myreg.test($("#to_phone").val()))
+{
+$(".phone_msg").show();
+return false;
+}else{
+$(".phone_msg").hide();
+}
+}
+</script>
+<div class="pro-phone">
+<p class="title"><i class="am-icon-mobile-phone"></i> 对方手机号：</p>
+<ul class="com_adr">
+<li><input type="text" placeholder="请输入对方手机号" id="to_phone" onchange="isphone()" name="to_phone" value="" class="f_input input_h" style="width:100%; padding:7px; color:#333;">
+<p class="phone_msg" style="color:#FF721A;display: none;">请输入有效的手机号码！</p>
+</li>
+</ul>  
+<p class="title"><i class="am-icon-exchange"></i> 转赠的积分：</p>
+<ul class="com_adr">
+<li><input type="text" placeholder="请输入转赠的积分" id="give_credit" onchange="check_credit()" name="give_credit" value="" class="f_input input_h" style="width:100%; padding:7px; color:#333;">
+<input type="hidden" id="userid" name="userid" value="{$userid}">
+<p id="tips_error" style="color:#FF721A;"></p>
+</li>
+<input type="submit" value="下一步" onclick="to_step2()" name="buy" class="search-submit formbutton">
+</ul>
+</div>
+<!--{elseif 'step2' == $act}-->
+{if $have_phone == 0}
+<form method="post" action="m.php?mod=me&code=transfer&act=step2">
+<div class="pro-phone">
+<p class="title am-text-warning">账号不存在，立即创建账号</p>
+<ul class="com_adr">
+<li><input type="text" placeholder="请输入对方手机号" name="to_phone" value="{$to_phone}" class="f_input input_h" style="width:100%; padding:7px; color:#333;">
+<input type="hidden" name="give_credit" value="{$give_credit}" />
+<p id="phone_result" class="tips_error"></p></li>
+</ul>
+<ul class="com_adr">
+<li>
+{~logic('seccode')->html()}
+</li>
+<li><input type="text" placeholder="请输入验证码" id="DynamicCode" name="vfcode" value="" class="f_input input_h" style="width:50%; padding:7px; color:#333; display:inline"><button type="button" class="am-btn am-btn-default am-radius" style="margin:0 0 0 10px; vertical-align:inherit;" onclick="J_vsnd(this,1);">获取验证码</button><p class="am-text-success" style="margin:0;">提示：账号初始密码为短信验证码</p></li>
+<!--{if $error_msg}-->
+<p class="tips_error">{$error_msg}</p>
+<!--{/if}-->
+<a href=""><input id="" type="submit" value="下一步" name="buy" class="search-submit formbutton"></a>
+</ul> 
+</div>
+</form>
+<script>
+var countdown=10;
+var t = '';
+function J_vsnd(val, send) {
+$("p").remove(".phone_msg");
+if(1 == send) {
+if('' == __Global_Seccode_Val) {
+alert('请先输入正确的图片验证码！');
+return false;
+}
+$.post('m.php?mod=me&code=vfsend&user_phone=1', { 'to_phone' : '{$to_phone}', 'seccode' : __Global_Seccode_Val }, function (r) {
+if(r) {
+$('#phone_result').html(r);
+return false;
+} else {
+$('#phone_result').html('验证码已经发送！');
+return true;
+}
+});
+}
+if (countdown == 0) {
+val.removeAttribute("disabled");
+val.value="发送支付验证码";
+countdown = 10;
+clearTimeout(t);
+} else {
+val.setAttribute("disabled", true);
+val.value="重新发送(" + countdown + ")";
+countdown--;
+t = setTimeout(function() {
+J_vsnd(val, 0)
+},1000);
+}
+};
+</script>
+{else}
+<div class="pro-phone">
+<form method="post" action="m.php?mod=me&code=transfer&act=step2&do=1">
+<input type="hidden" name="to_phone" value="{$to_phone}">
+<input type="hidden" name="give_credit" value="{$give_credit}">
+<ul class="com_adr">
+<li>对方账号：{$other_user['username']}</li>
+<li>转赠积分：{$give_credit}</li>
+<li>手续比例：{$proportion}%</li>
+<li>用户可得：{$user_get}</li>
+</ul>
+<ul class="com_adr">
+<li>请输入登录密码验证：<input type="text" placeholder="请输入登录密码" name="password" value="" class="f_input input_h" style="width:50%; padding:7px; color:#333; display:inline"></li>
+<input id="checkout_submit_button" type="submit" value="确认转赠" name="buy" class="search-submit formbutton">
+</ul>
+</form>
+</div>
+{/if}
+<!--{/if}-->
+<!--{template @m/footer}-->

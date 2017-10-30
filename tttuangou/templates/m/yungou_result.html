@@ -1,0 +1,47 @@
+<!--{template @m/header_my}-->
+<div class="box-style">
+<h2><i class="am-icon-angle-double-right"></i> <a href="m.php?view={$product[id]}">{$product['name']}</a></h2>
+<ul class="com_adr">
+<li><span class="info"><a href="m.php?view={$product[id]}"><img src="{echo imager($product[img], IMG_Normal)}" /></a></span></li>
+<li><span class="info"><!--{$product['intro']}--></span></li>
+<li><span class="info">中奖号码 <h1><!--{$zhongJiang['number']}--></h1></span> </li>
+{if $product['remainSalesNum']>0}<li><span class="info">剩余{$product['remainSalesNum']}人次</span> </li>{/if}
+<li><span class="info"><h3><!--{eval echo date('Y年m月d日', $zhongJiang['addtime']);}-->&nbsp;中奖结果</h3>
+截至<!--{eval echo date('Y年m月d日 H:i:s', $zhongJiang['addtime']);}-->&nbsp;活动结束时，<br>共有<!--{$product['maxnum']}-->人次参与此次云购，<br>
+根据抽奖规则，<!--{eval echo date('Y年m月d日', $zhongJiang['addtime']);}-->的获奖号码为
+<span style="color:#f40000"><!--{$zhongJiang['number']}--></span>，<br>获奖者信息如下：<br/>
+用户名：<!--{$zhongJiangZhe['name']}--><br/>
+手机号：<!--{$zhongJiangZhe['phone']}--><br/></span></li>
+</ul>
+<div class="canYuJiLu_wrap">
+<table>
+<tr>
+<th style="width:25%">云购时间</th>
+<th style="width:15%">云购金额</th>
+<th style="width:60%">云购号码</th>
+</th>
+<!--{loop $canYuJiLu $canYuArr}-->
+<tr>
+<td><!--{eval echo date('Y年m月d日 H:i:s', $canYuArr['buytime']);}--></td>
+<td><!--{$canYuArr['paymoney']}-->元</td>
+<td>
+<!--{loop $canYuArr['numbers'] $number}-->
+<!--{$number}-->&nbsp;&nbsp;
+<!--{/loop}-->
+</td>
+</tr>
+<!--{/loop}-->
+</table>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.goTop').click(function(e){
+e.stopPropagation();
+$('html, body').animate({scrollTop: 0},300);
+backTop();
+return false;
+});
+});
+</script>
+<!--{template @m/footer}-->

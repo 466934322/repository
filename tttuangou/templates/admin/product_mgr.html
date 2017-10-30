@@ -1,0 +1,326 @@
+<!--{template @admin/header}--> <script type="text/javascript">
+var __Global_PID = "{$p['id']}";
+var __draft_ID = "{$did}";
+var __exists_Draft_ID = "{$draft['id']}";
+var TUANGOU_STR = '{TUANGOU_STR}';			 
+</script> <!--{~ui('loader')->addon('picker.date')}--> <!--{~ui('loader')->js('@jquery.hook')}--> <!--{~ui('loader')->js('@jquery.idTabs')}--> <!--{~ui('loader')->css('#admin/css/product.mgr.idTabs')}--> <!--{~ui('loader')->js('@jquery.form')}--> <!--{~ui('loader')->js('@jquery.thickbox')}--> <!--{~ui('loader')->css('@jquery.thickbox')}--> <!--{~ui('loader')->js('#admin/js/product.mgr')}--> <!--{~ui('loader')->css('#admin/css/product.mgr')}--> <!--{~ui('loader')->js('#admin/js/product.mgr.autoSave')}--> <!--{~ui('loader')->js('#admin/js/wizard.processer')}--> <!--{~ui('loader')->js('#admin/js/attrs.mgr')}--> <!--{~logic('upload')->html('editor_create_product_mgr')}--> <style>.ifamenav{ display:none;}</style> <form id="productIfoForm" action="?mod=product&code=save" method="post" enctype="multipart/form-data" onsubmit="return checkIfClick();"> <input id="productID" name="id" type="hidden" value="{$p['id']}" /> <div class="idTabs"> <div class="navsBar"> <font style="float: left;margin-right: 20px;margin-top: 7px;"> <!--{if $id}-->编辑产品<!--{else}-->添加产品<!--{/if}-->
+[ <a href="?#wizard" onclick="wizProcessStart();return false;">使用向导</a> ]
+</font> <ul class="navs"> <li><a id="nav2Base" href="#p_base">1.基本信息</a></li> <li><a id="nav2Type" href="#p_type">2.产品设置</a></li> <li><a id="nav2Intro" href="#p_intro">3.详情介绍</a></li> <li><a id="nav2Extend" href="#p_extend">4.其他设置</a></li> </ul> <font id="autoSaveStatus" style="float: right;margin-top: 7px;margin-right: 40px;_margin-right: 10px;"></font> </div> <div class="items"> <div id="p_base"> <table width="100%" class="tableborder"> <tr> <td width="150" class="td_title"> <font color="red">* </font>产品标题：
+</td> <td> <input id="productName" name="name" type="text" size="80" value="{$p['name']}" />（吸引眼球第一要素）
+</td> </tr> <tr> <td width="150" class="td_title"> <font color="red">* </font>简短名称：
+</td> <td> <input style="width:275px;" id="productFlag" name="flag" type="text" value="{$p['flag']}" maxlength="20" /> <font color="red">重要：一定要突出产品名称，价格等信息</font><br>
+（用于除首页外其他地方显示，比如<A HREF="admin.php?mod=service&code=sms" target=_blank>短信发送</A>通知中，{TUANGOU_STR}卷验证页面）
+</td> </tr> <tr> <td width="150" class="td_title">
+产品简介：
+</td> <td> <textarea name="intro" class="editor" style="width:500px;height:60px;">{$p['intro']}</textarea> <br/><font style="color:red;">字数在100以内，过多的字数描述会导致支付宝处下单提示“数据格式不正确”的问题</font> </td> </tr> <tr> <td width="150" class="td_title">
+产品多图片展示：<br/> <font style="font-weight:bold;color:red;">图片尺寸：450*268</font> </td> <td> <input type="hidden" name="imgs" id="imgs" value="" /> <ul class="img_scroll" style="margin-bottom:15px;">
+{loop $p['imgs'] $id}
+{if $id > 0}
+<li id="img_li_for_{$id}"> <a href="{echo imager($id, IMG_Original)}" class="thickbox"> <img class="pro_image_tiny" src="{echo imager($id, IMG_Tiny)}" /> </a> <input type="text" value="{echo logic('upload')->Field($id, 'intro')}" onfocus="introFocus(this)" onblur="introChange({$id}, this)" /> <a href="?#deleteImage" onclick="DeleteImage($id);return false;">[ 删除 ]</a> </li>
+{/if}
+{/loop}
+<li id="img_li_TPL"> <a href="#http://[url]/" target="_blank"> <img src="#http://[url]/" width="200" height="118" /> </a> <input type="text" value="" onfocus="introFocus(this)" onblur="introChange([id], this)" /> <a href="?#deleteImage" onclick="DeleteImage([id]);return false;">[ 删除 ]</a> </li> </ul>
+{~logic('upload')->html()}
+*点击删除图片时会实时删除服务器上的图片，请慎重
+<br><font color="red">*如果提示 Acces Deined 错误，请检查“全局设置-上传设置”里面对应的图片上传权限是否有打开</font> <br><font color="red">*建议</font>采用450*268分辨率图片，其他分辨率图片有可能导致客户端展示的产品图片被拉伸变形
+</td> </tr> </table> <table width="100%" class="tableborder" > <!--{if MEMBER_ROLE_TYPE == 'admin'}--> <!--{if $manage_area == 0}--> <tr> <td width="150" class="td_title"> <font color="red">* </font>投放城市：
+</td> <td> <div id="fillIfoCity"> <select name="city" id="allCityList"> <option value="-1">正在加载</option> </select>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="?#addCity" onclick="proIfoAddCity();return false;">[添加城市]</a> </div> <div id="OPBox_addCity" style="display: none;">
+城市中文名称：<input id="opb_addcity_name" type="text" /><br/>
+城市拼音名称：<input id="opb_addcity_flag" type="text" /> </div> </td> </tr> <!--{else}--> <tr> <td width="150" class="td_title"> <font color="red">* </font>投放城市：
+</td> <td> <input type="hidden" name="city" id="allCityList" value="{$city['cityid']}"> <!--{if $city}-->{$city['cityname']}<!--{/if}--> </td> </tr> <!--{/if}--> <!--{else}--> <input type="hidden" name="city" value="{$p['city']}"> <!--{/if}-->
+{if logic('city')->place_enabled()}
+<tr> <td width="150" class="td_title"><font color="red">* </font>区域归属：</td> <!--{if $region}--> <td> <input type="hidden" name="__cplace_region" value="{$region['id']}">
+{$region['name']}
+{if $streets}
+<select id="__cplace_street" name="__cplace_street"> <option value="0">全部</option>
+{loop $streets $street}
+<option value="{$street['id']}" {if $street['id'] == $p['city_place_street']} selected{/if}>{$street['name']}</option>
+{/loop}
+</select>
+{/if}
+</td> <!--{else}--> <td>
+{eval logic('city')->place_inputer({$p['id']})}
+</td> <!--{/if}--> </tr>
+{/if}
+<!--{if MEMBER_ROLE_TYPE == 'admin'}--> <tr> <td width="150" class="td_title"> <font color="red">* </font>合作商家：
+</td> <td> <div id="fillIfoSeller"> <span id='allSellerList'> <select name="sellerid" id="sellerid"> <!--{if $manage_area}-->
+{if $cor_sellers}
+{loop $cor_sellers $cor_seller}
+<option value="{$cor_seller['id']}">{$cor_seller['sellername']}</option>
+{/loop}
+{else}
+<option value="0">暂无合作商家，请添加后再来发布产品</option>
+{/if}
+<!--{else}--> <option value="-1">请先选择城市</option> <!--{/if}--> </select> </span>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="?#addSeller" onclick="proIfoAddSeller();return false;">[添加商家]</a> </div> <div id="OPBox_addSeller" style="display: none;">
+商家用户：<input id="opb_addseller_username" type="text" />
+（<a href="?#helper" onclick="ifoShowHelper('addSeller');return false;">帮助</a>）<br/>
+商家名称：<input id="opb_addseller_sellername" size="50" type="text" /><br/> <font style="float:right;">
+（详细信息请到<a href="admin.php?mod=tttuangou&code=mainseller" target="_blank">商家管理页面</a>补充）
+</font> </div> <div id="helper_of_addSeller" style="display: none;">
+1. 商家用户指的是商户登录本系统时使用的帐号，属于注册会员<br/>
+2. 如果您输入一个不存在的用户，系统会自动注册，<b>默认密码123456</b>，添加完成后请尽快修改密码！<br/>
+3. 如果您输入的是一个已经存在的用户名，则此用户必须身份为合作商家，并且没有绑定到其他商家
+</div> </td> </tr> <tr> <td width="150" class="td_title"> <font color="red">* </font>其他可用分店：
+</td> <td> <div id="fillIfoSubSeller"> <span id='allSubSellerList'>请先选择合作商家</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="?#subSeller" onclick="loadSubSellers($('#sellerid').val(), __Global_PID);return false;">[更新]</a> </div> </td> </tr> <tr> <td width="150" class="td_title"> <font color="red">* </font>显示方式：
+</td> <td> <div id="fillIfoDisplay"> <select name="display"> <option value="{PRO_DSP_None}"{if $p['display']==PRO_DSP_None} selected="selected"{/if}>不在前台显示</option> <option value="{PRO_DSP_City}"{if $p['display']==PRO_DSP_City} selected="selected"{/if}>在指定城市显示</option> <option value="{PRO_DSP_Global}"{if $p['display']==PRO_DSP_Global} selected="selected"{/if}>在全部城市显示</option> </select> </div> </td> </tr> <tr> <td width="150" class="td_title"> <font color="red">* </font>显示优先级：
+</td> <td> <input name="order" type="text" size="3" value="{echo (int)$p['order']}" />
+&nbsp;&nbsp;（数字越大，显示位置越靠前，用于同时{TUANGOU_STR}多个产品的时候）
+</td> </tr> <!--{else}--> <input type="hidden" name="sellerid" value="{$p['sellerid']}" id="sellerid"> <!--{/if}--> </table> </div> <script type="text/javascript">var __Default_CityID = "{$p['city']}";var __Default_SellerID = "{$p['sellerid']}";</script> <div id="p_type"> <table width="100%" class="tableborder"> <tr> <td width="160" class="td_title"> <font color="red">* </font>原价：
+</td> <td> <input id="productPrice" name="price" type="text" size="6" value="{echo (float)$p['price']}" />&nbsp;&nbsp;元
+</td> </tr> <tr> <td width="160" class="td_title"> <span id="curPriceName"><font color="red">* </font>{TUANGOU_STR}价：</span> </td> <td> <!--{if MEMBER_ROLE_TYPE == 'admin' || $p['id']<1}--> <input id="productNowPrice" name="nowprice" type="text" size="6" value="{echo (float)$p['nowprice']}" /> <!--{else}--> <input type="hidden" id="productNowPrice" name="nowprice" type="text" size="6" value="{echo (float)$p['nowprice']}" />
+&yen; {echo (float)$p['nowprice']}
+<!--{/if}-->
+&nbsp;&nbsp;元  <span style="color:red;">&nbsp;&nbsp;注意：修改此价格，会导致前台“商家管理”商家入账统计出错</span>（如果启用下面的预付模式，此处将变更为预付价）
+</td> </tr> <!--{if MEMBER_ROLE_TYPE == 'admin'}--> <tr> <td width="160" class="td_title">商家结算价：</td> <td> <input id="FundPrice" name="fundprice" type="text" size="6" value="{echo $p['fundprice']<0 ? '' : (float)$p['fundprice']}" />&nbsp;&nbsp;元（如果设置了该价格，则按照该价格与商家进行结算；比如设置5.25元，则每单分给商家5.25元；）<br>
+（注意：【20140515更新】如果填写0则代表不给商家分成；如果留空，则按照该商家与站长的分成比例与商家进行结算。(商家与站长的分成比例可通过“商家管理>>修改商家”进行设置)）
+</td> </tr> <!--{/if}-->
+{if $p['type']!='prize'}    
+<tr> <td width="160" class="td_title">
+启用云购模式？<br> <a id="isYunGou_help" href="javascript:void(0);">查看使用帮助</a> <div id="helper_of_yunGou" style="display: none;">
+云购模式为一种新型的抢购模式，将价值m元产品等分成n份，每份只要团购价的m/n元。<br/>
+用户每次只需花费m/n元参与，即有机会获得m元的产品。例如一个iPhone6价值5288元，可以将其等分成5288份，那么每个用户只需用5288/5288=1元钱，即可参与云购。<br/>
+用户每购买一份云购产品，都会获得一个云购码，购买多份，获得多个云购码。当产品达到云购人数时，站长可通过“云购管理”选择其中一个云购码为中奖用户。<br/>
+每次云购只能指定一位云购用户获得该产品，中奖用户可以获得对应的虚拟券产品或者实物产品。<br/><br/>这种模式对于网站来说，并不需要压低自己产品的利润来吸引用户。对于用户来说，只要花1元钱就有机会获得5288的产品。真正做到网站和用户的双赢。
+</div> </td> <td> <label for="isYunGou"><input id="isYunGou" name="isYunGou[]" type="checkbox" value="yes" {if $p['yungou']}checked="checked"{/if}/>启用云购</label>
+&nbsp;&nbsp;(用户参与云购后，每次购买会先获得一个云购码，当达到云购总人次时，系统可以指定一个云购码为中奖用户，中奖的用户获得该产品。)
+</td> </tr>
+{/if}
+<tr id="isPreSell_tr"> <td width="160" class="td_title">
+启用预付模式？<br> <a id="isYuFu_help" href="javascript:void(0);">查看使用帮助</a> <div id="helper_of_yuFu" style="display: none;">
+启用预付模式后，用户只需要在网上支付预付价的金额，收到{TUANGOU_STR}券到店验证后再<b>在店内</b>支付（{TUANGOU_STR}价-预付价）的金额，一般用在大额商品预订上（如汽车预订等）<br/><br/>
+填写说明：<br/>
+1、勾选“启用预付”后，上方的“{TUANGOU_STR}价”会变成“预付价”，这是用户需要在网上支付的金额<br/>
+2、“预付价的显示名称”和“{TUANGOU_STR}价格”仅供在前台显示之用（不参与订单结算）<br/>
+3、示例：预付价：10元，{TUANGOU_STR}价格：100元；前台会显示：商品原价xx元，{TUANGOU_STR}价100元，预付价10元
+</div> </td> <td> <label for="isYuFu"> <input id="isYuFu" name="presell_is" type="checkbox" value="yes" {if $p['presell']}checked="checked"{/if} />启用预付
+</label>（启用后下面的设置才会生效）<br> <label>
+预付价的显示名称：<input id="presellText" name="presell_text" type="text" size="6" value="{echo $p['presell']['text']}" />（比如：预付、定金、在线支付）
+</label><br> <label>{TUANGOU_STR}价：<input id="presellPrice" name="presell_price" type="text" size="6" value="{echo $p['presell']['price_full']}" />&nbsp;&nbsp;元（启用预付模式后，需在此填写一个{TUANGOU_STR}价）
+</label> </td> </tr> <tr> <td width="160" class="td_title">
+限时购模式：
+</td> <td title="限时抢购原理：用户点击下单时，产品库存会先扣一，再等待用户支付。用户15分钟内完成支付，则成功完成订单。用户15分钟内未完成支付，则被扣除的库存数重新返回到产品库存中，用户可以继续进行抢购。"> <input type="checkbox" name="is_countdown" value="1" {if $p['is_countdown']}checked="checked"{/if}/>
+用户下单后必须在15分钟内完成付款，否则会提示“订单超时无法支付”<br> <font style="color:red;">
+特殊情况：当用户通过支付宝下单后，没有及时支付，系统将释放该订单。但用户回到支付宝里，仍然可以对该订单进行支付，但可能此时已经没有库存，会提示订单已过期，用户也无法正常使用。为防止此类纠纷，站长需要对此用户做退款处理。
+</font> </td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>产品分类：
+</td> <td>
+{if logic('catalog')->Enabled()}
+{~ui('loader')->js('#html/catalog/catalog.mgr.ajax')}
+{eval ui('catalog')->inputer($p['category'])}
+{else}如需开启，请<A HREF="admin.php?mod=catalog" target=_blank>点此设置</A>。注意：刷新本页面前，请先提交保存。
+{/if}
+</td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>{TUANGOU_STR}类型：
+</td> <td> <select name="type" onchange="product_type_show(this)" id="product_type_sel">
+{if $p['type']!='prize'}
+<option value="ticket"{if $p['type']=='ticket'} selected="selected"{/if}>{TUANGOU_STR}券</option> <option value="stuff"{if $p['type']=='stuff'} selected="selected"{/if}>实物</option>
+{/if}
+{if $p['type']=='prize' || $p['type']==''}
+<option value="prize">抽奖</option>
+{/if}
+</select>
+（如是{TUANGOU_STR}券，那么将通过<A HREF="admin.php?mod=service&code=sms" target=_blank>短信</A>发送；如果是实物，则通过<A HREF="admin.php?mod=express" target=_blank>快递配送</A>）<b>(注：抽奖项目保存后此项不可再修改)</b> </td> </tr> <script type="text/javascript">
+function product_type_show(sel)
+{
+var type = sel.options[sel.options.selectedIndex].value;
+if (type == 'ticket')
+{
+$('.displayer_of_ticket').show();
+$('.displayer_of_stuff').hide();
+}
+else if (type == 'stuff')
+{
+$('.displayer_of_ticket').hide();
+$('.displayer_of_stuff').show();
+}
+else if (type == 'prize')
+{
+$('.displayer_of_ticket').hide();
+$('.displayer_of_stuff').hide();
+}
+// 增加云购产品的判断
+CurMode.changeMode();
+}
+$(document).ready(function(){
+product_type_show(document.getElementById('product_type_sel'));
+});
+</script> <tr> <td width="160" class="td_title"> <font color="red">* </font>{TUANGOU_STR}开始时间：
+</td> <td> <input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy年MM月dd日 HH时mm分ss秒',startDate:'{echo date('Y-m-d H:i:s', $p['begintime'] ? $p['begintime'] : time());}',vel:'begintime'})" size="35" class="Wdate" value="{echo date('Y年m月d日 H时i分s秒', $p['begintime'] ? $p['begintime'] : time());}" /> <input name="begintime" type="hidden" id="begintime" value="{echo date('Y-m-d H:i:s', $p['begintime'] ? $p['begintime'] : time());}" />
+到了{TUANGOU_STR}开始时间，产品才会在首页显示，同一时间支持多个{TUANGOU_STR}产品；
+</td> </tr> <tr id="tuanGouJieShuShiJian"> <td width="160" class="td_title">
+{TUANGOU_STR}结束时间：
+</td> <td> <input type="text" onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy年MM月dd日 HH时mm分ss秒',startDate:'{echo $p['overtime']?date('Y-m-d H:i:s', $p['overtime']):'';}',vel:'overtime'})" size="35" class="Wdate" value="{echo $p['overtime']?date('Y年m月d日 H时i分s秒', $p['overtime']):'';}" /> <input name="overtime" type="hidden" id="overtime" value="{echo $p['overtime']?date('Y-m-d H:i:s', $p['overtime']):'';}" />
+超过{TUANGOU_STR}结束时间，会结束{TUANGOU_STR}，并显示在往期{TUANGOU_STR}中；留空则表示{TUANGOU_STR}一直有效，永不过期。
+</td> </tr> <tr class="displayer_of_ticket" {if $p['type']!='ticket'}style="display:none;"{/if}> <td width="160" class="td_title"> <font color="red">* </font>{TUANGOU_STR}券有效期至：
+</td> <td> <input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy年MM月dd日 HH时mm分ss秒',startDate:'{echo date('Y-m-d H:i:s', $p['perioddate'] ? $p['perioddate'] : time()+604800);}',vel:'perioddate'})" size="35" class="Wdate" value="{echo date('Y年m月d日 H时i分s秒', $p['perioddate'] ? $p['perioddate'] : time()+604800);}" /> <input name="perioddate" type="hidden" id="perioddate" value="{echo date('Y-m-d H:i:s', $p['perioddate'] ? $p['perioddate'] : time()+604800);}" /> </td> </tr> <tr id="duoQuanHeYi" class="displayer_of_ticket" > <td width="160" class="td_title">
+多券合一：
+</td> <td> <label><input name="allinone" type="radio" value="true"{if $p['allinone']=='true'} checked="checked"{/if}/> 是</label> <label><input name="allinone" type="radio" value="false"{if $p['allinone']=='false' || !$p['allinone']} checked="checked"{/if}/> 否</label>
+&nbsp;&nbsp;（如选是，那么即使用户团购了多份产品，也只发放一张{TUANGOU_STR}券）<BR>
+提醒：如果每份产品需要分不同时间消费，请务必选择“否”。
+</td> </tr> <tr class="displayer_of_stuff" {if $p['type']!='stuff'}style="display:none;"{/if}> <td width="160" class="td_title">
+每份重量：
+</td> <td> <input name="weight" type="text" value="{$p['weight']}" /> <select name="weightunit"> <option value="g"{if $p['weightunit']=='g'} selected="selected"{/if}>克</option> <option value="kg"{if $p['weightunit']=='kg'} selected="selected"{/if}>千克</option> </select>（系统会根据<a href="admin.php?mod=express" target=_blank>配送管理</a>中的设置，自动按重量、按城市计算用户的运费）
+</td> </tr> <tr class="displayer_of_stuff" {if $p['type']!='stuff'}style="display:none;"{/if}> <td width="160" class="td_title">指定配送方式：</td> <td> <input name="expresslist" type="text" value="{echo meta('expresslist_of_'.$p['id'])}" />
+如需指定，请填写配送方式的<font color="red">编号</font>（<a href="admin.php?mod=express" target="_blank">点此查看</a>）；<BR>
+如填写多个编号，<font color="red">请务必用英文逗号间隔（例如：1,2）</font>；如果留空，则用户可选择全部配送方式。
+</td> </tr> </table>
+{if MEMBER_ROLE_TYPE == 'admin' && false!=($__levels = explode(',', ini('credits.level')))}
+<table width="100%" class="tableborder"> <tr> <td width="160" class="td_title">
+优惠码购买优惠：
+</td> <td> <input id="promoCut" name="promo_cut" type="text" size="6" value="{echo (float)$p['promo_cut']}" />&nbsp;&nbsp;元（如果设置了该值，则用户使用优惠码可以享受支付减免优惠，留空或设置为0时不生效。）
+<br> <span style="color:red;">&nbsp;&nbsp;注意：使用优惠码，同产品一次购买多份，则每份都可以享受减免优惠；例如A产品使用优惠码减3元，用户一次购买3个A产品，则可以共可优惠9元--<a href="/admin.php?mod=promo_code">点此管理优惠码</a></span> </td> </tr> <tr> <td width="160" class="td_title">
+新用户首单立减：
+</td> <td> <input id="newbieCut" name="newbie_cut" type="text" size="6" value="{echo (float)$p['newbie_cut']}" />&nbsp;&nbsp;元（如果设置了该值，则新用户在首次购买的时候可以享受立减优惠，留空或设置为0时不生效。）
+<br> <span style="color:red;">&nbsp;&nbsp;注意：开启了新用户立减优惠，建议关闭邮箱注册功能--<a href="/admin.php?mod=account&amp;code=config">点此设置</a></span> </td> </tr> <tr> <td width="160" class="td_title">
+在手机客户端购买立减：
+</td> <td> <input id="clientCut" name="client_cut" type="text" size="6" value="{echo (float)$p['client_cut']}" />&nbsp;&nbsp;元（如果设置了该值，则用户在手机客户端下单购买的时候可以享受立减优惠，留空或设置为0时不生效）<br> <span style="color:red;">&nbsp;&nbsp;注意：用户同个订单购买多份产品，可享多次优惠。例：客户端购买一件产品只能优惠2元，同时购买3件产品，则优惠6元哦。产品的订单价格，仍然显示为团购价</span> </td> </tr> <tr> <td width="160" class="td_title">
+购物返现设置：
+</td> <td>
+返现金额：<input id="rebateMoney" name="rebate_money" type="text" size="6" value="{echo (float)$p['rebate_money']}" />&nbsp;&nbsp;元（购物返现金额，大于0时以此设置的金额进行返现，留空或为0时<a href="admin.php?mod=recharge&code=buy_rebate">按此设置的全局购物返现设置</a>进行返现，设置为-1时该项设置失效表示禁止返现）
+<br> <span style="color:red;">说明：只用当用户购买并且消费后，才能获得返利金额。购买多份的，消费几份，则获得几份返利金额</span> <br /> <span style="color:red;">当产品修改了返利规则，新用户购买，则按新规则进行返利；以前购买的用户，按照当时购买的规则进行返利</span> <br />
+按天返利：<input type="text" name="rebate_day" size="6" value="{echo $p['rebate_day']}" />&nbsp;&nbsp;天（当设置了天数时，用户"成功消费"或"确认收货"后，每天可以获得n分之一的返利，直到返利n天结束；留空和设置0时，则一次性全部返利）<br /> </td> </tr> <tr> <td width="160" class="td_title">
+分享购买返利：
+</td> <td>
+返现金额：<input name="share_rebate_money" type="text" size="6" value="{echo (float)$p['share_rebate_money']}" />&nbsp;&nbsp;元（留空或设置为0时，则不启用分享购买返利金额）
+<br />
+可参与用户：
+<input type="radio" name="role_rebate_user" value="0" {if $p['role_rebate_user'] == 0} checked="checked"{/if} />全部用户 &nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" name="role_rebate_user" value="1" {if $p['role_rebate_user'] == 1} checked="checked"{/if} />仅拥有返利权限的用户&nbsp;&nbsp;&nbsp;&nbsp;
+<br /> </td> </tr> <tr> <td width="160" class="td_title">
+赠送积分：
+</td> <td> <input id="Score" name="score" type="text" size="6" value="{$p['score']}" />&nbsp;&nbsp;分（如果设置了该分数值，则买家在成功购买了该产品后，会获得相应积分）
+</td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>购买等级设置：
+</td> <td> <select name="limit_level"> <option>全部等级</option>
+{loop $__levels $k $v}
+{eval $vv=$k+1;}
+<option value="{$vv}"{if $vv==$p[limit_level]} selected="true" {/if}>VIP{$vv}（用户成长值{$v}）</option>
+{/loop}
+</select>
+&nbsp;&nbsp;（注：设置全部等级则全部用户都可以购买，例如设置VIP2，则VIP2和比它更高等级的用户都可以购买；<a href="admin.php?mod=account&code=credits">点此进行用户等级设置</a>）
+</td> </tr> </table>        
+{/if}
+<table width="100%" class="tableborder"> <tr id="chengTuanRenShu_tr"> <td width="160" class="td_title"> <font color="red">* </font>成功{TUANGOU_STR}人数要求：
+</td> <td> <input name="successnum" type="text" id="successnum" value="{echo (int)$p['successnum']}" />
+&nbsp;&nbsp;最少需要多少人购买才算{TUANGOU_STR}成功。注意：如不是实物，那只有达到{TUANGOU_STR}人数要求才会生成{TUANGOU_STR}券并发送短信。
+</td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>虚拟已购买人数：
+</td> <td> <input name="virtualnum" type="text" id="virtualnum" value="{echo (int)$p['virtualnum']}" {if $p['type']=='prize'}readonly="readonly"{/if}/>
+&nbsp;&nbsp;前台购买人数会显示[ 虚拟购买人数+真实购买人数 ] <b>(注：抽奖项目保存后此项不可再修改)</b> </td> </tr> <tr> <td id="totalCount" width="160" class="td_title"> <font color="red">* </font>产品总数量：
+</td> <td> <input name="maxnum" type="text" value="{echo (int)$p['maxnum']}" /> <span id="totalCountComment" style="color:red;">&nbsp;&nbsp;*0表示不限制，否则产品会出现“已卖光”状态</span> </td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>一次最多购买数量：
+</td> <td> <input name="oncemax" type="text" id="oncemax" value="{echo (int)$p['oncemax']}" /> <span style="color:red;">&nbsp;&nbsp;*0表示不限制</span> </td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>一次最少购买数量：
+</td> <td> <input name="oncemin" type="text" id="oncemin" value="{echo (int)$p['oncemin']}" /> <span style="color:red;">&nbsp;&nbsp;*购买数量低于此设定的不允许参团</span> </td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>是否允许多次购买：
+</td> <td> <label> <input name="multibuy" type="radio" value="true"{if $p['multibuy']=='true'} checked="checked"{/if}/> 是
+</label>
+&nbsp;&nbsp;&nbsp;
+<label> <input name="multibuy" type="radio" value="false"{if $p['multibuy']=='false' || !$p['multibuy']} checked="checked"{/if}/> 否
+</label> </td> </tr> <tr> <td width="160" class="td_title"> <font color="red">* </font>关闭该产品相关的订单进行退款操作：
+</td> <td> <label> <input name="not_allow_refund" type="radio" value="1"{if meta('p_nar_'.$p['id'])} checked="checked"{/if}/> 是
+</label>
+&nbsp;&nbsp;&nbsp;
+<label> <input name="not_allow_refund" type="radio" value="0"{if !meta('p_nar_'.$p['id'])} checked="checked"{/if}/> 否
+</label> <span style="color:red;">&nbsp;&nbsp;*默认选择否，表示允许退款</span> </td> </tr> </table> </div> <div id="p_intro"> <table width="100%" class="tableborder" > <tr class="aa "> <td width="100" class="td_title">
+仅在客户端显示：<br/><font color="#999">*留空前台不显示</font>需安卓2.7苹果2.2和以上版本才显示
+</td> <td> <h2 style="font-size:12px; margin-bottom:10px;">购买须知（没有请留空）</h2> <ul class="list-guide-buy"> <li><em>有效期：</em> <input type="text" name="needknow[valid_date]" value="{$needknow['valid_date']}" placeholder="例如：2015.7.1 至 2015.7.31（周末、法定节假日通用）" value="" size="90" /> <sub>选填 留空则不显示</sub></li> <li><em>使用时间：</em> <input type="text" name="needknow[usetime]" value="{$needknow['usetime']}" placeholder="例如：11:00-22:00" value="" size="90" /> <sub>选填 留空则不显示</sub></li> <li><em>不可用时间：</em> <input type="text" name="needknow[unuse_time]" value="{$needknow['unuse_time']}" placeholder="例如：2015.9.3和国庆期间不可用" value="" size="90" /> <sub>选填 留空则不显示</sub></li> <li><em>预约提醒：</em> <input type="text" name="needknow[reminder]" value="{$needknow['reminder']}" placeholder="例如：使用前无需预约" value="" size="90" /> <sub>选填 留空则不显示</sub></li> <li><em>商家服务：</em> <textarea name="needknow[seller_service]" value="{$needknow['seller_service']}" placeholder="例如：提供免费WIFI、200个免费停车位" value="" rows="4" cols="87">{$needknow['seller_service']}</textarea> <sub>选填 留空则不显示</sub></li> <li><em>配送说明：</em> <input type="text" name="needknow[distribution]" value="{$needknow['distribution']}" placeholder="例如：本单邮费10元，购买成功后2天内发货" value="" size="90" /> <sub>选填 留空则不显示</sub></li> <li><em>售后保障：</em> <input type="text" name="needknow[after_sales]" value="{$needknow['after_sales']}" placeholder="例如：7天内包退，30天包换，1年保修" value="" size="90" /> <sub>选填 留空则不显示</sub></li> <li><em>特别说明：</em> <textarea name="needknow[special]" value="{$needknow['special']}" placeholder="例如：每张限1人使用，不论是否儿童均计入人数" value="" rows="4" cols="87">{$needknow['special']}</textarea> <sub>选填 留空则不显示</sub></li> </ul> <h2 style="font-size:12px; margin-bottom:10px;">套餐（没有请留空）</h2> <table class="list-package"> <tr class="a"> <td>套餐内容</td> <td>数量</td> <td>价格</td> <td>操作</td> </tr> <!--{if $tc}--> <!--{loop $tc $k $t}--> <tr class="a"> <td> <div><input type="text" name="tc[$k][pack_name]" value="{$t['pack_name']}" placeholder="例如：商务套餐"></div> </td> <td> <div><input type="text" name="tc[$k][pack_num]" value="{$t['pack_num']}" placeholder="例如：1位"></div> </td> <td> <div><input type="text" name="tc[$k][pack_price]" value="{$t['pack_price']}" placeholder="例如：25元"></div> </td> <td> <div style="color:red;cursor: pointer" onclick="delone(this)">删除</div> </td> </tr> <input type="hidden" id="tc_num" name="tc_num" value="{$tc_count}" /> <!--{/loop}--> <!--{/if}--> <tr id="addone" class="a"> <td> <div style="cursor: pointer;color:red" onclick="addone()">新增一条</div> </td> <script>
+//如果有套餐数量，获取hidden的值tc_num
+if($("#tc_num").val() != 0){
+i = $("#tc_num").val();
+}else{
+i = 0;
+}
+function addone(){
+i =i*1+1*1;
+$('#addone').before('<tr>' +
+'<td><div><input type="text" name="tc['+i+'][pack_name]" placeholder="例如：商务套餐"></div>' +
+'</td>' +
+'<td><div><input type="text" name="tc['+i+'][pack_num]" placeholder="例如：1位"></div>' +
+'</td>' +
+'<td><div><input type="text" name="tc['+i+'][pack_price]" placeholder="例如：25元"></div>' +
+'</td>' +
+'<td><div style="color:red;cursor: pointer" onclick="delone(this)">删除</div>' +
+'</td>' +
+'</tr>');
+}
+function delone(_var){
+$(_var).parent().parent().remove();
+}
+</script> <td> <div></div> </td> <td> <div></div> </td> <td> <div></div> </td> </tr> </table> </td> </tr> <tr class="a"> <td width="100" class="td_title">
+购买须知：<br/><font color="#999">*留空前台不显示</font> </td> <td> <textarea name="cue" class="editor" style="width:600px;">{$p['cue']}</textarea> </td> </tr> <tr class="live_height"> <td width="100" class="td_title">
+本单详情：
+</td> <td> <textarea name="content" class="editor" style="width:600px;">{$p['content']}</textarea> </td> </tr> <tr class="a"> <td width="100" class="td_title">
+他们说：<br/>引用第三方看法<br/><font color="#999">*留空前台不显示</font> </td> <td> <textarea name="theysay" class="editor" style="width:600px;">{$p['theysay']}</textarea> </td> </tr> <tr class="a"> <td width="100" class="td_title">
+我们说：<br/>官方自己的说法<br/><font color="#999">*留空前台不显示</font> </td> <td> <textarea name="wesay" class="editor" style="width:600px;">{$p['wesay']}</textarea> </td> </tr> </table> <script>
+$(document).ready(function(){
+$(".live_height .ke-edit").css("height","300px");
+});
+</script> </div> <div id="p_limit"> </div> <div id="p_extend"> <table width="100%" class="tableborder"> <tr> <td width="160" class="td_title"> <font color="red">* </font>是否隐藏商家信息：
+</td> <td> <label> <input name="hideseller" type="radio" value="true"{if meta('p_hs_'.$p['id'])} checked="checked"{/if}/> 是
+</label>
+&nbsp;&nbsp;&nbsp;
+<label> <input name="hideseller" type="radio" value="false"{if !meta('p_hs_'.$p['id'])} checked="checked"{/if}/> 否
+</label>
+（如选择是，那产品详情页面将不显示商家名称、地图、电话等）
+</td> </tr> <tr> <td width="160" class="td_title">
+产品标签设置：<br> <a href="?#product_tag" onclick="product_tag_mgr('{$p[id]}');return false;">
+添加/管理标签
+</a> </td> <td> <div id="product_tag_view"></div> </td> </tr> <tr id="attrs-append-pox"> <td width="130" class="td_title cat-name"> <a href="?cat-create" onclick="attrs_append_cat('@auto', '{$p[id]}');return false;">添加属性分类</a> </td> <td> <font style="color:#999;">
+属性分类指的是规格的分类归属，比如黄色，蓝色都属于颜色，这里可以添加一个属性分类“颜色”，然后再创建属性标签“蓝色”
+</font> <div id="attrs-form-area"></div> </td> </tr> <script type="text/template" id="attr-tpl-cat-fw"> <tr id="attrs-area-!!catId!!" class="attrs-item"> <td class="td_title cat-name"> <font id="attrs-cat-name-!!catId!!">!!catName!!</font><br/> <a href="#cat-modify" onclick="attrs_modify_cat('!!ops!!', '!!catId!!');return false;">编辑</a> | <a href="#cat-delete" onclick="attrs_remove_cat('!!ops!!', '!!catId!!');return false;">删除</a> </td> <td> <div id="attrs-ops-pox-!!catId!!"></div> <input type="button" value="添加" onclick="attrs_append_item('!!ops!!', '!!catId!!')" style="border:1px solid red;cursor:pointer;" /> </td> </tr> </script> <script type="text/template" id="attr-tpl-item-value"> <input id="attrs-item-!!attrId!!" class="atttr-value" type="button" value="!!attrName!!" onclick="attrs_modify_item('!!ops!!', '!!attrId!!')" title="管理此属性标签" style="cursor:pointer;" /> </script> <script type="text/template" id="attr-tpl-dialog-cat">
+属性分类名称：<input id="attrs-input-cat-name" type="text" value="!!catName!!" /><br/>
+是否必须选择：<select id="attrs-input-cat-required"><option value="true" !!selected-true!!>是</option><option value="false" !!selected-false!!>否</option></select> <a href="#attr-cat-help" onclick="attrs_cat_help();return false;">帮助</a> </script> <script type="text/template" id="attr-tpl-dialog-item">
+属性标签名称：<input id="attrs-input-item-name" type="text" value="!!attrName!!" /> <a href="#attr-remove" onclick="attrs_remove_item('!!ops!!', '!!attrId!!');return false;">删除</a><br/> <font style="color:red">建议属性标签字数不超过4个字</font><br/>
+价格变动数值：<input id="attrs-input-item-pricemoves" type="text" value="!!priceMoves!!" /> <a href="#attr-help" onclick="attrs_help();return false;">帮助</a><br/>
+是否绑定数量：<select id="attrs-input-item-binding"><option value="true" !!selected-true!!>是</option><option value="false" !!selected-false!!>否</option></select> </script> <script type="text/template" id="attr-tpl-help">
+价格变动数值是指用户选择了此属性标签后的订单总价变动值，支持负数<br/> <br/>例如：<br/>
+1、标签填写“加10元送充电器”，数值填写“10”，订单总价50，选择标签后，订单总价为60元<br/>
+2、标签填写“下单立减20元”，数值填写“-20”，订单总价100，选择标签后，订单总价为80元<br/>
+3、如果绑定了数量后，价格变动数值会自动关联计算用户的购买数量<br/>
+注意：<br/>
+同一个分类下的多个标签用户只能选择其中一个
+</script> <script type="text/template" id="attr-cat-tpl-help">
+如果设定了“必须选择”后，用户必须选择此分类中的某一个标签才能继续完成下单操作
+</script> <script type="text/javascript">
+$(document).ready(function() {
+attrs_load_data('{$p[id]}');
+load_product_tag('{$p[id]}');
+});
+</script> </table> <table width="100%" class="tableborder"> <tr> <td width="160" class="td_title"> <font color="red">* </font>支付设置：
+</td> <td> <label> <input name="specialPayment" type="radio" value="false"{if !meta('paymentlist_of_'.$p['id'])} checked="checked"{/if} onclick="dsp_payment_list(false)" /> 使用统一的支付方式
+</label>
+&nbsp;&nbsp;&nbsp;
+<label> <input name="specialPayment" type="radio" value="true"{if meta('paymentlist_of_'.$p['id'])} checked="checked"{/if} onclick="dsp_payment_list(true)" /> 使用特定的支付方式
+</label> </td> </tr> <tr id="dsp_payment_list"{if !meta('paymentlist_of_'.$p['id'])}style="display:none;"{/if}> <td class="td_title">
+可选支付方式：
+</td> <td>
+{eval $listString = meta('paymentlist_of_'.$p['id'])}
+{loop logic('pay')->GetList() $i $pay}
+{if $pay['code'] == 'recharge'}{eval continue}{/if}
+<label><input name="specialPaymentSel[]" type="checkbox" value="{$pay['code']}" {if stristr($listString, $pay['code'].',')}checked="checked"{/if} />&nbsp;&nbsp;{$pay['name']}</label><br/>
+{/loop}
+<hr style="border:1px dashed #ccc;margin: 5px auto;"/>
+注意：此处已选的支付方式在某些情况下前台未必会显示（<a href="?#helper" onclick="ifoShowHelper('paymentSel');return false;">详细说明</a>）
+<div id="helper_of_paymentSel" style="display:none;">
+1、余额少于需支付费用时不会显示“余额付款”<br/>
+2、{TUANGOU_STR}类型非实物时不会显示“货到付款”<br/>
+3、产品价格为0时，前台只会显示“余额付款”，如果此处没勾选，用户将无法继续下单
+</div> </td> </tr> </table> <table width="100%" class="tableborder"> <tr> <td width="160" class="td_title"> <font color="red">* </font>通知方式：
+</td> <td>
+{eval $ntc = meta('p_nt_'.$p['id'])}
+<select name="notifyType"> <option value="-1" {if !$ntc}selected="selected"{/if}>默认方式</option>
+{eval $nlist = ini('notify.api')}
+{loop $nlist $k $d}
+{if $d['enabled']}
+<option value="{$k}" {if $ntc == $k}selected="selected"{/if}>{$d['name']}</option>
+{/if}
+{/loop}
+</select>
+（{TUANGOU_STR}券生成时，并且需要在“通知事件管理”处启用方可生效）
+</td> </tr> </table> <!--{if $p['linkid']}--> <table width="100%" class="tableborder"> <tr> <td width="160" class="td_title">
+包含套餐：
+</td> <td> <!--{loop $p['product_link']['products'] $pls}-->
+{if $p['id'] == $pls['pid']}
+<span style="margin:0px 10px;padding:5px 10px;border:1px solid #888;background-color:#ddd;">{$pls['name']}</span>
+{else}
+<span style="margin:0px 10px;padding:5px 10px;border:1px solid #888;"><a href="?mod=product&code=edit&id={$pls['pid']}" title="{$pls['product_name']}">{$pls['name']}</a></span>
+{/if}
+<!--{/loop}--> </td> </tr> </table> <!--{/if}--> </div> </div> <div class="submitArea"> <p style="text-align:center;margin-bottom:5px;">完成4步设置后，再点击保存即可</p> <input id="submitButton" type="submit" class="button back2" value="保存" /> </div> </form> <div id="OPBox_productTag" style="display:none;">{eval logic('tag')->html($p[id]);}</div>
+{template @admin/footer}

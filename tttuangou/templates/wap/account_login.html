@@ -1,0 +1,21 @@
+<!--{template @wap/header}-->
+<div class="line"></div>
+<form action="?mod=wap&code=account&op=logcheck" method="post">
+<div class="dl">
+<div class="zh">账号</div>
+<input class="zh1" type="text" name="username" placeholder="手机号/邮箱">
+</div>
+<div class="line"></div>
+<div class="dl">
+<div class="zh">密码</div>
+<input class="zh1" name="password" type="password" placeholder="请输入密码">
+</div>
+<div class="line"></div>
+<div class="msg">{if $errmsg}
+{$errmsg}
+{/if}
+</div>
+<input class="dlbutton" type="submit" value="登录">
+<div class="mm"><a href="?mod=wap&code=get_password">忘记密码?</a></div>
+</form>
+<!--{template @wap/footer}-->

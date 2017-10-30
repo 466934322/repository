@@ -1,0 +1,166 @@
+<!--{template @admin/header}-->
+<form action="?mod=ad&code=config&op=save&flag={$flag}" method="post" enctype="multipart/form-data">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tr class="header">
+<td colspan="2">
+<a href="?mod=ad&code=vlist">返回广告列表</a> （如果提示 <font color="red">Acces Deined</font> 错误，请检查“全局设置-上传设置”里面对应的图片上传权限是否有打开）
+</td>
+</tr>
+<tr>
+<td width="12%"></td>
+<td></td>
+</tr>
+<tr class="tips">
+<td colspan="2">多图列表：</td>
+</tr>
+<tr>
+<td><a href="#ad_config" onclick="ad_dsp_config();return false;">隐藏设置</a> &gt;&gt;</td>
+<td></td>
+</tr>
+<tr id="ad_tr_dsp_config" style="display:table-row;">
+<td></td>
+<td>
+切换间隔时间：<input type="text" name="data[dsp][time]" value="{$cfg['dsp']['time']}" size="2" /> 秒<br/>
+</td>
+</tr>
+{loop $cfg['list'] $id $one}
+<tr id="ad_tr_{$id}">
+<td class="td_title" style="border-right: 2px solid #ccc;">
+{$id}<br/>
+<a href="#ad_del" onclick="ad_del('{$id}');return false;">&lt; 删除 &gt;</a>
+</td>
+<td>
+<div id="div_pic_{$id}">背景大图：<input type="hidden" name="data[list][{$id}][image]" value="{$one['image']}" /><a href="#ad_load_img" onclick="ad_load_image('{$one["image"]}');return false;">{$one['image']}</a> &gt;&gt; <a href="#ad_upload_img" onclick="ad_upload_show('{$id}');return false;">替换图片</a></div>
+<div id="div_up_{$id}" style="display: none;">背景大图：<input type="file" name="file_{$id}" /> * 建议图片长高分辨率为 810 x 466</div>
+大图链接：<input type="text" name="data[list][{$id}][link]" value="{$one['link']}" size="50" />  例如：http://www.aaa.com<br/>
+背景颜色：<input type="text" name="data[list][{$id}][color]" value="{$one['color']}"> 选填 比如#deeee4，必须以#开头<br/>
+右侧广告：<input type="radio" name="data[list][{$id}][type]" class="right_ad" value="1" {if $one['type'] == 1}checked="checked"{/if}>单图 <input type="radio" name="data[list][{$id}][type]" class="right_ad2" value="2" {if $one['type'] == 2}checked="checked"{/if}>双图<br/>
+<div class="one_image" {if $one['type'] == 2}style="display:none;"{/if}>
+<div id="div_pic2_{$id}">广告图片：<input type="hidden" name="data[list][{$id}][image2]" value="{$one['image2']}" /><a href="#ad_load_img" onclick="ad_load_image('{$one["image2"]}');return false;">{$one['image2']}</a> &gt;&gt; <a href="#ad_upload_img" onclick="ad_upload_show2('{$id}');return false;">替换图片</a></div>
+<div id="div_up2_{$id}" style="display: none;">广告图片：<input type="file" name="file_{$id}_2" /> * 建议图片长高分辨率为 195 x 466<br/></div>
+链接地址：<input type="text" name="data[list][{$id}][link2]" value="{$one['link2']}" size="50" />  例如：http://www.aaa.com<br/>
+</div>
+<div class="two_image" {if $one['type'] == 1}style="display:none;"{/if}>
+<div id="div_ruppic_{$id}">右侧上图：<input type="hidden" name="data[list][{$id}][image_rup]" {if $one['image_rup']}value="{$one['image_rup']}"{else} value="uploads/images/howdnew/hn3.{$id}.gif" {/if} /><a href="#ad_load_img" onclick="ad_load_image('{$one["image_rup"]}');return false;">{$one['image_rup']}</a> &gt;&gt; <a href="#ad_upload_img" onclick="ad_upload_show3('{$id}');return false;">替换图片</a></div>
+<div id="div_rup_{$id}" style="display: none;">右侧上图：<input type="file" name="file_{$id}_rup" /> * 建议图片长高分辨率为 195 x 233<br/></div>
+链接地址：<input type="text" name="data[list][{$id}][linkrup]" value="{$one['linkrup']}" size="50" />  例如：http://www.aaa.com<br/>
+<div id="div_rdownpic_{$id}">右侧下图：<input type="hidden" name="data[list][{$id}][image_rdown]" {if $one['image_rdown']}value="{$one['image_rdown']}"{else} value="uploads/images/howdnew/hn4.{$id}.gif"{/if} /><a href="#ad_load_img" onclick="ad_load_image('{$one["image_rdown"]}');return false;">{$one['image_rdown']}</a> &gt;&gt; <a href="#ad_upload_img" onclick="ad_upload_show4('{$id}');return false;">替换图片</a></div>
+<div id="div_rdown_{$id}" style="display: none;">右侧下图：<input type="file" name="file_{$id}_rdown" /> * 建议图片长高分辨率为 190 x 233<br/></div>
+链接地址：<input type="text" name="data[list][{$id}][linkrdown]" value="{$one['linkrdown']}" size="50" />  例如：http://www.aaa.com<br/>
+</div>
+投放城市：<select name="data[list][{$id}][city]" id="allCityList">
+<option value="0">请选择城市</option>
+{loop $city_arr $k $d}
+<option value="{$d['cityid']}" {if $one['city'] == $d['cityid']} selected="selected"{/if}>{$d['cityname']}</option>
+{/loop}
+</select>
+</td>
+</tr>
+{/loop}
+<tr id="ad_pox_add_link">
+<td></td>
+<td><a href="#ad_add" onclick="ad_add_new();return false;">&lt; 添加图片广告 &gt;</a></td>
+</tr>
+<tr>
+<td></td>
+<td>
+<input type="submit" value="保 存" class="button" />
+</td>
+</tr>
+</table>
+</form>
+<script type="text/javascript">
+var __url_base = '{~ini("settings.site_url")}';
+var __ad_tpl = '\
+<tr id="ad_tr_<#ID#>">\
+<td class="td_title" style="border-right: 2px solid #ccc;">\
+<#ID#><br/>\
+<a href="#ad_del" onclick="ad_del(\'<#ID#>\');return false;">&lt; 删除 &gt;</a>\
+</td>\
+<td>\
+<input type="hidden" name="data[list][<#ID#>][image]" value="uploads/images/howdnew/hn.<#ID#>.gif" />\
+背景大图：<input type="file" name="file_<#ID#>" /> * 图片分辨率为 1200 x 466<br/>\
+链接地址：<input type="text" name="data[list][<#ID#>][link]" value="" size="50" /> 例如：http://www.aaa.com<br/>\
+背景颜色：<input type="text" name="data[list][<#ID#>][color]" value=""> 选填 比如#deeee4，必须以#开头<br/>\
+右侧广告：<input type="radio" name="data[list][<#ID#>][type]" value="1" class="right_ad" checked="checked"">单图 <input type="radio" name="data[list][<#ID#>][type]" class="right_ad2" ">双图<br/>\
+<div class="one_img">\
+<input type="hidden" name="data[list][<#ID#>][image2]" value="uploads/images/howdnew/hn2.<#ID#>.gif" />\
+广告图片：<input type="file" name="file_<#ID#>_2" /> * 图片分辨率为 190 x 466<br/>\
+链接地址：<input type="text" name="data[list][<#ID#>][link2]" value="" size="50" /> 例如：http://www.bbb.com<br/>\
+</div>\
+<div class="two_img" style="display: none">\
+<input type="hidden" name="data[list][<#ID#>][image_rup]" value="uploads/images/howdnew/hn3.<#ID#>.gif" />\
+右侧上图：<input type="file" name="file_<#ID#>_rup" /> * 图片分辨率为 190 x 233<br/>\
+链接地址：<input type="text" name="data[list][<#ID#>][linkrup]" value="" size="50" /> 例如：http://www.bbb.com<br/>\
+<input type="hidden" name="data[list][<#ID#>][image_rdown]" value="uploads/images/howdnew/hn4.<#ID#>.gif" />\
+右侧下图：<input type="file" name="file_<#ID#>_rdown" /> * 图片分辨率为 190 x 233<br/>\
+链接地址：<input type="text" name="data[list][<#ID#>][linkrdown]" value="" size="50" /> 例如：http://www.bbb.com<br/>\
+</div>\
+投放城市：<select name="data[list][<#ID#>][city]" id="allCityList">\
+<option value="0">请选择城市</option>\{loop $city_arr $k $d}<option value="{$d['cityid']}">{$d['cityname']}</option>\{/loop}
+</select>\
+</td>\
+</tr>';
+$(".right_ad").live("click", function() { $(this).next().next().next().next().css("display","none"); $(this).next().next().next().css("display","block"); } );
+$(".right_ad2").live("click", function() { $(this).next().next().css("display","none");$(this).next().next().next().css("display","block"); } );
+function ad_add_new()
+{
+var rndID = ad_random_id();
+var ad_tpl = __ad_tpl.replace(/<#ID#>/ig, rndID);
+$('#ad_pox_add_link').before(ad_tpl);
+}
+function ad_del(aid)
+{
+if (!confirm('确认删除吗？'))
+{
+return;
+}
+$('#ad_tr_'+aid.toString()).remove();
+}
+function ad_random_id()
+{
+var salt = '0123456789qwertyuioplkjhgfdsazxcvbnm';
+var str = '';
+for(var i=0; i<6; i++)
+{
+str += salt.charAt(Math.ceil(Math.random()*100000000)%salt.length);
+}
+return str;
+}
+function ad_load_image(path)
+{
+$.notify.loading('loading...');
+var url = __url_base+'/'+path;
+var img = document.createElement('img');
+img.src = url;
+img.onload = function() {
+$.notify.loading(false);
+art.dialog({title: url, content: '<img src="'+url+'" />', width: this.width, height: this.height, fixed: true, padding: '0 0'});
+};
+}
+function ad_upload_show(aid)
+{
+$('#div_pic_'+aid.toString()).hide();
+$('#div_up_'+aid.toString()).show();
+}
+function ad_upload_show2(aid)
+{
+$('#div_pic2_'+aid.toString()).hide();
+$('#div_up2_'+aid.toString()).show();
+}
+function ad_upload_show3(aid)
+{
+$('#div_ruppic_'+aid.toString()).hide();
+$('#div_rup_'+aid.toString()).show();
+}
+function ad_upload_show4(aid)
+{
+$('#div_rdownpic_'+aid.toString()).hide();
+$('#div_rdown_'+aid.toString()).show();
+}
+function ad_dsp_config()
+{
+$('#ad_tr_dsp_config').toggle();
+}
+</script>
+<!--{template @admin/footer}-->

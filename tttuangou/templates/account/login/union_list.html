@@ -1,0 +1,17 @@
+<style>
+.input_h {padding: 7px;width: 240px;}
+.login_union_t{ font-weight:600;}
+.login_union_a{  width: 300px;display: block;float: left;height: 50px;}
+.login_union_a a{ width:32px; height:32px; margin-right:15px; display:inline; float:left; background-repeat:no-repeat;}
+.login_union_a a:hover{ background-position:0 -56px;}
+</style>
+{if $list}
+<div class="login_union">
+<p class="login_union_t">合作网站账号登录</p>
+<p class="login_union_a">
+{loop $list $flag $name}
+<a class="union_{$flag}" href="?mod=account&code=login&op=union&flag={$flag}" title="{$name}" {if $flag=='wx'} target="_blank"{/if} style="background-image:url(templates/account/login/images/union_{$flag}.png)"></a>
+{/loop}
+</p>
+</div>
+{/if}

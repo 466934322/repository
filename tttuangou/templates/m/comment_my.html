@@ -1,0 +1,16 @@
+<!--{template @m/header_my}-->
+{loop $comments $i $value}
+<div class="box-style">
+<a class="inlink" href="?view={$value['product_id']}"><h2><i class="am-icon-hand-o-right"></i> 商品名称：{$value['flag']}</h2></a>
+<ul class="com_adr">
+<li><span class="info">所属商家： <a href="?mod=seller&code=view&id={$value['sellerid']}">{$value['sellername']}</a></span></li>
+<li><span class="info">商品评分： {$value['score']}分</span></li>
+<li><span class="info">评价内容： {$value['content']}</span></li>
+<li><span class="info">评论状态： {$value['status']}</span></li>
+</ul>
+</div>
+{/loop}
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<!--{template @m/footer}-->

@@ -1,0 +1,42 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="{ini:settings.charset}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>$this->Title - {ini:settings.site_name}</title>
+<meta name="keywords" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_keywords')}" />
+<meta name="description" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_description')}{if $__p = productCurrentView()},{echo strip_tags($__p['intro'])}{/if}" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--{~ui('loader')->css('@amazeui.min')}-->
+<!--{~ui('loader')->css('#m/styles/app')}-->
+<!--{~ui('loader')->js('@jquery')}-->
+<!--{~ui('loader')->js('@amazeui.min')}-->
+<!--{~ui('loader')->js('@time.lesser')}-->
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+<a href="javascript:history.go(-1);" class="am-icon-chevron-left"> </a>{$seller['sellername']}
+</h1></header>
+<div class="pro-phone">
+<p class="title"><i class="am-icon-credit-card"></i> 消费总额：</p>
+<div class="field">
+<input type="text" placeholder="请输入到店消费总额" name="bill_money" value="" class="f_input input_h" style="width:100%; padding:7px; color:#333;">
+<input id="paybill_submit_button" type="submit" value="确认支付" name="buy" class="search-submit formbutton">
+</div>
+</div>
+<script>
+$('#paybill_submit_button').click(function(){
+//获取填写的消费金额和商家id，请求创建买单订单
+var sid = {$seller['id']};
+var bill_money = $("input[name='bill_money']").val();
+var url = 'm.php?mod=buy&code=create_paybill';
+$.get(url,{sid:sid,bill_money:bill_money},function(result){
+if(result){
+window.location.href='?mod=buy&code=Order&id='+result;
+}
+});
+});
+</script>
+<!--{template @m/footer}-->

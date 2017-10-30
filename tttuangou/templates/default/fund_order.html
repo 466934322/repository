@@ -1,0 +1,102 @@
+<!--{template header}-->
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->addon('picker.date')}
+<div class="site-ms__right user_nav">
+{template seller_menu}
+</div>
+<div class="site-ms__left mangerBox">
+<style>
+td.line{text-align:center;border-bottom:1px solid #eee;height:69px;}
+#report tr td{ padding-left:10px; padding-right:10px;}
+.s_btn{ float:none;margin: 0 10px 0 0;}
+</style>
+<div class="t_area_out">
+<div class="t_area_in">
+<p class="cur_title" >结算记录</p>
+<div class="cont">
+<form action="index.php?" method="get">
+<input type="hidden" name="mod" value="fund" />
+<input type="hidden" name="code" value="order" />
+<input type="hidden" name="pay" value="{$paystatus}" />
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=7'; return false;">最近7日</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=1'; return false;">昨日明细</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=-1'; return false;">今日明细</button> &nbsp; 
+开始：<input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',startDate:'',vel:'time_begin'})" size="22" class="Wdate" value="" />
+<input name="time_begin" type="hidden" id="time_begin" value="" />
+结束：<input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',startDate:'',vel:'time_end'})" size="22" class="Wdate" value="" />
+<input name="time_end" type="hidden" id="time_end" value="" />
+<button class="b_btn s_btn" type="submit">确定</button>
+</form>
+</div>
+<ul class="cont">
+<div style="float: right;">
+<li>分类:</li>
+<li class="liL_{$tabcssall}"><a href="?mod=fund&code=order">全部</a></li>
+<li class="liLine">|</li>
+<li class="liL_{$tabcssno}"><a href="?mod=fund&code=order&pay=no">等待处理</a></li>
+<li class="liLine">|</li>
+<li class="liL_{$tabcssdoing}"><a href="?mod=fund&code=order&pay=doing">正在处理</a></li>
+<li class="liLine">|</li>
+<li class="liL_{$tabcssyes}"><a href="?mod=fund&code=order&pay=yes">结算成功</a></li>
+<li class="liLine">|</li>
+<li class="liL_{$tabcsserror}"><a href="?mod=fund&code=order&pay=error">结算失败</a></li>
+</div>
+</ul>
+<div class="cont">
+<table id="report">
+<tr >
+<th width="15%" style="text-align:left">结算记录号</td>
+<th width="10%" style="text-align:left">结算金额</td>
+<th width="20%" style="text-align:left">结算方式</td>
+<th width="15%" style="text-align:left">受理时间</td>
+<th width="10%" style="text-align:left">结算类型</td>
+<th width="10%" style="text-align:left">结算状态</td>
+<th width="10%">备注</td>
+</tr>
+<!--{loop $list $one}-->
+<tr>
+<td class="line">{$one['orderid']}</td>
+<td class="line">{$one['money']}</td>
+<td class="line">
+{if $one['paytype'] =='money'}
+上门提现<br/>
+{elseif $one['paytype'] =='bank'}
+银行转帐[{$one['bankname']}]
+[{$one['bankusername']}]{$one['bankcard']}<br/>
+{elseif $one['paytype'] =='alipay'}
+支付宝[{$one['bankusername']}]{$one['alipay']}<br/>
+{/if}
+</td>
+<td class="line">
+{if $one['paytime'] > 0}
+受理时间：{echo date('Y-m-d H:i:s', $one['paytime'])}
+{else}
+等待处理
+{/if}
+</td>
+<td class="line">
+{if $one['from']=='admin'}后台直结{else}前台申请{/if}
+</td>
+<td class="line">
+{eval $log=logic('fund')->get_last_log($one['orderid']);}
+{if $one['status']=='no'}
+<a title="{$log[info]}" href="?mod=fund&code=del&id={$one['orderid']}">取消结算</a>
+{elseif $one['status']=='yes'}
+<font title="{$log[info]}" color="green">结算成功</font>
+{elseif $one['status']=='doing'}
+正在处理
+{elseif $one['status']=='error'}
+<font title="{$log[info]}" color="red">结算失败</font>
+{/if}
+</td>
+<td class="line">{eval echo($log[info] && '管理员后台操作'!=$log[info] ? $log[info] : ' - ');}</td>
+</tr>
+<!--{/loop}-->
+</table>
+<div class="pagem product_list_pager">{~page_moyo()}</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--{template footer}-->

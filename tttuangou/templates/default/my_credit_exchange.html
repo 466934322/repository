@@ -1,0 +1,64 @@
+<!--{template header}-->
+<script type="text/javascript"> 
+$(function(){
+$("#exchangeamount").focus(function(){$(".hint4").show();}).blur(function(){$(".hint4").hide();});
+}); 
+function updateexchangedesamount() {
+var ea = $('#exchangeamount').val();
+var rtv = $('#tocredits').find("option:selected").attr('ratio');
+var esa = parseInt(parseFloat(ea) * parseFloat(rtv));    
+$('#exchangedesamount').val(esa);
+if(esa > parseFloat($('#user_scores').text())) {
+alert('您的积分不够兑换了');
+}
+}
+</script>
+<style>.field label{ width:95px; text-align:right;} </style>
+<div class="site-ms__right user_nav">
+{~ui('widget')->load()}
+</div>
+<div class="site-ms__left mangerBox">
+<div class="t_area_out">
+<div class="t_area_in">
+<p class="cur_title">积分兑换</p>		
+<div class="cont">
+<form id="credit_exchange_form" method="post" action="?mod=me&code=credit&op=exchange" onsubmit="return confirm('确认兑换？');">
+<table width="100%" id="report">
+<tr><th class="left" colspan="2"><b>您当前的总积分是：{$user['scores']} 分</b></th></tr>
+<tr>
+<td class="left">兑换：</td>
+<td>
+<input type="text" name="exchangeamount" id="exchangeamount" value="" class="f-l input_h" size="10" onkeyup="updateexchangedesamount()" maxlength="5"> &nbsp; 
+<select id="tocredits" name="tocredits" onchange="updateexchangedesamount()">
+<!--{loop $_CACHE['creditsettings'] $id $data}-->
+<!--{eval $ratio=$data['ratiosrc'][$fromcredits]/$data['ratiodesc'][$fromcredits];}-->
+<!--{if $data[title]}-->
+<option value="$id" ratio="{$ratio}">$data[title]</option>
+<!--{/if}-->
+<!--{/loop}-->
+</select>
+<span class="hint4" style="display:none;"> &nbsp; 请输入您要兑换的数量</span>
+</td>
+</tr>
+<tr>
+<td class="left">所需：</td>
+<td>
+<input type="text" id="exchangedesamount" value="" class="f-l input_h" size="10" disabled="disabled" readonly>
+<span class="hint3" style="display:block;"> &nbsp; 积分，您当前有 <b><span id="user_scores">{$user['scores']}</span></b> 积分</span> 
+</td>
+</tr>
+<tr>
+<td width="100">&nbsp;  </td>
+<td>
+<input type="submit" name="exchangesubmit" class="btn btn-primary"  value="兑 换">
+<input type="button" class="btn btn-primary" value="返 回" onclick="window.location='?mod=me&code=credit'" />
+</td>
+</tr>
+</table>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--{template footer}-->

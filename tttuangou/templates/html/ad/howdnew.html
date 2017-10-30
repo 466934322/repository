@@ -1,0 +1,29 @@
+<!--{if $cfg['list']}-->
+<div class="banner_bg">
+<div id="turn" class="banner-img">
+<ul id="bigUl" class="banner-box">
+{loop $cfg['list'] $id $one}
+<li style="background:{$one['color']} url({$one['image']}) 50% 0px no-repeat " _src="{$one['image']}">
+<div class="ban_cter">
+<a class="bigImg" href="{$one['link']}" target="_blank"></a>
+<!--{if $one['type'] == 2}-->
+<div class="mav">
+<a class="smallImg" href="{$one['linkrup']}" target="_blank"><img src="{$one['image_rup']}" width=190 height=210> </a>
+<a class="smallImg" href="{$one['linkrdown']}" target="_blank"><img src="{$one['image_rdown']}" width=190 height=210> </a>
+</div>
+<!--{/if}-->
+<!--{if $one['type'] == 1}-->
+<div class="mav1">
+<a class="smallImg" href="{$one['link2']}" target="_blank"><img src="{$one['image2']}" width="190" height="465"> </a></div>
+<!--{/if}-->
+</div>
+</li>
+{/loop}
+</ul>
+<div class="smallBtn">
+<ul id="small">
+</ul>
+</div>
+</div>
+</div>
+<!--{/if}-->

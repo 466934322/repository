@@ -1,0 +1,61 @@
+<!--{~ui('loader')->js('@jquery.superslide.2.1.1')}-->
+<script type="text/javascript">
+/**
+* 地图      
+*/
+function biz_map_show(show_id){
+art.dialog({
+title:"查看地图",
+width:700,
+height:540,
+fixed:true, 
+/*lock: true,*/
+content: $('#'+show_id).html()
+});
+}
+function biz_map_init(biz_sid, x, y, z) {
+return ;
+var biz_location = new BMap.Point(x, y);
+biz_map = new BMap.Map(biz_sid);
+biz_map.centerAndZoom(biz_location, z);
+//biz_map.enableScrollWheelZoom(true);
+biz_marker = new BMap.Marker(biz_location);// 创建标注
+biz_map.addOverlay(biz_marker);             // 将标注添加到地图中
+}
+</script>
+{loop $list $one}
+<h3><em></em><a href="?mod=seller&code=view&id={$one[id]}">{$one[sellername]}</a></h3>
+<ul>
+<li class="com_adr"> 
+<!--{if $one['selleraddress']}-->
+<div><strong>商家地址：</strong>{$one['selleraddress']}</div>
+<!--{/if}--> 
+<!--{if $one['sellerphone']}-->
+<div><strong>联系电话：</strong>{$one['sellerphone']}</div>
+<!--{/if}--> 
+<!--{if $one[trade_time]}-->
+<div><strong>营业时间：</strong>{$one[trade_time]}</div>
+<!--{/if}--> 
+<a href="{$one['sellerurl']}" target="_blank">{$one['sellerurl']}</a>
+<!--{if $one[sellermap]}-->
+<!--{eval $__map=explode(',',$one[sellermap]);}--> 
+<div><a target="_blank" href="?mod=seller&code=view&id={$one[id]}#name-address-block">查看地图</a></div>
+<div style="display:none;" id="biz_map_show_{$one[id]}" class="biz_map_canvas"><div style="padding:1em; color:gray;">正在载入...</div></div>
+<script type="text/javascript">biz_map_init('biz_map_show_{$one[id]}', '{$__map[0]}', '{$__map[1]}', '{$__map[2]}');</script>
+<!--{/if}-->
+</li>
+</ul>
+{/loop}
+<div>{~page_html_ajax('loadProSubSellers(%s)')}</div>
+<script type="text/javascript">
+$(".sideMenu").find("h3:first-child").addClass("on");
+$(".sideMenu").slide({
+titCell:"h3", //鼠标触发对象
+targetCell:"ul", 
+effect:"slideDown", //targetCell下拉效果
+delayTime:300 , //效果时间
+triggerTime:150, //鼠标延迟触发时间（默认150）
+defaultPlay:true,//默认是否执行效果（默认true）
+returnDefault:false //鼠标从.sideMen移走后返回默认状态（默认false）
+});
+</script> 

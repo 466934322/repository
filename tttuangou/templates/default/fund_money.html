@@ -1,0 +1,77 @@
+<!--{template header}-->
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->addon('picker.date')}
+<div class="site-ms__right user_nav">
+{template seller_menu}
+</div>
+<div class="site-ms__left mangerBox">
+<div class="t_area_out">
+<div class="t_area_in">
+<p class="cur_title">结算金额明细</p>
+<div class="cont">
+<form action="index.php?" method="get">
+<input type="hidden" name="mod" value="fund" />
+<input type="hidden" name="code" value="money" />
+<button class="b_btn s_btn" onclick="window.location='{$url}'; return false;">全部</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=7'; return false;">最近7日</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=1'; return false;">昨日明细</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=-1'; return false;">今日明细</button> &nbsp; 
+开始：<input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',startDate:'',vel:'time_begin'})" size="22" class="Wdate" value="" />
+<input name="time_begin" type="hidden" id="time_begin" value="" />
+结束：<input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',startDate:'',vel:'time_end'})" size="22" class="Wdate" value="" />
+<input name="time_end" type="hidden" id="time_end" value="" />
+<button class="b_btn s_btn" type="submit">确定</button>
+</form>
+</div>
+<style>
+td.line{text-align:center;border-bottom:1px solid #eee;height:69px;}
+#report tr td{ padding-left:10px; padding-right:10px;}
+.s_btn{ float:none;margin: 0 5px 0 0;}
+</style>
+<div class="cont">
+<table  id="report">
+<tr>
+<th width="10%" style="text-align:left">资金到帐日期</th>
+<th width="10%" style="text-align:left">订单号</th>
+<th width="20%" style="text-align:left">商品信息</th>
+<th width="10%" style="text-align:left">{TUANGOU_STR}券号码</th>
+<th width="10%" style="text-align:left">包含份数</th>
+<th width="10%" style="text-align:left">消费金额</th>
+<th width="10%" style="text-align:left">分成比例</th>
+<th width="10%" style="text-align:left">结算金额</th>
+</tr>
+<!--{loop $list $one}-->
+<tr>
+<td class="line">{echo date('Y-m-d H:i:s', $one['addtime'])}</td>
+<td class="line"><a href="?mod=seller&code=order&op=list&search=wd:{$one['orderid']}&ssrc=order_id&sstr={$one['orderid']}">{$one['orderid']}</a></td>
+<td class="line">{$one['flag']}</td>
+<td class="line">
+<!--{if $one['number']}-->
+<a href="?mod=seller&code=ticket&op=list&search=wd:{$one['number']}&ssrc=coupon_no&sstr={$one['number']}">{$one['number']}</a>
+<!--{/if}-->
+</td>
+<td class="line">{if $one['mutis']}{$one['mutis']}份{else}{/if}</td>
+<td class="line">{$one['deal_money']}元</td>
+<td class="line">{$one['salary_pre']}</td>
+<td class="line">{$one['salary_money']}元</td>
+</tr>
+<!--{eval $total_mutis +=$one['mutis']; $total_deal_money +=$one['deal_money']; $total_salary_money +=$one['salary_money'];}-->
+<!--{/loop}-->
+<tr>
+<td>&nbsp;  </td>
+<td>&nbsp;  </td>
+<td>&nbsp;  </td>
+<td>&nbsp;  </td>
+<td>总计：{$total_mutis}份</td>
+<td>总计：{$total_deal_money}元</td>
+<td>&nbsp;  </td>
+<td>总计：{$total_salary_money}元</td>
+</tr>
+</table>
+<div class="pagem product_list_pager">{~page_moyo()}</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--{template footer}-->

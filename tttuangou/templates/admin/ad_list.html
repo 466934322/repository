@@ -1,0 +1,12 @@
+<!--{template @admin/header}-->
+{~ui('loader')->js('#admin/js/sdb.parser')}
+<style type="text/css">
+.ad_name input {width:300px;}
+</style> <div class="top_ad_mod" style="display:none;"> <ul> <li class="ad_mod_1"></li> <li class="ad_mod_2"></li> <li class="ad_mod_3"></li> <li class="ad_mod_4"></li> <li class="ad_mod_5"></li> <li class="ad_mod_6"></li> <li class="ad_mod_7"></li> <li class="ad_mod_8"></li> </ul> </div> <table cellspacing="1" cellpadding="5" width="100%" align="center" class="tableborder"> <tr class="header"> <td colspan="5">
+全站广告列表
+</td> </tr> <tr> <td width="20%">标记</td> <td width="20%">名称</td> <td width="30%">广告位置示意图</td> <td width="10%">状态</td> <td width="20%">管理</td> </tr> <!--{loop $list $flag $ad}-->
+{eval if (isset($list_local[$flag])) unset($list_local[$flag]);}
+<tr> <td>{$flag}</td> <td class="ad_name"><font class="ini" src="ad.{$flag}.name">{$ad['name']}</font></td> <td><img src="./templates/admin/images/ad_mod_{$local[$flag]['mod_id']}.jpg" /></td> <td><font class="ini" src="ad.{$flag}.enabled">{echo $ad['enabled'] ? 'true' : 'false'}</font></td> <td>
+{echo $this->Config_link($flag)}
+</td> </tr> <!--{/loop}--> <!--{loop $list_local $flag $ad}--> <tr> <td>{$flag}</td> <td>{$ad['name']}</td> <td><img src="./templates/admin/images/ad_mod_{$local[$flag]['mod_id']}.jpg" /></td> <td>--</td> <td><a href="?mod=ad&code=install&flag={$flag}">安装</a></td> </tr> <!--{/loop}--> </table>
+{template @admin/footer}

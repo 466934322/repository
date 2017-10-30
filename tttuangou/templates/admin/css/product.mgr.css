@@ -1,0 +1,47 @@
+/** * @copyright (C)2014 Cenwor Inc. * @author Cenwor <www.cenwor.com> * @package css * @name product.mgr.css * @date 2015-08-31 16:32:14 */.navsBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    _width: 98%;
+    padding: 6px;
+    padding-left: 30px;
+    background: #EAF2FA;
+    border-top: 1px solid #CBDAEA;
+    border-bottom: 2px solid #AFBCC9;
+    /*IE 6 hacks*/
+    _position:absolute;
+    _top:expression(eval(document.documentElement.scrollTop));
+	z-index: 1000;
+}
+.submitArea {
+    border-top: 1px solid #ccc;
+    padding-top: 9px;
+    margin-top: -20px;
+    _margin-top: 0;
+}
+.items {
+    margin-left: 10px;
+    margin-top: 40px;
+}
+.tableborder {
+    border: 1px solid #ccc !important;
+}
+.editor {
+	height: 160px;
+}
+.img_scroll {
+	list-style: none;
+}
+.img_scroll li {
+	width:200px;
+	display:inline-block;
+	margin-right:30px;
+}
+#img_li_TPL {
+	display: none;
+}
+.pro_image_tiny {
+    width: 200px;
+    height: 118px;
+}

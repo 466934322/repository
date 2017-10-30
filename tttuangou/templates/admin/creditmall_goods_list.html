@@ -1,0 +1,13 @@
+<!--{template @admin/header}--> <!--{template @admin/creditmall_header}--> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td width="30%">商品名称</td> <td width="10%">兑换积分</td> <td width="10%">库存数</td> <td width="10%">订单数</td> <td width="15%">有效期</td> <td width="10%">排序</td> <td>操作</td> </tr> </thead> <tbody>
+{loop $list $row}
+<tr> <td>{$row[name]}</td> <td>{$row[price]}</td> <td>{$row[total]}</td> <td>{$row[order_count]} <a href="admin.php?mod=creditmall&code=order&op=list&id={$row[id]}">查看</a></td> <td>
+{eval echo($row[expire]?date('Y-m-d',$row[expire]):' - ');}
+{if ($row[expire] && $row[expire] < time()) }
+<br /><font color="red">已下架</font>
+{/if}
+</td> <td> + {$row[order]}</td> <td><a href="admin.php?mod=creditmall&code=goods&op=info&id={$row[id]}">编辑</a> &nbsp; <a href="admin.php?mod=creditmall&code=goods&op=delete&id={$row[id]}" onclick="return confirm('删除后不能恢复，确认删除？');">删除</a></td> </tr>
+{/loop}
+{if false!=($page_html=page_moyo())}
+<tr><td colspan="7">{$page_html}</td></tr>
+{/if}
+</tbody> </table> <br /> <!--{template @admin/footer}-->

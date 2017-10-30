@@ -1,0 +1,41 @@
+<!--{template @admin/header}-->
+{~ui('loader')->js('#admin/js/coupon.ops')}
+<div class="header"> <a href="?mod=coupon&code=vlist">{TUANGOU_STR}券列表</a> </div>
+说明：<font style="color:red">{TUANGOU_STR}券支持组合方式搜索。</font>例如：输入产品A，点击“搜索”。再输入开始和结束时间段B，点击“确认”，其得到的结果为A产品在B时段里的全部信息。直接通过下拉列表选择，还可以在这个结果里查看{TUANGOU_STR}券状态
+{~ui('isearcher')->load('admin.coupon_list')}
+<div class="export_link"> <a class="button back1 back2 fr" href="?mod=export&code=coupon&coupsta={echo $coupSTA}&referrer={echo urlencode($_SERVER['QUERY_STRING'])}">导出数据</a> </div> <table id="orderTable" cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td width="25%">订单信息</td> <td width="10%">用户信息</td> <td width="10%">{TUANGOU_STR}券号码/密码</td> <td width="15%">{if $coupSTA == 1}使用时间{else}过期/使用时间{/if}</td> <td width="10%">优惠码</td> <td width="15%">消费门店</td> <td width="5%">份数</td> <td width="10%">管理操作</td> </tr> </thead> <tbody> <!--{loop $list $one}--> <tr id="cp_on_{$one['ticketid']}"> <td>
+{$one['flag']}
+<br/>
+{$one['orderid']}
+</td> <td>
+{echo app('ucard')->load($one['uid'])}
+</td> <td>
+{$one['number']}
+<br/>
+{$one['password']}
+</td> <td>
+{if $coupSTA == 1}
+{if $one['status'] == TICK_STA_Used}
+{$one['usetime']}
+{else}
+{echo logic('coupon')->STA_Name($one['status'])}
+{/if}
+{else}
+{echo date('Y-m-d H:i:s', $one['perioddate'])}
+<br/>
+{if $one['status'] == TICK_STA_Used}
+{$one['usetime']}
+{else}
+{echo logic('coupon')->STA_Name($one['status'])}
+{/if}
+{/if}
+</td> <td>
+{echo $one[promo_code]?$one[promo_code]:'----'}
+</td> <td> <div>{$one[ops_sname]}</div> <!--{if $one[ops_uid] > 0}--><div>{echo app('ucard')->load($one[ops_uid])}</div><!--{/if}--> </td> <td> <b>{$one['mutis']}</b> 份
+</td> <td>
+{if $one['status'] == TICK_STA_Unused}<a href="javascript:couponAlert({$one['ticketid']});">[ 消费提醒 ]</a><br/>{/if}
+<a href="javascript:couponDelete({$one['ticketid']});">[ 删除 ]</a> </td> </tr> <!--{eval 
+$C0 += 1;
+$C1 += $one[mutis];
+}--> <!--{/loop}--> <tr> <td colspan="5">【{$C0}】本页数值小计：</td> <td> &nbsp; </td> <td><b>{$C1}</b> 份</td> <td> &nbsp; </td> </tr> </tbody> <tfoot> <tr> <td colspan="8">{~page_moyo()}</td> </tr> </tfoot> </table>
+{template @admin/footer}

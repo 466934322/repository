@@ -1,0 +1,119 @@
+<!--{template @admin/header}--> <style>
+#left h1{  border-bottom: 3px solid #2bb8aa;}
+.link_btn{  margin: 10px 0;padding: 6px 7px;color: #fff;background: #FCB043;display: block;text-align: center;  line-height: 20px;}
+.link_btn2,a.link_btn2,.link_btn2 a{margin:5px;padding:3px 5px;color:#fff;background:#BCE3F0;text-decoration:none;font-weight:normal;  border-radius: 5px;}
+#lic_recommend{ color:#999;}
+#lic_recommend a{ text-decoration:none;}
+#lic_recommend hr{width:0;height:0; padding:0; margin:0;  display: none;}
+.B_income{ display:block;}
+.B_income span,.b_wrap dd span{ color:#f60;  display: inline;margin-right: 20px}
+.B_income span b,.b_wrap dd span b{ color:#06F;}
+.B_income span, .b_wrap dd span a{color:#f60;}
+.B_income_db{ display:block; margin:15px 0;}
+.B_tab{}
+.B_tab_title li{ display:inline; margin-right:10px;  }
+.B_tab_title a{ border:1px solid #eee; padding:0 5px;color:#666; text-decoration:none;}
+.B_tab_title a.current{ border-color:#f2f2f2; background:#f2f2f2; color:#333;}
+.b_wrap{ width:45%; display:inline;  float: left;}
+.b_wrap dd{ margin:0;}
+.home_title{ position:relative; line-height:35px; background:#f6f6f6; font-size:14px;padding: 0 10px; margin:0;}
+.home_title .title_tag{ position:absolute; right:10px; font-size:12px; font-weight:500;}
+.home_td{  line-height: 25px;display: block;overflow: hidden;  padding: 10px;}
+.RB{font-size:16px; color:#f60; font-weight:600;}
+.hide{ display:none;}
+#loading{visibility:hidden;}
+.version_td dl{ display:block; clear:both; line-height: 25px; padding: 0 10px;}
+.version_td dt{ width:120px; float:left; display:inline}
+.version_td dd{  float:left; display:inline}
+</style> <div class="home_table"> <!--{if admin_priv('upgrade')}--> <div class="version_wrap"> <h3 class="home_title">版本信息
+<span class="title_tag"> <a class="link_btn2" href="admin.php?mod=upgrade&code=signup">更新授权</a> <font id="wips-status" class="link_btn2">WIPS...</font> <font id="apis-status" class="link_btn2">APIS...</font> <font id="waps-status" class="link_btn2">WAPS...</font> </span> </h3> <div class="home_td"> <span style="float:left">当前版本：V{SYS_VERSION}{SYS_RELEASE}&nbsp;({ini:settings.charset})<br />{~logic('acl')->LicenceDSP()}</span> <span style="float:right; text-align:center;"> <span id="ups_alert" class="link_btn">正在确定版本状态</span> <a href="http://tg.tttuangou.net/changelog.htm?{~ini('settings.site_url')}">查看更新说明</a> </span> </div> </div> <!--{/if}--> <div class="version_wrap"> <h3 class="home_title">{TUANGOU_STR}常用操作</h3> <div class="home_td">
+初期设置：
+<a href="admin.php?mod=tttuangou&code=sitelogo">更换Logo</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=service&code=sms">短信接口</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=service&code=mail">邮件设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=payment">支付接口</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=api">客户端</a> <br/>
+开团管理：
+<a href="admin.php?mod=catalog">添加分类</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=express">配送管理</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="?mod=product&code=add&~iiframe=yes">添加产品</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=order&code=vlist">订单管理</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=coupon&code=vlist">{TUANGOU_STR}券管理</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="admin.php?mod=delivery&code=vlist">发货管理</a>&nbsp;&nbsp;
+</div> </div> <!--{if admin_priv('ordermanage') && $manage_area != 1}--> <div class="summary_wrap"> <h3 class="home_title">业务概述</h3> <div class="home_td"> <div class="b_wrap"> <h3>业务概述等</h3> <dl> <dt>订单</dt> <dd> <span title="今日下单的订单数"><b>今日订单</b>（<a href="{$statistic['today_orders']['url']}">{$statistic['today_orders']['total']}</a>）</span> <span title="昨日下单的订单数"><b>昨日订单</b>（<a href="{$statistic['yesterday_orders']['url']}">{$statistic['yesterday_orders']['total']}</a>）</span> <span title="今日支付的订单数"><b>今日已付款</b>（<a href="{$statistic['today_pay_orders']['url']}">{$statistic['today_pay_orders']['total']}</a>）</span> <span title="昨日支付的订单数"><b>昨日已付款</b>（<a href="{$statistic['yesterday_pay_ordes']['url']}">{$statistic['yesterday_pay_ordes']['total']}</a>）</span> </dd> </dl> <dl> <dt>会员</dt> <dd> <span title="今日注册的会员数"><b>今日新增</b>（<a href="{$statistic['today_members']['url']}">{$statistic['today_members']['total']}</a>）</span> <span title="昨日注册的会员数"><b>昨日新增</b>（<a href="{$statistic['yesterday_members']['url']}">{$statistic['yesterday_members']['total']}</a>）</span> <span><b>会员总数</b>（<a href="{$statistic['system_members']['url']}">{$statistic['system_members']['total']}</a>）</span> </dd> </dl> <dl> <dt>商品</dt> <dd> <span><b>商品总数</b>（<a href="{$statistic['tttuangou_product']['url']}">{$statistic['tttuangou_product']['total']}</a>）</span> <span title="已经下架的产品总数"><b>已下架商品</b>（<a href="{$statistic['product_has_off']['url']}">{$statistic['product_has_off']['total']}</a>）</span> </dd> </dl> <dl> <dt>其他</dt> <dd> <span><b>商家总数</b>（<a href="{$statistic['tttuangou_seller']['url']}">{$statistic['tttuangou_seller']['total']}</a>）</span> <span><b>城市数</b>（<a href="{$statistic['tttuangou_city']['url']}">{$statistic['tttuangou_city']['total']}</a>）</span> <span title="短信订阅和邮件订阅总数"><b>订阅数</b>（<a href="{$statistic['tttuangou_subscribe']['url']}">{$statistic['tttuangou_subscribe']['total']}</a>）</span> </dd> </dl> </div> <div class="b_wrap"> <h3>待处理事项</h3> <dl> <dt>订单</dt> <dd> <span title="全部未支付的订单数"><b>未付款订单</b>（<a href="{$statistic['wait_buyer_pays']['url']}">{$statistic['wait_buyer_pays']['total']}</a>）</span> <span title="待审核的退款订单数"><b>退款订单</b>（<a href="{$statistic['status_1_refunds']['url']}">{$statistic['status_1_refunds']['total']}</a>）</span> <span title="待处理的商家结算订单数"><b>待结算订单</b>（<a href="{$statistic['status_no_funds']['url']}">{$statistic['status_no_funds']['total']}</a>）</span> <span title="待处理的用户提现订单数"><b>待提现订单</b>（<a href="{$statistic['status_no_cashs']['url']}">{$statistic['status_no_cashs']['total']}</a>）</span> </dd> </dl> <dl> <dt>会员</dt> <dd> <span title="等待回复的用户问答"><b>新咨询</b>（<a href="{$statistic['tttuangou_question']['url']}">{$statistic['tttuangou_question']['total']}</a>）</span> <span title="未读的用户反馈信息"><b>新反馈</b>（<a href="{$statistic['tttuangou_usermsg']['url']}">{$statistic['tttuangou_usermsg']['total']}</a>）</span> <span title="未回复的用户评论"><b>新评论</b>（<a href="{$statistic['tttuangou_comments']['url']}">{$statistic['tttuangou_comments']['total']}</a>）</span> </dd> </dl> <dl> <dt>商品</dt> <dd> <span title="在售产品数量低于10的产品数"><b>库存报警</b>（<a href="{$statistic['product_alarm']['url']}">{$statistic['product_alarm']['total']}</a>）</span> <span title="按到期时间进行排序的商品"><b>即将下架</b>（<a href="{$statistic['product_coming_off']['url']}">{$statistic['product_coming_off']['total']}</a>）</span> <span title="等待发货的订单数"><b>待发货数</b>（<a href="{$statistic['express_wait_count']['url']}">{$statistic['express_wait_count']['total']}</a>）</span> </dd> </dl> <dl> <dt>其他</dt> <dd> <span><b>邮件队列</b>（<a href="{$statistic['cron_length']['url']}">{$statistic['cron_length']['total']}</a>）</span> <span title="当前短信通道剩余短信数"><b>短信剩余条数</b>（<a href="{$statistic['sms_surplus']['url']}">{$statistic['sms_surplus']['total']}</a>）<a href="http://www.tttuangou.net/price.html">短信充值</a></span> </dd> </dl> </div> </div> </div> <!--{/if}--> <!--{if admin_priv('salecount') && $manage_area != 1}--> <div class="income_wrap"> <h3 class="home_title">网站收益</h3> <div class="home_td"> <div class="B_income">
+{loop $payment_count_data $r}
+<span><b>{$r[name]}收益：</b>{$r[total]}</span>
+{/loop}
+</div> <script type="text/javascript" src="static/js/admin/B_tab_ajax.js"></script> <ul class="B_tab_title">
+{loop $payment_count_data $k $r}
+<li><a id="B_a_{$k}" href="#" onclick="B_div_box_show('{$k}');return false;">{$r[name]}</a></li> 
+{/loop}
+</ul> <script type="text/javascript" src="static/js/admin/jsapi.js"></script> <script type="text/javascript" src="static/js/admin/corechart.js"></script> <script type="text/javascript" src="static/js/admin/jquery.gvChart-1.0.1.min.js"></script> <script type="text/javascript" src="static/js/admin/jquery.ba-resize.min.js"></script> <script type="text/javascript">function B_div_box_show(kk) {$('#B_a_' + kk).attr('class', 'current');$('.B_div_box').hide();$('#B_div_box_' + kk).show();}; gvChartInit();$(function(){B_div_box_show('0');});</script>
+{loop $payment_count_data $k $r}
+<div class="B_div_box" id="B_div_box_{$k}" style="display:none;"> <script type="text/javascript">            
+$(function(){
+$('#B_tab_box_{$k}').gvChart({
+chartType: 'PieChart',
+gvSettings: {
+// vAxis: {title: 'No of players'},
+// hAxis: {title: 'all'},
+width: 500,
+height: 220
+}
+});
+});
+</script> <table id="B_tab_box_{$k}" style="display: none;"> <caption>{$r[name]}收益分布</caption> <thead> <tr> <th></th>
+{loop $r[data] $r1}
+<th>{$r1[payname]}</th>
+{/loop}
+</tr> </thead> <tbody> <tr id="pageContent"> <th>{$r[total]}</th>          
+{loop $r[data] $r1}
+<td>{$r1[paymoneys]}</td>
+{/loop}
+</tr> </tbody> </table> 
+网页端收益：<b class="RB">{$r[web]}</b>元 （<a href="/admin.php?mod=payment&code=vlist">支付设置</a>  &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/admin.php?mod=salecount&code=payment">各支付接口报表</a>）
+移动端收益：<b class="RB">{$r[app]}</b>元  （<a href="http://tttuangou.net/app.html">了解客户端</a>）
+</div>
+{/loop}        
+</div> </div> <!--{/if}--> <div class="version_wrap"> <h3 class="home_title">系统信息</h3> <div class="version_td"> <dl><dt>服务器系统及 PHP：</dt><dd>{eval echo PHP_OS.' / PHP v'.PHP_VERSION.(@ini_get('safe_mode') ? ' Safe Mode' : NULL);}</dd></dl> <dl><dt>服务器软件： </dt><dd>{$_SERVER['SERVER_SOFTWARE']}</dd></dl> <dl><dt>服务器 MySQL 版本： </dt><dd>{eval $rvv=dbc()->query('SELECT VERSION() AS VV')->GetRow();echo $rvv[VV];}</dd></dl> <dl><dt>上传许可： </dt><dd>{eval echo (@ini_get('file_uploads') ? ini_get('upload_max_filesize') : '<font color="red">否</font>');}</dd></dl> <dl><dt>当前数据库尺寸： </dt><dd>{$data_length}</dd></dl> </div> <h3 class="home_title">相关推荐</h3> <div class="version_td"> <dl><dt>好业宝：</dt><dd>更强大好用的微信公众号管理、微营销平台，<a href="http://www.haoyebao.com" target=_blank>http://haoyebao.com</a>，免费！</dd></dl> <dl><dt>天天社群系统：</dt><dd>无社群不商业，留存用户、增强粘性、收入倍增,<a href="http://shequn.tttuangou.net" target=_blank>http://ttshequn.com</a>。</dd></dl> <dl><dt>天天外卖系统：</dt><dd>支持商家入驻、支持同城配送，线上、线下一体化解决方案,<a href="http://waimai.tttuangou.net" target=_blank>waimai.tttuangou.net</a>。</dd></dl> </div> </div> <!--{if $statistic}--> <!--{if admin_priv('ordermanage')}--> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder datacount" style="display:none;"> <tr class="header"> <td colspan="6"> <div class="NavaL">今日收益</div> </td> </tr> <tr> <td>今日订单：<b><a href="admin.php?mod=order&code=vlist&iscp_tv_area=order_main&iscp_tvfield_order_main=ordbt&iscp_tvbegin_order_main={$dateYmd}&iscp_tvfinish_order_main={$dateYmd}">{$statistic['today_orders']}</a></b></td> <td>今日付款订单：<b><a href="admin.php?mod=order&code=vlist&iscp_tv_area=order_main&iscp_tvfield_order_main=ordpt&ordproc=__PAY_YET__&iscp_tvbegin_order_main={$dateYmd}&iscp_tvfinish_order_main={$dateYmd}">{$statistic['today_pay_orders']}</a></b></td> <td>今日未付款订单：<b><a href="admin.php?mod=order&code=vlist&ordproc=WAIT_BUYER_PAY&iscp_tv_area=order_main&iscp_tvfield_order_main=ordbt&iscp_tvbegin_order_main={$dateYmd}&iscp_tvfinish_order_main={$dateYmd}">{$statistic['today_unpay_orders']}</a></b></td> <td>今日收益：<b>{$statistic['today_income_orders']}</b> <!--{if MEMBER_ID == 1}--> <!--{/if}--> </td> </tr> <tr><td><font style="color:#ff0000;">说明：</font>今日付款订单</b>是指在今日完成的付款订单，该订单可能是来源于前几天下的订单，只要在今日付款，都会统计到今日付款订单里。</td></tr> </table> <!--{/if}--> <!--{if MEMBER_ID == 1}--> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder datacount" style="display:none;"> <tr class="header"> <td colspan="6"> <div class="NavaL">网站（全站）数据统计</div> </td> </tr> <tr> <td>用户数：<b><a href="{$statistic['system_members']['url']}">{$statistic['system_members']['total']}</a></b></td> <td>商家数：<b><a href="{$statistic['tttuangou_seller']['url']}">{$statistic['tttuangou_seller']['total']}</a></b></td> <td>城市数：<b><a href="{$statistic['tttuangou_city']['url']}">{$statistic['tttuangou_city']['total']}</a></b></td> <td>订阅数：<b><a href="{$statistic['tttuangou_subscribe']['url']}">{$statistic['tttuangou_subscribe']['total']}</a></b></td> <td>问答数：<b><a href="{$statistic['tttuangou_question']['url']}">{$statistic['tttuangou_question']['total']}</a></b></td> <td>反馈信息：<b><a href="{$statistic['tttuangou_usermsg']['url']}">{$statistic['tttuangou_usermsg']['total']}</a></b></td> </tr> <tr> <td>产品数：<b><a href="{$statistic['tttuangou_product']['url']}">{$statistic['tttuangou_product']['total']}</a></b></td> <td>订单数：<b><a href="{$statistic['tttuangou_order']['url']}">{$statistic['tttuangou_order']['total']}</a></b></td> <td>{TUANGOU_STR}券：<b><a href="{$statistic['tttuangou_ticket']['url']}">{$statistic['tttuangou_ticket']['total']}</a></b></td> <td>等待发货：<b><a href="{$statistic['express_wait_count']['url']}">{$statistic['express_wait_count']['total']}</a></b></td> <td>邮件队列：<b><a href="{$statistic['cron_length']['url']}">{$statistic['cron_length']['total']}</a></b></td> <td>数据库：<b><a href="{$statistic['data_length']['url']}">{$statistic['data_length']['total']}</a></b></td> </tr> </table> <!--{/if}--> <!--{/if}--> <!--{if $check_upgrade}--> <script language="JavaScript" type="text/javascript" src="admin.php?mod=upgrade&code=check&js=1"></script> <!--{/if}--> <script type="text/javascript">
+$(document).ready(function()
+{
+$.get('admin.php?mod=index&code=recommend', function(data)
+{
+if (data != '')
+{
+$('#recommend_tabler').show();
+$('#recommend').html(data);
+}
+});
+$.get('admin.php?mod=index&code=upgrade_check', function(data){
+if (data != 'noups')
+{
+$('#ups_alert').html(''+data+' &gt;&gt;&gt; <a href="admin.php?mod=upgrade"><font id="ups_alert_light" style="color:#fff;">点此进行在线升级</font></a>');
+}
+else
+{
+$('#ups_alert').html('已是最新版本');
+}
+});
+if (typeof(lrcmd) != 'undefined' && typeof(lrcmd) == 'string')
+{
+$.get('admin.php?mod=index&code=lrcmd_nt&lv='+lrcmd, function(data){
+if (data != 'false')
+{
+$('#lic_recommend').html(data).slideDown();
+}
+});
+}
+$.get('admin.php?mod=wips&code=status&op=ajax&stamp={echo time()}', function(html){
+$('#wips-status').html(html);
+});
+$.get('admin.php?mod=upgrade_api&code=check&op=ajax&stamp={echo time()}', function(html){
+$('#apis-status').html(html);
+});
+$.get('admin.php?mod=upgrade_wap&code=check&op=ajax&stamp={echo time()}', function(html){
+$('#waps-status').html(html);
+});
+});
+</script>
+{template @admin/footer}

@@ -1,0 +1,11 @@
+<script type="text/javascript">
+var __CityPlaceInputer_PID = '{$pid}';
+</script>
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->js('#default/js/cplace.inputer.sub')}
+<select id="__cplace_region" name="__cplace_region" onchange="cplace_region_change()">
+<option value="0">全部</option>
+</select>
+<select id="__cplace_street" name="__cplace_street" onchange="cplace_street_change()">
+<option value="0">全部</option>
+</select>

@@ -1,0 +1,50 @@
+<!--{~ui('loader')->js('@jquery.superslide.2.1.1')}-->
+<script type="text/javascript">
+var __Global_PID = '{$product[id]}';
+</script>
+<div class="biz_top">
+<h3>位置筛选：</h3>
+<div class="biz_select">
+<select id="cityid" name="cityid">
+<option selected="selected" value="{~logic('misc')->city('id')}">{~logic('misc')->city('name')}</option>
+</select>
+{eval logic('city')->sub_place_inputer($product[id]);}
+</div>
+</div>
+<div id="biz_wrapper_body" class="sideMenu">
+<h3><em></em><a href="?mod=seller&code=view&id={$product['sellerid']}">{$product['sellername']}</a></h3>
+<ul>
+<li class="com_adr"> 
+<!--{if $product['selleraddress']}-->
+<div><strong>商家地址：</strong>{$product['selleraddress']}</div>
+<!--{/if}--> 
+<!--{if $product['sellerphone']}-->
+<div><strong>联系电话：</strong>{$product['sellerphone']}</div>
+<!--{/if}--> 
+<!--{if $product[trade_time]}-->
+<div><strong>营业时间：</strong>{$product[trade_time]}</div>
+<!--{/if}--> 
+<a href="{$product['sellerurl']}" target="_blank">{$product['sellerurl']}</a> 
+</li>
+</ul>
+</div>
+<script type="text/javascript">
+$(".sideMenu").find("h3:first-child").addClass("on");
+$(".sideMenu").slide({
+titCell:"h3", //鼠标触发对象
+targetCell:"ul", 
+effect:"slideDown", //targetCell下拉效果
+delayTime:300 , //效果时间
+triggerTime:150, //鼠标延迟触发时间（默认150）
+defaultPlay:true,//默认是否执行效果（默认true）
+returnDefault:false //鼠标从.sideMen移走后返回默认状态（默认false）
+});	
+$(document).ready(function(){
+loadProSubSellers();
+});
+function loadProSubSellers(ppage) {
+$.get('ajax.php?mod=getseller&code=getprosubseller&pid='+__Global_PID+'&region='+$('#__cplace_region').val()+'&street='+$('#__cplace_street').val()+'&page='+ppage+$.rnd.stamp(), function(data) {
+$('#biz_wrapper_body').html(data);
+});
+}
+</script> 

@@ -1,0 +1,13 @@
+<li class="dropdown-toggle" onclick="document.getElementById('catalog').style.display='block'"> <span> {loop $catalog $i $topclass}
+{if $topclass['selected']}{$topclass['name']}{/if}
+{/loop}</span> <b class="caret"></b> </li>
+<div id="catalog" onclick="document.getElementById('catalog').style.display='';">
+<header data-am-widget="header" class="am-header am-header-default"> <a href="javascript:history.go(-1);" class="new-a-back ui-link">返回 </a>
+<h3>全部分类</h3>
+</header>
+<ul class="scity">
+{loop $catalog $i $topclass}
+<li><span><a href="{$topclass['url']}" {if $topclass['selected']}class="selected"{/if}>{$topclass['name']}</a></span></li>
+{/loop}
+</ul>
+</div>

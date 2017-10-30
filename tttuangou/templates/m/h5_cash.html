@@ -1,0 +1,183 @@
+<!--{template @m/header_back}-->
+<style>
+.am-form-group label{
+font-weight: 400;
+}
+.am-cf{
+margin: 0;
+padding: 0;
+margin-bottom: 1rem;
+font-weight: 600;
+}
+#error_msg{
+margin: 0;
+color: #f60;
+margin-bottom: 1rem;
+}
+.error_msg_show{
+padding: 10px;
+background: #ff9;
+position: fixed;
+left: 0;
+top: 0;
+z-index: 10000;
+height: 49px;
+width: 100%;
+}
+</style>
+<script>
+function trim(str){
+var re=/\s*(\S[^\0]*\S)\s*/;
+re.exec(str);
+return RegExp.$1;
+}
+function checkCash()
+{
+var money = Math.round($('#cash_money').val()*100)/100;
+var maxmoney = {$maxmoney};
+var paytype = $("dl.am-active input[name='paytype']").val();
+//        if (isNaN(money))
+//        {
+//            foundError('提现金额必须是一个有效数字！');
+//            return false;
+//        }
+if (money <= 0)
+{
+foundError('请输入提现金额，或提现金额输入错误，提现金额必须大于0元');
+return false;
+}
+if (money > maxmoney)
+{
+foundError('提现金额过大，您的帐户余额只有' + maxmoney + '元');
+return false;
+}
+if(paytype=='alipay'){
+var alipaynumber = trim($('#alipaynumber').val());
+var aliusername = trim($('#aliusername').val());
+if(alipaynumber.length < 6){
+foundError('您没有填写支付宝帐号或支付宝帐号填写错误！');
+return false;
+}else if(aliusername.length < 2){
+foundError('您没有填写收款人姓名或收款人姓名填写错误！');
+return false;
+}
+}else if(paytype=='bank'){
+var bankname = $('#bankname').val();
+var banknumber = trim($('#banknumber').val());
+var bankusername = trim($('#bankusername').val());
+if(bankname.length < 3){
+foundError('请选择一个转帐银行！');
+return false;
+}else if(banknumber.length < 8){
+foundError('您没有填写银行卡号或银行卡号填写错误！');
+return false;
+}else if(bankusername.length < 2){
+foundError('您没有填写开户人姓名或开户人姓名填写错误！');
+return false;
+}
+if('~other~' == bankname && ($('#other_bank_name').val()).length < 4) {
+foundError('请正确填写其他银行的银行名称！');
+return false;
+}
+}
+return true;
+}
+function foundError(msg)
+{
+$('#error_msg').addClass("error_msg_show").html(msg).css('color', '#f76120');
+setTimeout(function(){$('#error_msg').css('color', '')}, 2000);
+}
+function getpay(type)
+{
+$('.paystatus').hide();
+$('#p_'+type).show();
+document.getElementById('cashSubmit').disabled = false;
+}
+function getpaytype(type)
+{
+//$("#get_paytype").attr("value",type);
+$(this).children("#get_paytype").val(type);
+}
+$("#cash_money").focus();
+</script>
+<div data-am-widget="list_news" class="am-list-news am-list-news-default" style="margin: 0; background: #fff; padding: 10px;">
+<p id="error_msg"></p>
+<form class="am-form" action="m.php?mod=cash&code=order&op=save" method="post" onsubmit="return checkCash();" >
+<div class="am-list-news-hd am-cf">
+您最大提现金额为：<span class="tg-b">{$maxmoney}元</span>
+</div>
+<div class="am-list-news-bd">
+<ul class="am-list">
+<li class="am-g" style="border: none;">
+<div class="am-form-group">
+<label>请输入提现金额</label>
+<input type="text" id="fund_money" name="money" class="" placeholder="请输入提现金额">
+</div>
+<div class="am-form-group">
+<label>请选择提现方式</label>
+<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{  }' style="margin:0;">
+<dl class="am-accordion-item am-active">
+<dt class="am-accordion-title" onclick="getpaytype('alipay');">
+支付宝<input type="hidden" name="paytype" id="get_paytype" value="alipay">
+</dt>
+<dd class="am-accordion-bd am-collapse am-in">
+<div class="am-accordion-content">
+<label>支付宝帐号</label>
+<input id="alipaynumber" name="alipaynumber" type="text" placeholder="请输入支付宝帐号"/>
+<label>支付宝姓名</label>
+<input id="aliusername" name="aliusername" type="text" placeholder="请输入支付宝姓名"/>
+</div>
+</dd>
+</dl>
+<dl class="am-accordion-item">
+<dt class="am-accordion-title" onclick="getpaytype('bank');">
+银行转账<input type="hidden" name="paytype" id="get_paytype" value="bank">
+</dt>
+<dd class="am-accordion-bd am-collapse ">
+<div class="am-accordion-content">
+<label>转帐银行</label>
+<select onchange="bankname_change()" id="bankname" name="bankname"><option value="">请选择...</option>
+<!--{loop $bank $key $val}-->
+<option value="{$key}">{$val}</option>
+<!--{/loop}-->
+</select>
+<script>
+function bankname_change() {
+if('~other~' == $('#bankname').val()) {
+$('#P_other_bank_name').show();
+} else {
+$('#P_other_bank_name').hide();
+}
+}
+</script>
+<p id="P_other_bank_name" >
+<label style=" overflow:hidden;">银行名称</label><input id="other_bank_name" name="other_bank_name" type="text"/> （请准确填写银行的全称，例如“杭州联合农村商业银行”）
+</p>
+<label style=" overflow:hidden;">银行卡号</label><input id="banknumber" name="banknumber" type="text"/>
+<label style=" overflow:hidden;">开户人姓名</label><input id="bankusername" name="bankusername" type="text"/>
+</div>
+</dd>
+</dl>
+<dl class="am-accordion-item">
+<dt class="am-accordion-title" onclick="getpaytype('money');">
+上门提现<input type="hidden" name="paytype" id="get_paytype" value="money">
+</dt>
+<dd class="am-accordion-bd am-collapse">
+<div class="am-accordion-content">
+上门提现地址：{$payaddress}
+</div>
+</dd>
+</dl>
+</section>
+</div>
+<!--{if $counter == 1}-->
+<div class="am-form-group">
+<p class="tg_11">如有疑问，请咨询你的客户经理：{$counter_tel} ($counter_name)</p>
+</div>
+<!--{/if}-->
+</li>    
+<button id="fundSubmit" type="submit" class="am-btn am-btn-tt01 am-btn-block">提交申请</button>
+</ul>
+</div>
+</form>
+</div>

@@ -1,0 +1,23 @@
+<!--{template @admin/header}--> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <tr class="tr_nav"> <td>技巧提示</td> </tr> <tr> <td><ul> <li>1、此功能仅对 <font color="red">企业至尊</font>版本开放。其他版本用户如需此功能，可联系天天微信客服：<b>tttuangou</b>升级套餐</li> </ul></td> </tr> </table> <form method="post" action="admin.php?mod=hongbao&code=save"> <input type="hidden" name="data[id]" value="{$data[id]}" /> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="2">功能设置</td> </tr> </thead> <tbody> <tr> <td width="40%">是否开启红包功能？</td> <td> <label><input type="radio" name="data[enable]" value="1" {if $data[enable]} checked="true" {/if} />开启</label> &nbsp; 
+<label><input type="radio" name="data[enable]" value="0" {if !$data[enable]} checked="true" {/if} />关闭</label> &nbsp; 
+<br /> 关闭后，整站都不再显示红包功能
+</td> </tr> <tr> <td>红包名称</td> <td> <input type="text" name="data[name]" value="{$data[name]}" style="width:400px" /> &nbsp; <font color="red">*</font> <br /> </td> </tr> <tr> <td>红包说明</td> <td> <textarea name="data[intro]" style="width:400px; height:60px;">{$data[intro]}</textarea> &nbsp; 
+<br /> </td> </tr> <tr> <td>红包发放时间</td> <td> <input type="text" name="data[time_start]" value="{$data[time_start]}" style="width:150px" /> &nbsp; 
+~ &nbsp; 
+<input type="text" name="data[time_end]" value="{$data[time_end]}" style="width:150px" /> &nbsp; 
+<br /> 格式为 2015-03-08 00:00:00 ~ 2015-03-08 23:59:59 
+</td> </tr> <tr> <td>总的红包金额</td> <td>
+&yen;<input type="text" name="data[total_money]" value="{$data[total_money]}" style="width:100px" />元 &nbsp; <font color="red">*</font> <br /> 限制发放的红包总金额；当前已发放红包<b> &yen;{$data[send_money]} 元</b>；剩余金额<b> {eval echo '&yen;'.($data[total_money]-$data[send_money]);} 元</b> </td> </tr> <tr> <td>总的红包个数</td> <td> <input type="text" name="data[total_num]" value="{$data[total_num]}" style="width:100px" />个 &nbsp; <font color="red">*</font> <br /> 限制发放的红包总个数；当前已发放红包<b> {$data[send_num]} 个</b>；剩余红包<b> {eval echo ($data[total_num]-$data[send_num]);} 个</b> </td> </tr> <tr> <td>单个红包金额</td> <td>
+&yen;<input type="text" name="data[money_min]" value="{$data[money_min]}" style="width:100px" />元 &nbsp; 
+~ &nbsp; 
+&yen;<input type="text" name="data[money_max]" value="{$data[money_max]}" style="width:100px" />元 &nbsp; <font color="red">*</font> <br /> 当最小值与最大值相同时，表示发放固定金额的红包；否则为随机金额，例如设置 0.01 ~ 10，则生成的红包金额会在 0.01 元至 10 元之间的某个随机数
+</td> </tr> <tr> <td>预计参与人数</td> <td> <input type="text" name="data[all_pp]" value="{$data[all_pp]}" style="width:100px" />人 &nbsp; <font color="red">*</font> <br /> 预计参与人数直接影响中奖概率：<b>中奖概率 = 总的红包个数/(预计参与人数*个人最多允许抽奖次数)</b> <br /> 如果要确保任何时候都100%中奖建议设置为<b>1人</b>参加！
+<br /> 当前<b>中奖概率 = {$data[total_num]}/({$data[all_pp]}*{$data[limit_total_join_num]}) = {eval echo round($data[total_num]/($data[all_pp]*$data[limit_total_join_num]), 4) * 100 . '%'}</b> <br /> 当前实际参与<b>{$data[total_pp]}人</b> 搜索【红包】<a href="admin.php?mod=member&code=moneylog&search=wd:红包&ssrc=usermoney_name&sstr=红包">查看详细的记录</a> </td> </tr> <tr> <td>个人最多允许抽奖次数</td> <td> <input type="text" name="data[limit_total_join_num]" value="{$data[limit_total_join_num]}" style="width:100px" />次 &nbsp; <font color="red">*</font> <br /> 限制个人总共可以参与抽奖的次数
+</td> </tr> <tr> <td>个人一天允许抽奖次数</td> <td> <input type="text" name="data[limit_day_join_num]" value="{$data[limit_day_join_num]}" style="width:100px" />次 &nbsp; 
+<br /> 限制个人一天之内参与抽奖的次数
+</td> </tr> <tr> <td>个人总计中奖次数</td> <td> <input type="text" name="data[limit_total_num]" value="{$data[limit_total_num]}" style="width:100px" />次 &nbsp; 
+<br /> 限制个人中奖的总次数，0为不限制
+</td> </tr> <tr> <td>个人一天中奖次数</td> <td> <input type="text" name="data[limit_day_num]" value="{$data[limit_day_num]}" style="width:100px" />次 &nbsp; 
+<br /> 限制个人一天之内中奖的次数，0为不限制
+</td> </tr> </tbody> </table> <br /> <div class="submitArea"> <input id="submitButton" type="submit" class="button back2" value="保存" /><br /> </div> </form>
+{template @admin/footer}

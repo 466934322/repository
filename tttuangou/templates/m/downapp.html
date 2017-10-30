@@ -1,0 +1,31 @@
+<!--{template @m/header_back}-->
+<div id="mcover" onclick="document.getElementById('mcover').style.display='';">
+<img style="float:right;" src="templates/m/images/browser.png">
+</div>
+<div class="client">
+<div class="download">
+<div class="autoapp"><img src="templates/m/images/phone.png" /></div>
+<div class="downapp">
+<!--{if $this->Config[site_androidurl]}-->
+<div><a href="{eval echo $this->Config[site_androidurl]; }"><img src="templates/m/images/android.png" /></a></div>
+<!--{/if}-->
+<!--{if $this->Config[site_iphoneurl]}-->
+<div><a href="{eval echo $this->Config[site_iphoneurl]; }"><img src="templates/m/images/iphone.png" /></a></div>
+<!--{/if}-->
+{if strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false }
+<div onclick="document.getElementById('mcover').style.display='block'"><img src="templates/m/images/weixin.png" /></div>
+{/if}
+</div>
+</div>
+<div style="clear:both"></div>
+<dl>
+<dt>吃喝玩乐, 想团就团</dt>
+<dd>美食、电影、生活服务...想团什么就团什么！</dd>
+<dt>附近{TUANGOU_STR}，随处浏览</dt>
+<dd>查找任意位置或制定商区的{TUANGOU_STR}信息<br>
+想在哪团就在哪团！</dd>
+<dt>随时退款，购物无忧</dt>
+<dd>随时退款、过期未消费退款，想团就团，想退就退！</dd>
+</dl>
+</div>
+<!--{template @m/footer}-->

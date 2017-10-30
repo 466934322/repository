@@ -1,0 +1,5 @@
+<!--{template @admin/header}-->
+{~ui('loader')->js('#admin/js/sdb.parser')}
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <tr class="header"> <td colspan="2"><b>注册用户设置</b></td> </tr> <tr> <td width="50%"></td> <td></td> </tr> <tr> <td class="td_title">是否 <b>禁止</b> 用户在前台自己修改邮件地址？</td> <td> <font class="ini" src="member.contact.keep">{echo ini('member.contact.keep') ? 'true' : 'false'}</font>（禁止后，用户在前台不可以修改自己的邮箱地址）
+</td> </tr> <tr> <td class="td_title">是否 <b>关闭</b> 邮箱注册？</td> <td> <font class="ini" src="member.register.closemail">{echo ini('member.register.closemail') ? 'true' : 'false'}</font>（关闭后，网站和客户端只能使用手机号进行注册）<br> <span style="color:red;">&nbsp;&nbsp;注意：开启了新用户立减优惠，建议关闭邮箱注册功能</span> </td> </tr> <tr> <td class="td_title">新用户注册返利</td> <td> <font class="ini" src="member.register.rebate">{echo (float) ini('member.register.rebate')}</font>元
+</td> </tr> </table> <!--{template @admin/footer}-->

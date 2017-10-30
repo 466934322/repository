@@ -1,0 +1,102 @@
+<div class="product_wrap">   
+<div class="floor-nav">
+<ul>
+{loop $product $cata}
+<li class="cat-1" data-track-lock="1">
+<a href="{$cata['url']}" class="on"><i></i><span>{$cata['name']}</span></a>
+</li>
+{/loop}
+</ul>
+</div>
+{loop $product $cata}
+<div class="cat-floor__head">
+<div class="sub-categories">
+{if $cata['subclass']}
+{loop $cata['subclass'] $subc}
+<a href="{$subc['url']}">{$subc['name']}</a>
+{/loop}
+{/if}
+<a class="sub-categories_last" href="{$cata['url']}">全部</a>
+</div>
+<a href="{$cata['url']}" class="sub-name">{$cata['name']}</a>
+</div>
+<div class="product_item">
+<style type="text/css">.deal-tile__detail{ padding:0 15px;height: 44px;}</style> 
+{if $cata['product']}
+{loop $cata['product'] $item}
+{eval $icc++}
+<div class="t_area_out template3">
+<a class="product_item_a" href="?view={$item['id']}{if $uid}&uid={$uid}{/if}" target="_blank" title="{$item['name']}">
+<div class="t_area_in" >
+<div class="deal-tile__cover">
+<div class="deal-tile__cover_img la">
+{eval ui('iimager')->single($item['id'], $item['imgs'][0])}
+</div>
+<div class="deal-tile__cover_tag">
+{if $item['linkid']}<i><span title="多个套餐">多种套餐</span></i>{/if}
+{eval logic('product_tag')->html($item['id'])}
+</div>
+</div>
+<div class="deal-tile__title">{$item['name']}<p class="short-title">{eval echo trim(strip_tags($item['intro']));}</p></div>
+<script>
+</script> 
+<div class="deal-tile__detail">
+<div class="price">&yen;{$item['nowprice']}</div>
+<div class="at_shuzi a">
+{if count($item[cuts][cuts])>1 || ((($item[cuts][cuts]?1:0)+($item[rebate_money]>0?1:0)+($item[limit_level]>0?1:0)+($item[promo_cut]>0?1:0))>1)}
+<div class="sz_cuts">多种优惠+</div>
+{else}
+{if $item[promo_cut] > 0}<div class="sz_cuts">优惠码购买每份立减{$item[promo_cut]}元</div>{/if}
+{loop $item[cuts][cuts] $cut}<div class="sz_cuts">{$cut[desc]}</div>{/loop}
+{if $item[rebate_money] > 0}<div class="sz_cuts">购物返现{$item[rebate_money]}元</div>{/if}
+{if $item[role_rebate_user] == 0}
+{if $item[share_rebate_money] > 0}<div class="sz_cuts">分享返利{$item[share_rebate_money]}元</div>{/if}
+{else}
+{if $item[share_rebate_money] > 0 && user()->get('get_share_rebate') ==1}<div class="sz_cuts">分享返利{$item[share_rebate_money]}元</div>{/if}
+{/if}
+{if $item[limit_level] > 0}<div class="sz_cuts">购买需要达到VIP{$item[limit_level]}级</div>{/if}
+{/if}
+<div class="sz_pc">
+<div class="price_prime"><span>原价:</span><b class="prime_cost">&yen;{$item['price']}</b></div>
+{if $item['presell']}
+<div class="price_prepay"><span>{TUANGOU_STR}价:</span><b>&yen;{$item['presell']['price_full']}</b></div>
+{/if}
+</div>
+</div>
+</div>
+<div class="deal-tile__extra">                 
+{if false != ($summary=logic('comment')->front_get_summary($item['id']))}
+<div id="name-comment" class="product-summary B">                              
+<em>{$summary['count']}</em>条评价   
+<ul class="comment-info__rating">
+<li style="z-index:0; display: list-item; width:{echo $summary['average'] * 20}%;"></li>
+</ul>                         
+<em>{$summary['average']}</em>分
+</div> 
+{/if}
+<div id="tuanState" class="mb_0626">
+{if $item['is_countdown'] > 0}
+剩余数量<b>{$item['surplus']}</b>
+{else}
+已售<b>{$item['sells_count']}</b>
+{/if}
+</div>
+</div>	
+</div>
+</a>
+</div>
+{/loop}
+{/if}
+</div>
+<script>
+$(".short-title span").removeAttr("style");
+</script>  
+<a class="category-floor__foot " href="{$cata['url']}">查看全部<b>{$cata['name']}</b></a>
+{/loop}
+</div>
+</div>  
+<div class="site-ms__right">
+<!--{~logic('signin')->html()}-->
+<!--{~ui('widget')->load('index_home')}-->
+</div>
+</div>

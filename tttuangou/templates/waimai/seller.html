@@ -1,0 +1,147 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>天天外卖 - 商家</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+<link rel="stylesheet" href="styles/amazeui.min.css">
+<link rel="stylesheet" href="styles/waimai.css">
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default">
+<h1 class="am-header-title">
+<i class="am-icon-angle-left"></i> 商家名称
+</h1>
+</header>
+<nav data-am-widget="menu" class="am-menu  am-menu-offcanvas1" data-am-menu-offcanvas>
+<a href="javascript: void(0)" class="am-menu-toggle">
+<i class="am-menu-toggle-icon am-icon-bars"></i>
+</a>
+<div class="am-offcanvas">
+<div class="am-offcanvas-bar">
+<ul class="am-menu-nav sm-block-grid-1">
+<li class="">
+<a href="##">首页</a>
+</li>
+<li class="">
+<a href="##">外卖订单</a>
+</li>
+<li class="">
+<a href="##">账户信息</a>
+</li>
+<li class="">
+<a href="##">地址管理</a>
+</li>
+<li class="">
+<a href="##">帮助信息</a>
+</li>
+<li class="">
+<a href="##">退出</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="menu-tabs">
+<a class="selected" href="">点菜</a>
+<a href="">商家</a>
+</div>
+<div class="topadwrap">
+<div class="am-list-item-text"><span class="am-badge am-badge-danger am-radius">首</span> 首单立减10（在线支付专享）</div>
+<div class="am-list-item-text"><span class="am-badge am-badge-warning am-radius">减</span> 满20减5（在线支付专享）</div>
+<div class="app-downwrap"><a class="am-btn am-btn-warning am-btn-sm" href="">立即使用</a><span>优惠仅限手机app</span></div>
+</div>
+<div class="menuwrap">
+<div class="asidewrap">
+<div class="taglist">
+<button class="j-tag tag focus">销量排行</button>
+<button class="j-tag tag">炖菜</button>
+</div>
+</div>
+<div class="mainwrap">
+<div class="j-foodlist foodlist">
+<li class="j-fooditem fooditem">
+<div class="food-content1 clearfix">
+<div class="food-pic-wrap">
+<img class="j-food-pic food-pic" src="http://p0.meituan.net/xianfu/73530f33201775bfc9f07ae8ac8312ae52602.jpg" >
+</div>
+<div class="j-foodname foodname">干菜肉饭</div>
+<div class="food-content1-sub"><span>月售&nbsp;24</span></div>
+</div>
+<div class="food-content2">
+<div class="food-price-region">
+<span class="food-price subtotal">18</span>
+<span class="food-price-unit">元/份</span>
+</div>
+<div class="wm-count">
+<input class="reduce" name="" type="button" value="-" /> 
+<input class="count-input" type="text" value="1">
+<input class="add" name="" type="button" value="+" />     
+</div>
+</div>
+</li>
+<li class="j-fooditem fooditem">
+<div class="food-content1 clearfix">
+<div class="food-pic-wrap">
+<img class="j-food-pic food-pic" src="http://p0.meituan.net/xianfu/73530f33201775bfc9f07ae8ac8312ae52602.jpg" >
+</div>
+<div class="j-foodname foodname">干菜肉饭</div>
+<div class="food-content1-sub"><span>月售&nbsp;24</span></div>
+</div>
+<div class="food-content2">
+<div class="food-price-region">
+<span class="food-price subtotal">18</span>
+<span class="food-price-unit">元/份</span>
+</div>
+<div class="wm-count">
+<input class="reduce" name="" type="button" value="-" /> 
+<input class="count-input" type="text" value="1">
+<input class="add" name="" type="button" value="+" />     
+</div>
+</div>
+</li>
+</div>
+</div>
+</div>
+<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default " id="">
+<ul class="am-navbar-nav am-cf am-avg-sm-4" style="padding:0;">
+<div class="total_price" >￥<em id="total"></em></div>
+<button type="button" class="am-btn am-btn-default total_btn" disabled="disabled">还差18元</button>
+<button type="button" class="am-btn am-btn-danger  total_btn2">选好了</button>
+</ul>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/amazeui.min.js"></script>
+<script> 
+$(function(){ 
+$(".add").click(function(){ 
+var t=$(this).parent().find('input[class*=count-input]'); 
+t.val(parseInt(t.val())+1) 
+setTotal(); 
+}) 
+$(".reduce").click(function(){ 
+var t=$(this).parent().find('input[class*=count-input]'); 
+t.val(parseInt(t.val())-1) 
+if(parseInt(t.val())<0){ 
+t.val(0); 
+} 
+setTotal(); 
+}) 
+function setTotal(){ 
+var s=0; 
+$(".j-foodlist li").each(function(){ 
+s+=parseInt($(this).find('input[class*=count-input]').val())*parseFloat($(this).find('span[class*=subtotal]').text()); 
+}); 
+$("#total").html(s.toFixed(2)); 
+} 
+setTotal(); 
+}) 
+</script> 
+</body>
+</html>

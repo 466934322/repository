@@ -1,0 +1,50 @@
+<!--{template @m/header_my}-->
+<style>
+select {
+width: 32%;
+height: 30px;
+}
+</style>
+<div class="box-style">
+<a href="javascript:address_add();" ><h2><i class="am-icon-truck"></i> 添加新的配送地址</h2></a>
+</div> 
+<div id="address_new" class="box-style" style="display: none;">
+<form id="address_new_form" method="post" action="address.save">
+<input id="addr_id" name="id" type="hidden" value="0" class="validate[required,custom[number]]" />
+<h2><i class="am-icon-file-text-o"></i> 配送信息</h2>
+<ul class="com_adr">
+<li><span class="info"><div style="float: left;">收件人：</div><div style="margin-left: 56px;"><input placeholder="填写收件人姓名" id="addr_name" name="name" type="text" class="inputsearch" /></div></span></li>
+<li><span class="info"><div style="float: left;">电　话：</div><div style="margin-left: 56px;"><input placeholder="填写收件人电话" id="addr_phone" name="phone" type="text" class="inputsearch" /></div></span></li>
+<li><span class="info"><div style="float: left;">地　区：</div><div style="margin-left: 56px;">
+<select id="addr_province" name="province" class="validate[required]"></select>
+<select id="addr_city" name="city" class="validate[required]"></select>
+<select id="addr_country" name="country" class=""></select></div></span></li>
+<li><span class="info"><div style="float: left;">街　道：</div><div style="margin-left: 56px;"><input placeholder="填写收件人具体位置" id="addr_address" name="address" type="text" class="inputsearch" /></div></span></li>
+<li><span class="info"><div style="float: left;">邮　编：</div><div style="margin-left: 56px;"><input placeholder="填写所在地6位数邮编" id="addr_zip" name="zip" type="text" class="inputsearch" /></div></span></li>
+<li style="padding: 10px 10px 0px 10px;"><input id="address_submit_button" style="width:47%;float:left;" class="search-submit formbutton" type="button" value=" 保存 " /><input style="width:47%;float:right;" onclick="document.getElementById('address_new').style.display='none'" class="search-submit formbutton" type="button" value=" 取消 " /></span></li>
+<font id="address_submit_result"></font>
+</ul>
+</form>
+</div>
+<!--{loop $addressList $address}-->
+<div class="box-style">
+<h2><i class="am-icon-file-text-o"></i> 配送信息</h2>
+<ul class="com_adr">
+<li><span class="info">收件人：{$address['name']}</span></li>
+<li><span class="info">电　话：{$address['phone']}</span></li>
+<li><span class="info">地　区：{$address['region']}</span></li>
+<li><span class="info">街　道：{$address['address']}</span></li>
+<li><span class="info">邮　编：{$address['zip']}</span></li>
+<li style="padding: 10px 10px 0px 10px;"><a href="javascript:address_edit({$address['id']});">
+<input type="button" class="search-submit formbutton" style="width:47%;float:left;" value="编辑配送地址">
+</a><a href="javascript:address_del({$address['id']});">
+<input type="button" class="search-submit formbutton" style="width:47%;float:right;" value="删除配送地址">
+</a> </li>
+</ul>
+</div>
+<!--{/loop}-->
+{~ui('loader')->css('@jquery.validationEngine')}
+{~ui('loader')->js('@jquery.validationEngine')}
+{~ui('loader')->js('@jquery.validationEngine.cn')}
+{~ui('loader')->js('@jquery.form')}
+<!--{template @m/footer}-->

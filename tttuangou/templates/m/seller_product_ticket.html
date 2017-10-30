@@ -1,0 +1,38 @@
+<!--{template @m/header_seller}-->
+{~ui('isearcher')->load('seller.product_ticket')}
+{loop $tickets $i $ticket}
+<div class="box-style"> <a class="inlink">
+<h2><i class="am-icon-ticket"></i> {$ticket['orderid']}</h2>
+</a>
+<ul class="com_adr">
+<li><span class="info">用户名称：{echo user($order['userid'])->get('name')}</span></li>
+<li><span class="info">商品信息：{$ticket['flag']}</span></li>
+</span>
+</li>
+<li><span class="info">{TUANGOU_STR}券号码：{$ticket['number']}</span></li>
+<li><span class="info">使用时间：{if $ticket['status'] == TICK_STA_Used}{$ticket['usetime']}{else}{echo logic('coupon')->STA_Name($ticket['status'])}{/if}</span></li>
+<li><span class="info">{if $ticket['status'] == TICK_STA_Unused}管理操作：<a href="#alert" onclick="ticket_alert(this, {$ticket['ticketid']});return false;">消费提醒</a> <font style="display: none;"></font> {elseif $ticket['status']==TICK_STA_Used}{TUANGOU_STR}卷状态：已使用
+{elseif $ticket['status']==TICK_STA_Invalid}{TUANGOU_STR}卷状态：已作废
+{else}{TUANGOU_STR}卷状态：已过期
+{/if}</span></li>
+{eval $deoid = $ticket['orderid']}
+</ul>
+</div>
+{/loop}
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<script type="text/javascript">
+function ticket_alert(a, id)
+{
+$(a).hide().next().text('正在通知').css('color', '#999').show();
+$.get('?mod=seller&code=ajax&op=alert&id='+id.toString()+$.rnd.stamp(), function(data){
+if (data == 'ok')
+{
+$(a).next().text('已经提醒').css('color', '#007F00');
+setTimeout(function(){$(a).show().next().hide()}, 30000);
+}
+});
+}
+</script>
+<!--{template @m/footer}-->

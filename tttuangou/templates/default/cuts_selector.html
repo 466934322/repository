@@ -1,0 +1,25 @@
+{if $pro_cuts[enable]}
+<div class="pro-phone">
+<p class="title">优惠立减：</p>
+<table id="cut_table" class="price_calc">
+<tr>
+<!--{loop $pro_cuts[cuts] $row}-->
+<!--{if $row[enable]}-->
+<td class="left"> <label><input type="radio" name="cut_sel_{$row[flag]}" value="{$row[flag]}" id="cut_sel_{$row[flag]}" cut_price="{$row[cut]}" /> {$row[desc]} </label> </td>
+<td class="right"> &yen; <font class="price" id="cut_price_{$row[flag]}">-{$row[cut]}</font></td>
+<!--{/if}-->
+<!--{/loop}-->
+</tr>
+</table>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+$('input[name^="cut_sel_"]').bind('click', function(){change_of_cut_select(this)});
+});
+function change_of_cut_select(obj) {
+__reg_price_list['cut'] = {value : '-' + $(obj).attr('cut_price')};
+checkout_field_append('cut_f_[' + $(obj).val() + ']', $(obj).val());
+price_calc();
+}
+</script>
+{/if}

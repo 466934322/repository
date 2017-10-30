@@ -1,0 +1,11 @@
+<!--{template @admin/header}--> <form method="post" id="config_setting" action="{$action}" method="post"> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <tr class="header"> <td colspan="2">消费返利设置</td> </tr> <tr> <td width="30%"></td> <td width=""></td> </tr> <tr class="header"> <td colspan="2">说明：每个用户可以通过自己的邀请链接，邀请好友来网站注册或邀请商家入驻。一旦通过邀请链接注册成功，被邀请用户或商家会成为邀请人的下家。<br>
+如果设置相应返利比例，被邀请人的消费或商家的销售行为会给邀请人以返利。返利金额，按返利比率计算。<br>
+邀请人未设置与被邀请人的返利比例时，将按照该设置比例值进行返利结算。（<font style="color:red;">注意：无论是购买返利还是卖出返利，前提都是用户去商家验证消费后，才算到我的返利中。只购买没有去消费，暂不记录到我的返利中</font>）
+</td> </tr> <tr> <td class="td_title">邀请普通用户购买商品，用户消费时，给予邀请人的返利：</td> <td> <input type="text" name="buy_pre" value="{$buy_pre}" /> %
+</td> </tr> <tr> <td class="td_title">邀请商家入驻平台，商家卖出商品时，给予邀请人的返利：</td> <td> <input type="text" name="sell_pre" value="{$sell_pre}" /> %
+</td> </tr> <tr> <td class="td_title">返利方式设置：</td> <td> <input type="radio" name="rebate_type" value="1" {if $upcfg['rebate_type'] == 1}checked="checked"{/if} /> <b> 按产品订单金额计算</b>&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" name="rebate_type" value="2" {if $upcfg['rebate_type'] == 2}checked="checked"{/if} /> <b> 按产品利润计算</b> <p><b>利润计算公式 : </b>产品利润 = 订单实付金额 - 商家结算价 = 订单实付金额 - 订单金额 * ( 1-网站分成百分比 )</p> </td> </tr> <tr> <td colspan="2" class="tr_center"> <input type="submit" class="button" value="保存" /> </td> </tr> </table> <br /> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <tr class="header"> <td colspan="2">注册返现设置</td> </tr> <tr> <td width="30%"></td> <td width=""></td> </tr> <tr class="header"> <td colspan="2">说明：每个用户可以通过自己的邀请链接，邀请好友来网站注册。一旦通过邀请链接注册成功，被邀请人会成为邀请人的下家。<br>
+如果设置相应返现金额，被邀请人发生首次消费行为时会给邀请人以返现。<br>
+返现金额，以下面设置的返现金额计算，留空或设置为0时返现不生效。
+</td> </tr> <tr> <td class="td_title">邀请新用户注册并消费后返现：</td> <td> <input type="text" name="reg_money" value="{$reg_money}" /> 元（邀请一个新用户注册并消费后仅返现一次）
+</td> </tr> <tr> <td colspan="2" class="tr_center"> <input type="submit" class="button" value="保存" /> </td> </tr> </table> <br /> </form> <!--{template @admin/footer}-->

@@ -1,0 +1,34 @@
+<!--{template @m/header_back}-->
+<style>
+.invite_url {
+color: #f60;
+text-align: center;
+line-height: 150%;
+font-size: 1.2em;
+display: list-item;
+margin: 20px auto;
+border-radius: 2px;
+width: 100%;
+background-color: #ffc;
+border: 1px solid #fb7252;
+padding: .8em 0;
+}
+.invite_url em{ font-style:normal;}
+</style>
+<div class="box-style">
+<h3>邀请有奖</h3>
+<div>您可以通过自己的邀请链接，邀请好友来网站注册，一旦好友通过邀请链接注册成功，则好友的每次消费或销售行为，系统会按照网站返利比例返还相应金额到您的个人中心帐户，下次{TUANGOU_STR}时可直接用于支付。没有数量限制，邀请越多
+，返利越多。</div>
+<div>这是您的专用邀请链接，<b style="color:#f60;">长按文本即可进行复制</b>，然后通过微信或 QQ 发送给好友： <p class="invite_url"><em></em>/m.php?u={MEMBER_ID}</p></div>
+</div>
+<div class="box-style">
+<h3>邀请好友扫描二维码使用</h3>
+<div style="text-align: center"><img class="deal-qrcode-content-img" src="{~driver('qrcode')->invite()}"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+_sTxt="http://"+window.location.host;
+$(".invite_url em").html(_sTxt);
+});
+</script>
+<!--{template @m/footer}-->

@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="{ini:settings.charset}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>用户中心 - {ini:settings.site_name}</title>
+<meta name="keywords" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_keywords')}" />
+<meta name="description" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_description')}{if $__p = productCurrentView()},{echo strip_tags($__p['intro'])}{/if}" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--{~ui('loader')->css('@amazeui.min')}-->
+<!--{~ui('loader')->css('#m/styles/app')}-->
+<!--{~ui('loader')->js('@jquery')}-->
+<!--{~ui('loader')->js('@amazeui.min')}-->
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+<a href="javascript:history.go(-1);" class="am-icon-chevron-left"> </a>用户中心</h1>
+</header>
+<div> <a class="my-account" href="?mod=me&code=setting">
+<p class="my-account-username">{MEMBER_NAME}</p>
+<p class="my-account-remain">账户余额：{~user()->get('money')} </p>
+<img src="./images/my-photo.png" height="79"> </a> </div>
+<div class="box-style">
+<ul class="mg-4 my-mt cf">
+<li><a href="?mod=me&code=order&pay=0"><i class="icon-font">O</i><span>待付款</span></a></li>
+<li><a href="?mod=me&code=coupon&status=0"><i class="icon-font">P</i><span>未消费</span></a></li>
+<li><a href="?mod=me&code=order&comment=1"><i class="icon-font">Q</i><span>待评价</span></a></li>
+<li><a href="?mod=me&code=favorite"><i class="icon-font">K</i><span>收藏管理</span></a></li>
+</ul>
+<ul class="ml-link">
+<li> <a class="ml-item" href="?mod=me&code=order">我的订单</a> </li>
+<li> <a class="ml-item" href="?mod=me&code=coupon">我的{TUANGOU_STR}券</a> </li>
+<li> <a class="ml-item" href="?mod=comment">我的评论</a> </li>
+</ul>
+</div>
+<div class="box-style">
+<ul class="ml-link">
+<li> <a class="ml-item ml-first" href="?mod=recharge">充值余额</a> </li>
+<li> <a class="ml-item" href="?mod=recharge&code=order">充值记录</a> </li>
+<li> <a class="ml-item" href="?mod=me&code=bill">收支明细</a> </li>
+</ul>
+</div>
+<div class="box-style">
+<ul class="ml-link">
+<li> <a class="ml-item ml-first" href="?mod=me&code=setting">账号设置</a> </li>
+<li> <a class="ml-item" href="?mod=me&code=phone">绑定手机</a> </li>
+<li> <a class="ml-item" href="?mod=me&code=address">收货地址管理</a> </li>
+</ul>
+</div>
+<nav class="pageinator" style="display: block;padding-top: 0px;">
+<div id="nav-top" class="pg-top"><a href="?mod=account&code=logout"> <span class="btn">退出登录</span></a> </div>
+</nav>
+<!--{template @m/footer}-->

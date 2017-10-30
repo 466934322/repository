@@ -1,0 +1,43 @@
+<!--{template @m/header_seller_manage}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default" style="margin:0;">
+<div class="am-list-news-hd am-cf">
+您当前的账户金额为：<span class="tg-b">{$min_money}元</span>
+</div>
+<div class="am-list-news-bd">
+<ul class="am-list">
+<li class="am-g am-list-item-desced">
+<div class="am-scrollable-horizontal">
+<table class="am-table am-table-bordered am-table-striped am-text-nowrap">
+<thead><tr>
+<th>日期</th>
+<th>摘要</th>
+<th>金额（元）</th>
+</tr></thead>
+<tbody>
+<!--{loop $list $one}-->
+<tr>
+<td>
+{if $one['paytime'] > 0}
+受理时间：{echo date('Y-m-d H:i:s', $one['paytime'])}
+{else}
+等待处理
+{/if}
+</td>
+<td>摘要</td>
+<td>{$one['money']}</td>
+</tr>
+<!--{/loop}-->
+</tbody>
+</table>
+<div class="pageA">{~page_moyo()}</div>
+</div>
+</li>
+{if $list == ''}
+<div class="am-alert am-alert-warning2" data-am-alert>
+没有数据,请重新选择
+</div>
+{/if}
+</ul>
+</div>
+</div>
+<!--{template @m/footer_seller_manage}-->

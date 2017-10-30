@@ -1,0 +1,60 @@
+<!--{template header}-->
+<style>
+.field label{ width:115px;}
+.act{ padding-left: 130px;display: block;clear: both;padding-top: 5px;overflow: hidden;}
+#error_msg{ padding:0;}
+</style>
+<script type="text/javascript">
+function checkRecharge()
+{
+var money = Math.round($('#credit_num').val()*100)/100;
+if (isNaN(money))
+{
+foundError('购积分数必须是一个有效数字！');
+return false;
+}
+if (money <= 0)
+{
+foundError('积分数必须大于0！');
+return false;
+}
+return true;
+}
+function foundError(msg)
+{
+$('#error_msg').html(msg).css('color', '#f76120');
+setTimeout(function(){$('#error_msg').css('color', '')}, 2000);
+}
+$(document).ready(function() {$("#credit_num").focus();});
+</script>
+<div class="site-ms__right user_nav">
+{template seller_menu}
+</div>
+<div class="site-ms__left mangerBox">
+<div class="t_area_out">
+<div class="t_area_in">
+<p class="cur_title" >购买积分</p>
+<div class="sect"  >
+<div class="cont" >
+<div class="field">
+我的积分 : {$scores}
+</div>
+<div class="field">
+1积分需要支付{$credit_conf['buy_money']}元购买
+</div>
+<form action="?mod=credit&code=order&op=save" method="post" onsubmit="return checkRecharge();" >
+<div class="field">
+<label style=" overflow:hidden; display: inline-block; width: 168px;">请输入需要购买的积分数：</label>
+<input id="credit_num" name="credit_num" type="text" class="input_h f-l" placeholder="请输入整数" style="_height:27px;"/>
+</div>
+<div class="act">
+<input type="submit" class="btn btn-primary btn-small"  value="下一步" />
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--{template footer}-->

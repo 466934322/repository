@@ -1,0 +1,184 @@
+/**
+ * seller 商家相关CSS样式 
+ * @version $Id$
+ */
+ 
+ 
+.site-mast__user-nav, .site-mast__branding, .site-ms, .site-mast__branding, .site-mast__site-nav, .wrap, .nav_bar {
+	width: 980px;
+}
+.deal_component {
+	width: 938px;
+}
+.deal-tile__c {
+	width: 468px;
+}
+.site-ms__left {
+	width: 760px;
+}
+.content-navbar {
+	width: 758px;
+}
+.search-box {
+	margin-left: 130px;
+	width: 321px;
+}
+.search-box .search-box__input {
+	width: 158px;
+}
+.deal-tile__cover .smallslider li a img {
+	width: 450px;
+}
+.site-mast__site-nav a {
+	padding: 0 14px;
+}
+.biz-wrapper .sideMenu {
+	width: 305px;
+}
+#map_canvas, .img2 {
+	width: 175px;
+	height:175px;
+	border:none;
+}
+.img2 .map_big {
+    margin-left: 0;
+    text-align: right;
+    padding-left: 0;
+    font-size: 12px;
+    width: 175px;
+}
+.left-content{ height:200px;}
+.seller_store_player {
+	margin-bottom: 0;
+	overflow: hidden;
+	display: block;
+}
+.seller_store_player .deal-tile__cover {
+	width: 980px;
+	height: 450px;
+	margin: 0 auto 15px;
+}
+.seller_store_player .deal-tile__cover .imgs_displayer #imageslider {
+	width: 980px;
+	height: 450px;
+}
+.seller_store_player .deal-tile__cover .smallslider li a img {
+	width: 980px;
+	height: 450px;
+}
+.content-navbar {
+	position: relative;
+}
+.content-navbar .seller-listname {
+	float: left;
+	background: #707E8A;
+	font-size: 14px;
+	color: #FFF;
+	font-weight: 600;
+	height: 42px;
+	line-height: 42px;
+	margin: -1px;
+	padding: 0 15px;
+}
+.content-navbar .seller-listselection {
+	margin: 10px 0 0 10px;
+	float: left;
+	display: inline;
+}
+.content-navbar .seller-listselection a {
+	display: inline;
+	float: left;
+	margin: 0 10px 0;
+	font-size: 12px;
+}
+.content-navbar .seller-listselection a.curr {
+	color: #f60;
+}
+.content-navbar .goall {
+	position: absolute;
+	top: 10px;
+	font-size: 12px;
+	right: 15px;
+}
+.seller-products {
+	overflow: hidden;
+	padding: 15px 0 15px 0;
+}
+.seller-products li {
+	width: 170px;
+	float: left;
+	display: inline-block;
+	margin: 0 0 5px 15px;
+	overflow: hidden;
+}
+.seller-products li a {
+	width: 170px;
+	height: 195px;
+	display: block;
+}
+.seller-products li img {
+	width: 170px;
+	height: 120px;
+}
+.seller-products .at_shuzi {
+	font-size: 12px;
+}
+.seller-products .deal-tile__title {
+	font-size: 12px;
+	line-height: 15px;
+	margin-bottom: 5px;
+}
+.seller-products .deal-tile__detail .price {
+	font-size: 22px;
+}
+.at_shuzi .price_prime {
+	width: 100%;
+	display: block;
+}
+.site-ms__right h1.tth1 {
+	background: url(../images/content-navbar.png) 0 0 repeat-x;
+	height: 36px;
+}
+.tth2 {
+	width: 175px;
+	margin: 10px 0;
+}
+.tth2 img, .tth3 img {
+	width: 175px;
+}
+.tth2-right dt {
+	color: #f60;
+}
+.tth3 {
+	margin-bottom: 10px;
+}
+.tth3 dt {
+	font-weight: 600;
+}
+.tth3 dd {
+}
+.tth3_dd {
+}
+.left-content img{ width:auto; height:auto;}
+.tth3 .product-summary {
+	padding-left: 0;
+}
+.product_list {
+	padding-top: 10px;
+}
+.product_list li {
+	padding-bottom: 5px;
+	border-bottom: 1px dashed #ddd;
+}
+.product_list .pl_img2, .product_list .pl_img2 img {
+	width: 60px;
+	height: 60px;
+	float: left;
+}
+.product_list .name2, .product_list .shop2 {
+	padding-left: 70px;
+	padding-bottom: 0;
+}
+.product_list .shop2 .pr2 {
+	width: 100px;
+}

@@ -1,0 +1,9 @@
+<!--{template @admin/header}-->
+{~ui('loader')->js('#admin/js/sdb.parser')}
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <tr class="header"> <td colspan="2">购物返现设置</td> </tr> <tr> <td width="30%"></td> <td width=""></td> </tr> <tr class="header"> <td colspan="2">
+1、统一设置，全部产品购买时都会生效<br>
+2、留空或0则表示关闭该功能，购物不返现<br>
+3、返利金额=团购价*返利x%<br>
+4、用户购物成功后，系统会根据下面设置的比例将金额加入购买人的账号中<br>
+5、比如返现比例为5%，则购物100元，额外返5元到用户余额中<br></td> </tr> <tr> <td class="td_title">购物返现的比例：</td> <td> <font class="ini" src="recharge_buy_rebate">{echo (float) ini('recharge_buy_rebate')}</font>&nbsp;%，（请填写一个大于0小于100的数字。留空或0则表示关闭该功能，购物不返现。）
+</td> </tr> </table> <!--{template @admin/footer}-->

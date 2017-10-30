@@ -1,0 +1,25 @@
+{~ui('loader')->js('@attrs.selector',true)}
+<div class="pro-attrs">
+<!--{loop $pro_attrs $cat}-->
+<li style="height:auto"></li>
+<dl>
+<dt id="pro-attrs-cat-{$cat['id']}" class="xcat" xcat="{$cat['id']}" xrequired="{$cat['required']}">{$cat['name']}：</dt>
+<!--{loop $cat['attrs'] $attr}-->
+<dd id="pro-attrs-item-{$attr['id']}" class="pro-attrs-link" catfrom="{$attr['cat_id']}" attrid="{$attr['id']}" productid="{$cat['product_id']}" pricemoves="{$attr['price_moves']}" xbinding="{$attr['binding']}">{$attr['name']}</dd>
+<!--{/loop}-->
+</dl>
+<!--{/loop}-->
+</div>
+<script>
+/*商品类型*/
+/*$('.product_attrs_b').click(function(){
+$('.product-attrs-popover').fadeIn(100);
+$('.pro-attrs-popover').show();
+})*/
+$('.pro-attrs-close ,.btn').click(this,function(){
+$('.product-attrs-popover').fadeOut(100);
+$('.pro-attrs-popover').hide();
+var product_attrs_selected = $(this).parent().parent().find(".pro-attrs-popbod .selected").text( );
+$(this).parent().parent().next().text(product_attrs_selected);
+})	
+</script>

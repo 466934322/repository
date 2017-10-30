@@ -1,0 +1,36 @@
+<!--{template @m/header_my}-->
+<!--{~ui('loader')->css('comment')}-->
+<!--{~ui('loader')->js('@comment.ops')}-->
+<div class="deal-tile__cover">
+<div class="deal-tile__cover_img"> <img src="{echo imager($product['imgs'][0], IMG_Normal)}"> </div>
+</div>
+<div class="section-detailbox">
+<div class="title">{$product['intro']}</div>
+</div>
+<form id="comment-form" action="index.php?mod=comment&code=submit&oid={$order_id}&pid={$product[id]}" method="post" enctype="multipart/form-data">
+<div class="box-style" style="padding-bottom:30px;">
+<h2><i class="am-icon-thumbs-o-up"></i> 评分</h2>
+<ul class="comment-rating comment-rating-current">
+<li id="comment-score-displayer" style="z-index:0; display: list-item; width:0%;"></li>
+<li id="comment-score-selector" class="comment-score-selector"></li> 
+</ul>
+</div>
+<input id="i-comment-score" type="hidden" name="score"/>
+<div class="box-style">
+<h2><i class="am-icon-comment-o"></i> 评价内容</h2>
+<ul class="com_adr">
+<li style="height:auto"><span class="info">
+<textarea style="width:100%; height:40px; border:none" placeholder="请输入评价内容！" class="extmsg" name="content"></textarea>
+</span></li>
+<li style="height:auto"></li>
+</ul>
+</div>
+<div class="box-style">
+<ul class="com_adr">
+<li><span class="info">是否匿名评论：<label for="anonymous"><input type="checkbox" value="1" id="anonymous" name="anonymous" checked="true">匿名</label></span></li>
+<li><span class="info"><input type="submit" class="search-submit formbutton" value="发布"/></span></li>
+</ul>
+</div>
+</form>
+<div id="comment-form-loading" class="comment-form-loading"></div>
+<!--{template @m/footer}-->

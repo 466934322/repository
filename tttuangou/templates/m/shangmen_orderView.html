@@ -1,0 +1,35 @@
+<!--{template @m/header_back}-->
+<div class="box-style">
+<h2><i class="am-icon-ellipsis-h"></i> 订单状态</h2>
+<ul class="com_adr">
+<li>商家已接单，等待上门服务</li>
+<li> 
+<a class="am-btn am-btn-warning am-btn-xs" href="#"> <i class="am-icon-check-square-o"></i> 确认完成服务 </a> 
+<a class="am-btn am-btn-warning am-btn-xs" href="m.php?mod=shangmen_orderEvaluate"> <i class="am-icon-twitch"></i> 我要评价 </a> 
+</li>
+<li>商家名称：</li>
+<li>服务名称：</li>
+<li>订单金额：</li>
+</ul>
+</div>
+<div class="box-style">
+<h2><i class="am-icon-ellipsis-h"></i> 订单详情</h2>
+<ul class="com_adr">
+<li>订单号：</li>
+<li>下单时间：</li>
+<li>支付方式：</li>
+<li class="com_adr_v">上门地址：</li>
+<li>联系人：</li>
+<li>上门时间：</li>
+</ul>
+</div>
+<div class="box-style" style="background:none; margin-top:0; padding-top:0;">
+<ul class="com_adr">
+<div class="pro-attrs-cat-tips"></div>
+<li><span class="info">
+<input onclick="location='m.php?mod=shangmen_buy'" id="checkout_submit_button" type="submit" value="再来一单" name="buy" class="search-submit formbutton">
+</span></li>
+<font id="submit_status"></font>
+</ul>
+</div>
+<!--{template @m/footer}--> 

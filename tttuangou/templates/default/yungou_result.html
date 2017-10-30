@@ -1,0 +1,57 @@
+<!--{template header}-->
+<style>
+.site-mast__user-nav,.site-mast__branding,.site-ms, .site-mast__branding, .site-mast__site-nav,.wrap,.nav_bar { width: 980px;}
+.deal_component{ width:938px; padding:20px;}
+.deal-tile__c{ width:468px;}
+.site-ms__left{ width:760px;} 
+.content-navbar{ width:758px;}
+.search-box { margin-left:130px;width: 321px;}
+.search-box .search-box__input{ width:158px;}
+table { width:100%; border-spacing:0px;}
+th { background-color:#f6f6f6; text-align:left; padding:5px 10px; font-size:12px; color:#bbb; font-weight:500;}
+td { text-align:left; padding:5px 10px; border-bottom:1px solid #f4f4f4; font-size:12px;}
+table.zhongJiangJieGuo_wrap td{ text-align:left;}
+</style>
+<div class="bread-nav">{eval ui('catalog')->tree($product['category'])}</div>  
+<div class="deal_component">
+<h3><!--{$product['name']}--><p><!--{$product['intro']}--></p></h3>
+<div class="deal-tile__cover" style="float:left;">
+<div class="deal-tile__cover_img">
+<!--{eval ui('iimager')->single($product['id'], $product['imgs'][0])}-->
+</div>
+</div>
+<div class="deal-tile__c">
+<div class="yougou_result_num"><em><!--{$zhongJiang['number']}--></em></div>
+<div class="yougou_result_info">
+<h3><!--{eval echo date('Y年m月d日', $zhongJiang['addtime']);}-->&nbsp;中奖结果</h3>
+截至<!--{eval echo date('Y年m月d日 H:i:s', $zhongJiang['addtime']);}-->&nbsp;活动结束时，共有<!--{$product['maxnum']}-->人次参与此次云购，
+根据抽奖规则，<!--{eval echo date('Y年m月d日', $zhongJiang['addtime']);}-->的获奖号码为
+<span style="color:#f40000"><!--{$zhongJiang['number']}--></span>，获奖者信息如下：<br/>
+用户名：<!--{$zhongJiangZhe['name']}--><br/>
+手机号：<!--{$zhongJiangZhe['phone']}--><br/>
+</div>
+</div>
+<div class="canYuJiLu_wrap">
+<table>
+<tr>
+<th style="width:25%">云购时间</th>
+<th style="width:15%">云购金额</th>
+<th style="width:60%">云购号码</th>
+</th>
+<!--{loop $canYuJiLu $canYuArr}-->
+<tr>
+<td><!--{eval echo date('Y年m月d日 H:i:s', $canYuArr['buytime']);}--></td>
+<td><!--{$canYuArr['paymoney']}-->元</td>
+<td>
+<!--{loop $canYuArr['numbers'] $number}-->
+<!--{$number}-->&nbsp;&nbsp;
+<!--{/loop}-->
+</td>
+</tr>
+<!--{/loop}-->
+</table>
+</div>
+<div style="clear:both"></div>
+</div>
+<!--{template @html/iimager/default/lazyload}-->
+<!--{template footer}-->

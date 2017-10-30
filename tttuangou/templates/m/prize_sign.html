@@ -1,0 +1,26 @@
+<!--{template @m/header_back}-->
+<script type="text/javascript">
+function doooo_view_prize()
+{
+window.location = '{echo rewrite("m.php?mod=prize&code=iniz&pid=".$pid)}';
+}
+</script>
+<div class="mymain" id="report">
+<div class="myflag">抽奖活动： {$product['flag']}</div>
+{if $phone}
+<div class="juan">温馨提示： 您的手机已验证！可直接参与抽奖！</div>
+<div class="juan">抽奖手机号： <input type="text" value="{$phone}" class="inputsearch" style="vertical-align: baseline;" readonly /></div>
+<div class="juan"><input id="button_get_prize" type="button" class="search-submit formbutton" value="直接抽奖" /></div>
+{else}
+<div class="juan">温馨提示： 为保证抽奖公平，请进行短信验证。</div>
+<div class="juan">输入手机号： <input id="input_phone" type="text" class="inputsearch" style="vertical-align: baseline;" value="{~user()->get('phone')}" /></div>
+<div class="juan">{~logic('seccode')->html()}</div>
+<div class="juan"><input id="button_phone" type="button" class="search-submit formbutton" value="获取验证码" /></div>
+<div class="juan" id="s2phone_fail" style="color: red; display: none;"></div>
+<div class="juan"></div>
+<div class="juan">输入手机验证码： <input id="input_vcode" type="text" class="inputsearch" style="vertical-align: baseline;" value="" /></div>
+<div class="juan"><input id="button_vcode" type="button" class="search-submit formbutton" value="确认并抽奖" /></div>
+<div class="juan" id="transVfcode_status" style="color: red;display: none;"></div>
+{/if}       
+</div>
+<!--{template @m/footer}-->

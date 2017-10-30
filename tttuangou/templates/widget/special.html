@@ -1,0 +1,33 @@
+{if false!=($specials=logic('special')->get_all(true, 3))}
+<div class="t_area_out ">
+<div class="t_area_in">
+<script>
+$(function() {
+$('#carousel_sub ul').carouFredSel({
+prev: '#prev_sub',
+next: '#next_sub',
+pagination: "#pager_sub",
+scroll: 1000
+});
+});
+</script>
+<div id="carousel_sub">
+<ul>
+{loop $specials $row}
+<li>
+<a target="_blank" href="?mod=special&code=view&id={$row[id]}" class="a_img">
+<p class="h1_title">{$row[name]}</p>
+<p class="h2_title">{$row[intro]}</p>
+<img src="{$row[pic]}">
+</a>
+</li>
+{/loop}
+</ul>
+<div class="clearfix"></div>
+<a id="prev_sub" class="prev" href="#">&lt;</a>
+<a id="next_sub" class="next" href="#">&gt;</a>
+<div id="pager_sub" class="pager_side"></div>
+</div>
+</div>
+</div>
+{/if}

@@ -1,0 +1,42 @@
+<!--{template @m/header_my}-->
+<div class="pFilter"> 
+<ul class="clearfix"> 
+<li class="liL_{$_s3}"><a class="m ui-link" href="?mod=me&code=favorite&status=2">未开始</a></li>
+<li class="liL_{$_s2}"><a class="m ui-link" href="?mod=me&code=favorite&status=0">进行中</a></li>
+<li class="liL_{$_s4}"><a class="m ui-link" href="?mod=me&code=favorite&status=1">已结束</a></li>
+<li class="liL_{$_s1}"><a class="m ui-link" href="?mod=me&code=favorite">全　部</a></li>
+</div>
+<!--{loop $list $i $value}-->
+<!--{if $value['display'] > 0}-->
+<div class="box-style">
+<a class="inlink" href="?view={$value['id']}"><h2><i class="am-icon-angle-double-right"></i> {$value['flag']}</h2></a>
+<ul class="com_adr">
+<li><span class="info">商品价格：{$value['nowprice']}</span></li>
+<li><span class="info">{TUANGOU_STR}状态：{if $value['begintime'] > $timestamp}未开始(开始时间:{echo date('Y-m-d H:i',$value['begintime'])})
+{elseif $value['overtime'] && $value['overtime'] < $timestamp}已过期(过期时间:{echo date('Y-m-d H:i',$value['overtime'])})
+{elseif $value['overtime']}进行中(截止时间:{echo date('Y-m-d H:i',$value['overtime'])})
+{/if}
+</span></li>
+<li> {if $value['begintime'] < $timestamp && ($value['overtime'] > $timestamp || $value['overtime'] < 1)}<a href="?view={$value[id]}">
+<input type="button" class="search-submit formbutton" style="width:47%;float:left;" value="前去购买">
+</a>{/if} <a href="?mod=me&code=favorite&op=cancle&id={$value['id']}">
+<input type="button" class="search-submit formbutton" style="width:47%;float:right;" value="删除收藏">
+</a> </li>
+</ul>
+</div>
+<!--{/if}-->
+<!--{/loop}-->
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.goTop').click(function(e){
+e.stopPropagation();
+$('html, body').animate({scrollTop: 0},300);
+backTop();
+return false;
+});
+});
+</script>
+<!--{template @m/footer}-->

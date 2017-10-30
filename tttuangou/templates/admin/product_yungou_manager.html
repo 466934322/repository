@@ -1,0 +1,88 @@
+<!--{template @admin/header}--> <script type="text/javascript">
+var __Global_ProductID = "{$pid}";
+</script> <div class="header"> <a href="?mod=product&code=vlist" style="float:left; display: block;">返回到产品列表</a> </div> <table id="productTable" cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <th><td class="tr_nav tr_center" colspan="2">云购数据统计</td></th> <tr> <td class="td_title" width="20%">项目名称：</td> <td><!--{$product['flag']}--></td> </tr> <tr> <td class="td_title">前端云购人次：</td> <td><!--{$product['sells_count']}-->&nbsp;&nbsp;&nbsp;&nbsp;(含虚拟人次)</td> </tr> <tr> <td class="td_title">实际云购人次：</td> <td><!--{$product['sells_real']}--></td> </tr> <tr> <td class="td_title">库存：</td> <td><!--{$product['surplus']}--></td> </tr> <th><td class="tr_nav tr_center" colspan="2">抽奖结果</td></th> <!--{if $product['yungou'] == YUNGOU_STA_Normal}--> <tr> <td class="td_title">中奖号码：</td> <td> <b>需要等库存为 0 后方可开奖</b><br/>
+1、库存为0后可以开奖<br/>
+2、可在本页面手动指定中奖号码（系统不会自动抽奖）<br/>
+3、中奖号码的计算方法可以参照拉手网之类的团购网站
+</td> </tr> <!--{elseif $product['yungou'] == YUNGOU_STA_Readied}--> <tr> <td class="td_title">中奖号码：</td> <td> <input id="zhongJiangHaoMa" type="text" value="" />（输入范围：号码列表中任意一个号码）
+</td> </tr> <tr> <td></td> <td> <input id="getZhongJiangZhe" type="button" value="查询中奖用户" /> </td> </tr> <tr id="tr_zhongJiangZhe" style="display: none;"> <td class="td_title">用户信息：</td> <td id="zhongJiangZhe"></td> </tr> <!--{else}--> <tr> <td class="td_title">中奖号码：</td> <td><!--{$zhongJiang['number']}--></td> </tr> <tr> <td class="td_title">中奖用户：</td> <td><!--{echo app('ucard')->load($zhongJiang['uid'])}--></td> </tr> <tr> <td class="td_title">短信通知：</td> <td> <form id="sms_notify_form" action="" method="post"> <textarea id="sms_notify_content" style="width:300px;height:100px;"><!--{$smsContent}--></textarea> <font style="color:#ff0000"> 注意：</font>本短信模板不能修改，修改之后将会导致短信下发不成功
+</form> </td> </tr> <tr> <td></td> <td> <input type="button" value="发送中奖通知" onclick="send_sms_notify('{$zhongJiang['phone']}')" /> </td> </tr> <tr> <td class="td_title">其他：</td> <td>未中奖用户</td> </tr> <tr> <td class="td_title">短信通知：</td> <td> <form id="sms_broadcast_form" action="" method="post"> <textarea id="sms_broadcast_content" style="width:300px;height:100px;"><!--{$broadcastContent}--></textarea> <font style="color:#ff0000"> 注意：</font>本短信模板不能修改，修改之后将会导致短信下发不成功
+</form> </td> </tr> <tr> <td></td> <td> <input type="button" value="发送通知" onclick="send_sms_broadcast('{$zhongJiang['uid']}')" /> </td> </tr> <!--{/if}--> </table> <script>
+$(document).ready(function(){
+$('#getZhongJiangZhe').bind('click', getZhongJiangZhe);
+});
+// 根据号码查询用户的信息
+function getZhongJiangZhe()
+{
+var number = $('#zhongJiangHaoMa').val().toString();
+if (number == '' || isNaN(number))
+{
+$.notify.alert('请输入一个正确的抽奖号码！（需要纯数字）');
+return;
+}
+$('#tr_zhongJiangZhe').show();
+$('#zhongJiangZhe').html('查询中...')
+$.get('?mod=yungou&code=ajax&op=getZhongJiangZhe&pid='+__Global_ProductID +'&number='+number, function(data){
+$('#zhongJiangZhe').html(data);
+});
+}
+function submitZhongJiangNumber()
+{
+var number = $('#zhongJiangHaoMa').val().toString();
+art.dialog.confirm('准备提交的中奖号码：<b>'+number+'</b><br/><br/>请注意：<br/>1，中奖号码公开后将无法再修改；<br/>2，中奖号码公开后前台会显示中奖号码；<br/><br/>您确认要公开吗？', function(){
+$.notify.loading('正在提交中奖号码...');
+$.get('?mod=yungou&code=ajax&op=submitZhongJiangNumber&pid='+__Global_ProductID +'&number='+number, function(data){
+$.notify.loading(false);
+if (data == 'ok')
+{
+$.notify.success('提交成功！');
+setTimeout(function(){window.location = window.location}, 1000);
+}
+else
+{
+$.notify.failed(data);
+}
+});
+});
+}
+function send_sms_notify(phone)
+{
+$.notify.loading('正在发送...');
+var verifyHash = $('#sms_notify_form input[name=FORMHASH]').val();
+$.post('?mod=yungou&code=ajax&op=notify&phone='+phone+$.rnd.stamp(),
+{'FORMHASH':verifyHash,'content':$('#sms_notify_content').val()},
+function(data)
+{
+$.notify.loading(false);
+if (data == 'ok')
+{
+$.notify.success('发送成功！');
+}
+else
+{
+$.notify.failed(data);
+}
+}
+);
+}
+function send_sms_broadcast(excUID)
+{
+$.notify.loading('正在发送...');
+var verifyHash = document.getElementById('sms_broadcast_form').FORMHASH.value;
+$.post('?mod=yungou&code=ajax&op=broadcast&pid='+__Global_ProductID+'&excuid='+excUID+$.rnd.stamp(),
+{'FORMHASH':verifyHash,'content':$('#sms_broadcast_content').val()},
+function(data)
+{
+$.notify.loading(false);
+if (data == 'ok')
+{
+$.notify.success('发送成功！');
+}
+else
+{
+$.notify.failed(data);
+}
+}
+);
+}
+</script> <!--{template @admin/footer}-->

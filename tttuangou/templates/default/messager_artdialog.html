@@ -1,0 +1,18 @@
+<style>
+.opreate_span {
+font-size: 12px;
+}
+.opreate_span b {
+font-size: 16px;
+float: left;
+margin-bottom: 2px;
+}
+</style>
+<!--{if is_array($message)==false}-->
+<span class="opreate_span"> {$message}<br>
+<span>购物车内共有<i class="R12">{~logic('cart_manage')->CountItems()}</i>件商品</span> </span> 
+<!--{else}--> 
+<!--{loop $message $one_message}--> 
+<span class="opreate_span">{$one_message}</span> 
+<!--{/loop}--> 
+<!--{/if}--> 

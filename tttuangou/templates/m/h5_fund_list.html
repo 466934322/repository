@@ -1,0 +1,59 @@
+<!--{template @m/header_seller_manage}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default" style="margin:0;">
+<div class="am-list-news-hd am-cf" style="margin: 0 10px;">
+结算状态：<select style="padding:.4em 1em;" id="fund_status">
+<option value="all">全部</option>
+<option value="no" {if $paystatus=='no'}selected{/if}>等待处理</option>
+<option value="doing" {if $paystatus=='doing'}selected{/if}>正在处理</option>
+<option value="yes" {if $paystatus=='yes'}selected{/if}>结算成功</option>
+<option value="error" {if $paystatus=='error'}selected{/if}>结算失败</option>
+</select>
+<script>
+$('#fund_status').change(function(){
+var options=$("#fund_status option:selected");  //获取选中的项
+var pay = options.val();
+window.location.href='m.php?mod=seller&code=h5_fund_list&pay='+pay;
+});
+</script>
+<button onclick="location='m.php?mod=seller&code=h5_fund'" type="button" class="am-btn am-btn-tt01 am-radius" style="float:right;">申请结算</button>
+</div>
+<div class="am-list-news-bd">
+<ul class="am-list">    
+<li class="am-g am-list-item-desced">
+<div class="am-scrollable-horizontal">
+<table class="am-table am-table-bordered am-table-striped am-text-nowrap">
+<thead><tr>
+<th>受理时间</th>
+<th>结算记录号</th>
+<th>结算金额</th>
+<th>结算状态</th>
+</tr></thead>
+<tbody>
+<!--{loop $list $one}-->
+<tr>
+<td>
+{if $one['paytime'] > 0}
+受理时间：{echo date('Y-m-d H:i:s', $one['paytime'])}
+{else}
+等待处理
+{/if}
+</td>
+<td>{$one['orderid']}</td>
+<td>{$one['money']}</td>
+<td><a title="{$log[info]}" href="?mod=seller&code=fund_del&id={$one['orderid']}"><em class="tg-f">取消结算</em></a><br><a href="m.php?mod=seller&code=h5_fund_list_view&id={$one['orderid']}">详情</a></td>
+</tr>
+<!--{/loop}-->
+</tbody>
+</table>
+<div class="pageA">{~page_moyo()}</div>
+</div>
+</li>
+{if $list == ''}
+<div class="am-alert am-alert-warning2" data-am-alert>
+没有数据,请重新选择
+</div>
+{/if}
+</ul>
+</div>
+</div>
+<!--{template @m/footer_seller_manage}-->

@@ -1,0 +1,31 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="{ini:settings.charset}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{ini:settings.site_name}{conf page_title}</title>
+<meta name="keywords" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_keywords')}" />
+<meta name="description" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_description')}{if $__p = productCurrentView()},{echo strip_tags($__p['intro'])}{/if}" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--{~ui('loader')->css('@amazeui.min')}-->
+<!--{~ui('loader')->css('#m/styles/app')}-->
+<!--{~ui('loader')->js('@jquery')}-->
+<!--{~ui('loader')->js('@amazeui.min')}-->
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default">
+<h1 class="am-header-title">
+<span id="user-postion-name" onclick="document.getElementById('citylist').style.display='block'"><i class="am-icon-map-marker"></i> {~logic('misc')->City('name')}</span></h1>
+</header>
+<div id="citylist" onclick="document.getElementById('citylist').style.display='';">
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+<a href="javascript:history.go(-1);" class="am-icon-chevron-left"> </a>城市选择</h1>
+</header>
+<ul class="scity">
+<!--{loop logic('misc')->CityList() $i $value}-->
+<li><span><a href="?city={$value['shorthand']}">{$value['cityname']}</a></span></li>
+<!--{/loop}-->
+</ul>
+</div>

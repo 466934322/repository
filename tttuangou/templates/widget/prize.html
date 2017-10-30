@@ -1,0 +1,39 @@
+ 
+<div class="t_area_out ">
+<h1 class="side_lotter"><a href="?prize=1">全部》</a></h1>
+<div class="t_area_in">
+{if false!=($prizes=logic('product')->get_prize_list(3, PRO_ACV_Yes))}
+<script>
+$(function() {
+$('#carousel_lottery ul').carouFredSel({
+prev: '#prev_side',
+next: '#next_side',
+pagination: "#pager_side",
+scroll: 1000
+});
+});
+</script>
+<div id="carousel_lottery">
+<div class="caroufredsel_wrapper" style="display: block; text-align: left; float: none; position: relative; top: auto; right: auto; bottom: auto; left: auto; z-index: auto; width: 175px; height: 105px; margin: 0px; overflow: hidden;">
+<ul style="text-align: left; float: none; position: absolute; top: 0px; right: auto; bottom: auto; left: 0px; margin: 0px; width: 1225px; height: 105px; z-index: auto;">
+{loop $prizes $row}
+<li><a title="{$row[name]}" class="a_img" href="?view={$row[id]}"><img alt="{$row[flag]}" src="{echo imager($row['imgs'][0], IMG_Small);}">
+<span class="title"></span></a></li>
+{/loop}
+</ul>
+</div>
+<div class="clearfix"></div>
+<a href="#" class="prev" id="prev_side" style="display: block;">&lt;</a>
+<a href="#" class="next" id="next_side" style="display: block;">&gt;</a>
+<div class="pager_side" id="pager_side" style="display: block;"><a href="#" class=""><span>1</span></a><a href="#" class=""><span>2</span></a><a href="#" class="selected"><span>3</span></a></div>
+</div>
+{/if}
+{if false!=($prizes=logic('product')->get_prize_list(3, PRO_ACV_No))}
+<ul class="carousel_side_list">
+{loop $prizes $row}
+<li class="ask"><a href="?mod=prize&code=view&pid={$row[id]}" class="txt15" target="_blank" title="{$row[name]}">{$row[flag]}<em>查结果</em></a></li>
+{/loop}
+</ul>
+{/if}
+</div>
+</div>

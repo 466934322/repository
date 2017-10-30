@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="templates/html/dist/css/swiper.css">
+<style>
+.swiper-container {
+width: 100%;
+height: 100%;
+}
+</style>
+<div class="swiper-container">
+<div class="swiper-wrapper">
+<div class="swiper-slide">
+<!--{if $catalog}-->
+{loop $catalog $i $topclass}
+<a href="{$topclass['url']}" class="sort_item" style="background-image:url({$topclass['icon']})"><em>{$topclass['name']}</em></a>
+{/loop}
+<!--{/if}-->
+{if $display == 1}
+<a href="?mod=catalog" class="sort_item" style="background-image:url(templates/m/images/icon-sort.png)"><em>全部分类</em></a>
+{/if}
+</div>
+{if $display == 2}
+<div class="swiper-slide">
+<!--{if $catalog2}-->
+{loop $catalog2 $i $topclass}
+<a href="{$topclass['url']}" class="sort_item" style="background-image:url({$topclass['icon']})"><em>{$topclass['name']}</em></a>
+{/loop}
+<!--{/if}-->
+<a href="?mod=catalog" class="sort_item" style="background-image:url(templates/m/images/icon-sort.png)"><em>全部分类</em></a>
+</div>
+{/if}
+</div>
+<div class="swiper-pagination"></div>
+</div>
+<script src="templates/html/dist/js/swiper.min.js"></script>
+<script>
+var swiper = new Swiper('.swiper-container', {
+pagination: '.swiper-pagination',
+paginationClickable: true
+});
+</script>

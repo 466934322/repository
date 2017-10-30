@@ -1,0 +1,138 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>天天外卖 - 地址</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+<link rel="stylesheet" href="styles/amazeui.min.css">
+<link rel="stylesheet" href="styles/waimai.css">
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default">
+<h1 class="am-header-title">
+<i class="am-icon-angle-left">返回</i>  修改地址
+</h1>
+</header>
+<nav data-am-widget="menu" class="am-menu  am-menu-offcanvas1" data-am-menu-offcanvas>
+<a href="javascript: void(0)" class="am-menu-toggle">
+<i class="am-menu-toggle-icon am-icon-bars"></i>
+</a>
+<div class="am-offcanvas">
+<div class="am-offcanvas-bar">
+<ul class="am-menu-nav sm-block-grid-1">
+<li class="">
+<a href="##">首页</a>
+</li>
+<li class="">
+<a href="##">外卖订单</a>
+</li>
+<li class="">
+<a href="##">账户信息</a>
+</li>
+<li class="">
+<a href="##">地址管理</a>
+</li>
+<li class="">
+<a href="##">帮助信息</a>
+</li>
+<li class="">
+<a href="##">退出</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<div class="am-list-news-bd">
+<ul class="am-list addressLi">
+<li class="am-g">
+<a href="javascript:address_add();"><h2><i class="am-icon-plus-square-o"></i> 添加新的配送地址</h2></a>
+</li>
+<li class="am-g" id="address_new" style="display='none">
+<form id="address_new_form" method="post" action="address.save" class="am-form">
+<input id="addr_id" name="id" type="hidden" value="0" class="validate[required,custom[number]]" />
+<h2><i class="am-icon-file-text-o"></i> 配送信息</h2>
+<ul class="com_adr">
+<li><h3>收件人</h3><div><input placeholder="填写收件人姓名" id="addr_name" name="name" type="text" class="inputsearch" /></div></li>
+<li><h3>电话</h3><div><input placeholder="填写收件人电话" id="addr_phone" name="phone" type="text" class="inputsearch" /></div></li>
+<li><h3>地区</h3><div>
+<select id="addr_province" name="province" class="validate[required]"></select>
+<select id="addr_city" name="city" class="validate[required]"></select>
+<select id="addr_country" name="country" class=""></select></div></li>
+<li><h3>街道</h3><div><input placeholder="填写收件人具体位置" id="addr_address" name="address" type="text" class="inputsearch" /></div></li>
+<li><h3>邮编</h3><div><input placeholder="填写所在地6位数邮编" id="addr_zip" name="zip" type="text" class="inputsearch" /></div></li>
+<li style="padding: 10px 0;"><input id="address_submit_button" style="width:48%;float:left;" class="am-btn am-btn-danger" type="button" value=" 保存 " /><input style="width:48%;float:right;" onclick="document.getElementById('address_new').style.display='none'" class="am-btn am-btn-default" type="button" value=" 取消 " /></li>
+<font id="address_submit_result"></font>
+</ul>
+</form>
+</li>
+<!--{loop $addressList $address}-->
+<li class="am-g">
+<h2><i class="am-icon-file-text-o"></i> 配送信息</h2>
+<ul class="com_adr">
+<li><span class="info">收件人：{$address['name']}</span></li>
+<li><span class="info">电　话：{$address['phone']}</span></li>
+<li><span class="info">地　区：{$address['region']}</span></li>
+<li><span class="info">街　道：{$address['address']}</span></li>
+<li><span class="info">邮　编：{$address['zip']}</span></li>
+<li style="padding: 10px 0"><a href="javascript:address_edit({$address['id']});">
+<input type="button" class="am-btn am-btn-danger" style="width:48%;float:left;" value="编辑配送地址">
+</a><a href="javascript:address_del({$address['id']});">
+<input type="button" class="am-btn am-btn-default" style="width:48%;float:right;" value="删除配送地址">
+</a> 
+</li>
+</ul>
+</li>
+<!--{/loop}-->
+{~ui('loader')->css('@jquery.validationEngine')}
+{~ui('loader')->js('@jquery.validationEngine')}
+{~ui('loader')->js('@jquery.validationEngine.cn')}
+{~ui('loader')->js('@jquery.form')}
+<!--{eval echo ui('loader')->js('@'.$this->Module.'.'.$this->Code)}-->
+</ul>
+</div>
+</div>
+<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default " id="">
+<ul class="am-navbar-nav am-cf am-avg-sm-4">
+<li>
+<a href="">
+<span class="am-icon-home"></span>
+<span class="am-navbar-label">首页</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-file-text"></span>
+<span class="am-navbar-label">订单</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-user"></span>
+<span class="am-navbar-label">我的</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-sign-in"></span>
+<span class="am-navbar-label">登录</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-user-plus"></span>
+<span class="am-navbar-label">注册</span>
+</a>
+</li>
+</ul>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/amazeui.min.js"></script>
+</body>
+</html>

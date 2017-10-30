@@ -1,0 +1,94 @@
+{if count($_GET)<=2 && $_GET['mod'] == 'index'}
+<!--{template @m/header}-->
+<div class="search_new"><a href="?mod=catalog"></a></div>
+<!--{~ui('ad')->load('howd0api')}-->
+<div class="sort_list">
+<!--{~ui('catalog')->hot_display(10)}-->
+</div>
+<div class="common_list" style="margin:10px 0; background:#fff;">
+<ul class="common-item">
+<h3 style="border-bottom: 1px solid #eee; padding: 10px; margin: 0;font-weight: 500;">本周推荐</h3>
+{loop $new_product $item}
+<li> <a href="?view={$item['id']}{if $uid}&uid={$uid}{/if}">
+<div class="pic">{eval ui('iimager')->single($item['id'], $item['imgs'][0])}</div>
+<div class="item-name">
+<h2> {$item['flag']} </h2>
+<h3> {$item['name']} </h3>
+<div class="item-edit">
+<p class="price"><b>&yen;{$item['nowprice']}</b><del>&yen;{$item['price']}</del></p>
+{if $item['sells_real'] < $item['sells_out']}
+<p class="num">
+{if $item['is_countdown'] > 0}
+剩余<b>{$item['surplus']}</b>
+{else}
+已售<b>{$item['sells_out']}</b>
+{/if}
+</p>
+{else}
+<p class="num">
+{if $item['maxnum'] > 0}
+剩余<b>{$item['maxnum']-$item['sells_real']}</b>
+{else}
+已售<b>{$item['sells_real']}</b>
+{/if}
+</p>
+{/if}
+</div>
+<div class="dl-new"> 
+{if $item['linkid']}<span class="dl-mark" style="margin-right:5px;">多种套餐</span>{/if}
+{if $item['promo_cut']>0}<span class="dl-mark">优惠购</span>{/if}
+{if $item[score]>0} <span class="dl-mark">获{$item[score]}积分</span> {/if}
+</div></div>
+</a> 
+</li>
+{/loop}
+<li><a href="?mod=catalog" style="  text-align: center;width: 100%; display: block; line-height: 40px;text-decoration: underline;">查看全部{TUANGOU_STR}</a></li>
+</ul>
+</div>
+{else}
+<!--{template @m/header_default}-->
+<!--{~ui('loader')->js('@jquery.infinitescroll.min')}-->
+<!--{eval $__page = page_moyo_summary();}-->
+<script type="text/javascript">
+$(document).ready(function (){
+$("#tg_container").infinitescroll({  
+navSelector: "#tg_pageinator",
+nextSelector: "#tg_pageinator a",  
+itemSelector: ".common-data" ,             
+extraScrollPx: 100,  
+animate: false,  
+maxPage: '{$__page[pageall]}',       
+loading:{
+img: "templates/default/images/loading2.gif",
+msgText: '正在努力加载...',
+finishedMsg:'没有更多内容了',
+}/*, 
+errorCallback:function(){ 
+$("#pagee").show();
+},   */                               
+},
+function(newElems) {
+$("img.lazy").lazyload({effect:'fadeIn',skip_invisible:false});
+}
+); 
+});  
+</script>
+<!--{if false==get('prize')}-->
+<div class="nav-bar">
+<ul class="nav">
+<!--{~ui('catalog')->display()}-->
+<!--{~logic('city')->place_navigate('product', '@m/')}-->
+<!--{~logic('sort')->product_navigate(false, '@m/')}-->
+</ul>
+</div>
+<!--{/if}-->
+<!--{eval echo ui('loader')->css($this->Module.'.'.$this->Code)}-->
+<script type="text/javascript">
+var __Timer_lesser_auto_accuracy = {echo ini('ui.igos.litetimer') ? 'true' : 'false'};
+var __Timer_lesser_worker_max = {echo (int)ini('ui.igos.litetimer_wm')};
+</script>
+<!--{eval ui('igos')->load($product, '','.m')}-->
+{/if}
+<!--{~ui('loader')->js('@time.lesser')}-->
+<!--{~ui('iimager')->single_lazy()}-->
+<!--{template @m/footer}-->

@@ -1,0 +1,87 @@
+<!--{template header}-->
+<style>
+#report tr td.scenter{text-align:center;}
+</style>
+<div class="site-ms__right user_nav">
+{~ui('widget')->load()}
+</div>
+<div class="site-ms__left mangerBox">
+<div class="t_area_out">
+<div class="t_area_in">
+<ul class="cont">
+<div style="float: right;">
+</div>
+</ul>
+<style>td{text-align:center;}</style>
+<div class="cont">
+<div style="font-size: 14px; margin-bottom: 10px;">
+<span style="cursor: pointer" class="me_rebate_product">我分享的返利产品 </span>&nbsp;&nbsp;
+<span style="cursor: pointer" class="me_rebate_detail"> 我的返利明细</span>
+</div>
+<input type="hidden" class="detail_page" value="{$rebate_detail}">
+<script>
+$(function(){
+if($('.detail_page').val()){
+$('.rebate_detail').show();
+$('.rebate_product').hide();
+}
+$('.me_rebate_detail').click(function(){
+$('.rebate_detail').show();
+$('.rebate_product').hide();
+});
+$('.me_rebate_product').click(function(){
+$('.rebate_product').show();
+$('.rebate_detail').hide();
+});
+})
+</script>
+<div class="rebate_detail" style="display: none">
+<table id="report">
+<tr>
+<th>交易订单号</th>
+<th>交易金额</th>
+<th>结算类型</th>
+<th>返利比率(%)</th>
+<th>获得收益</th>
+<th>结算时间</th>
+</tr>
+<!--{if $rebate_list}-->
+<!--{loop $rebate_list $i $value}-->
+<tr>
+<td>{$value['orderid']}</td>
+<td class="scenter">{$value['deal_money']}元</td>
+<td class="scenter">{$value['type']}</td>
+<td class="scenter">{$value['salary_pre']}</td>
+<td class="scenter">{$value['salary_money']}元</td>
+<td class="scenter">{$value['addtime']}</td>
+</tr>
+<!--{/loop}-->
+<!--{/if}-->
+<tr><td colspan="4">详细情况请查看您的<a href="?mod=me&code=bill">收支明细</a></td><td colspan="2"><b>累计返利金额：{$total_m}元</b></td></tr>
+</table>
+<div class="pagem product_list_pager">{~page_moyo()}</div>
+</div>
+<table id="report" class="rebate_product">
+<tr>
+<th>返利产品</th>
+<th>价格</th>
+<th>返利次数</th>
+<th>返利金额</th>
+</tr>
+<!--{if $products}-->
+<!--{loop $products $i $value}-->
+<tr>
+<td><img src="{echo imager($value['img'],IMG_Small)}" style="width: 200px;" />{$value['flag']}</td>
+<td class="scenter">&yen;{$value['nowprice']}元</td>
+<td class="scenter">{$value['rebate_num']}</td>
+<td class="scenter">&yen;{$value['rebate_money']}元</td>
+</tr>
+<!--{/loop}-->
+<!--{/if}-->
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--{template footer}-->

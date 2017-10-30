@@ -1,0 +1,52 @@
+
+<div class="t_area_out ">
+<div class="t_area_in">
+<script>
+setInterval(function() {
+var signin_D = new Date();
+var signinMon = signin_D.getMonth() + 1;
+var signinDay = signin_D.getDate();
+$('#signin_time').html(signinMon+'月'+signinDay+'日');
+}, 1000);
+</script>
+<div class="signin_btn">
+{if MEMBER_ID>0 && logic('signin')->is_signin()}
+<p class="b_btn check_btn" title="今日已签到" disabled="disabled"><em id="signin_time"></em>已签到</p>
+<p class="signin_tig">已领<i>{~logic('signin')->notice[signin_day]}</i>天，明天可领<i>{~logic('signin')->notice[nextday_credit]}<i></p>
+{else}
+<p class="b_btn check_btn" onclick="check_status_btn(); return false;" title="今日签到"><em id="signin_time"></em>签到</p>
+{/if}	
+</div>
+<script>$(document).ready(function(){$(".check_rule_link").click(function(){$(".check_rule").toggle();});});</script>
+<p class="check_rule_link">查看积分规则</p>
+<p class="check_rule">
+<b>签到规则：</b>
+{eval $signin_rule=logic('signin')->rule()->get_all();}
+{loop $signin_rule $rule}
+连续签到第 {$rule[day]} 天，之后（含当日）每天可获得{$rule[credit]} 积分 <br />
+{/loop}
+</p>
+<script type="text/javascript">
+function check_status_btn(){
+{if MEMBER_ID<=0}
+art.dialog({
+title:'您需要登录才能继续本操作',
+width:400,
+height:240,
+fixed:true, 
+content: '<div class="dialog_login"><a class="dia_login" href="?mod=account&code=login">登录</a><a class="dia_reg" href="?mod=account&code=register" >注册</a></div>'
+});				
+{else}
+$.post('index.php?mod=signin', {}, function(r) {
+art.dialog({
+fixed:true, 
+content: r,
+time:3
+});
+$(".check_btn").attr("disabled",true);
+});					  
+{/if}
+}	
+</script>
+</div>
+</div>

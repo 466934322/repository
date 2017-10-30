@@ -1,0 +1,37 @@
+<!--{template @m/header_home}-->
+<style>
+.top_bar{position: static;}
+.footerhight{ height:0px;}
+input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]){width:100%; display:block; padding:0.7rem;}
+</style>
+<div id="bodyheight" style="overflow:hidden;">
+<div class="mainbox">
+<div style="padding-bottom:10px;"></div>
+<form method="POST" action="{$action}">
+<div class="field">
+<input class="inputsearch" name="username" placeholder="请输入您的用户名" type="text" class="f-l input_h"/>
+</div>
+<div class="field">
+<input class="inputsearch" name="password" placeholder="请输入您的密码" type="password" class="f-l input_h"/>
+</div>
+<div class="field" style="display: none">
+<input name="keeplogin" type="checkbox" checked="checked" id="check_remember" />
+<label id="remember" for="check_remember">记住登录状态</label>
+</div>
+<div id="l_act" style="padding: 5px 10px 20px 10px;">
+<input type="submit" class="search-submit formbutton" style="width:47%;float:left;" value="登 录">
+<a href="m.php?mod=account&code=register"><input type="button" class="search-submit formbutton" style="width:47%;float:right;" value="注 册"></a>
+</div>
+<div style="clear:both"></div>
+<div class="field" style="padding-top:10px;"><a href="?mod=get_password">找回密码</a></div>
+<div class="field"> {~account('ulogin')->wlist()} </div>
+<style>
+.login_union{ border-top:1px solid #ddd; padding-top:10px;}
+.login_union_a{ margin:0;}
+.login_union_t{ font-weight:500; margin-bottom:5px;}
+body {background: #fff;}
+</style>
+</form>
+</div>
+</div> 
+<!--{template @m/footer}-->

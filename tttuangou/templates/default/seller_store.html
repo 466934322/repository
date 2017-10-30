@@ -1,0 +1,275 @@
+<!--{template header}-->
+<!--{~ui('loader')->css('seller')}-->
+<div class="seller_store_player">
+<!--{if $seller_ads != null}-->
+<div class="deal-tile__cover" style="float:left;">
+<div class="deal-tile__cover_img">
+<link href="http://tg.tttuangou.net/static/css/jquery.smallslider.css?20150921" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://tg.tttuangou.net/static/js/jquery.smallslider.js?20150921"></script>
+<div class="imgs_displayer">
+<div id="imageslider" class="smallslider">
+<ul style="position: absolute; left: -900px; top: 0px; width: 1350px;">
+<!--{loop $seller_ads $k $sads}-->
+<li class="" style="float: left;"><a href="javascript:void();"><img src="{$sads['images']}" alt=""></a></li>
+<!--{/loop}-->
+</ul>
+<div class="smallslider-btns" style="right: 10px; bottom: 4px;">
+<span class=""></span>
+<span class="" style="margin-left: 4px;"></span>
+</div>
+<div class="smallslider-tex smallslider-lay" style="left: 0px; bottom: 0px; text-align: left; opacity: 0.39;"></div>
+<h3 class="smallslider-tex" style="left: 0px; bottom: 0px; text-align: left;"><a href="javascript:void();"></a></h3>
+</div>
+{~ui('loader')->css('@jquery.smallslider')}
+{~ui('loader')->js('@jquery.smallslider')}
+<script>
+$(document).ready(function() {
+$('#imageslider').smallslider({
+onImageStop: false,
+switchEffect: 'ease',
+switchEase: 'easeOutSine',
+switchPath: 'left',
+switchMode: 'hover',
+textSwitch: 2,
+textPosition: 'bottom',
+textAlign: 'left'
+});
+});
+</script>
+</div>
+</div>
+</div>
+<!--{/if}-->
+<div class="site-ms__left"> 
+<!--{loop $data $k $product}-->
+<div class="t_area_out">
+<div class="content-navbar">
+<div class="seller-listname">{$product['name']}</div>
+<div class="seller-listselection">
+<a class="curr" href="?mod=seller&code=view&id=47">默认</a>
+<a href="?mod=seller&code=view&id=47&new=1">最新</a>
+<a href="?mod=seller&code=view&id=47&sell_out=1">销量</a>
+<a href="?mod=seller&code=view&id=47&price=1">价格</a>
+</div>
+<div class="goall"><a href="?mod=seller&code=seller_store_list&id={$sellerid}&cid={$product['id']}">全部</a></div>
+</div>
+<div class="mainbox">
+<ul class="seller-products">
+<!--{loop $data[$k]['product'] $product2}-->
+<li><a href="?view={$product2['id']}">
+<img class="lazy" src="{echo imager($product2['img'], IMG_Normal)}">
+<div class="deal-tile__title"> {$product2['flag']}</div>
+<div class="deal-tile__detail">
+<div class="price">&yen;{$product2['nowprice']}</div>
+<div class="at_shuzi">
+<div class="sz_pc">
+<div class="price_prime"><span>原价:</span><b class="prime_cost">&yen;{$product2['price']}</b></div>
+<div class="price_prepay"><span>已售出:</span><b>{echo $product2['sells_real']+$product2['virtualnum']}</b></div>
+</div>
+</div>
+</div>
+</a>
+</li>
+<!--{/loop}-->
+</ul>
+</div>
+</div>
+<!--{/loop}-->
+<div class="t_area_out">
+<div class="content-navbar" id="content-navbar-id">
+<ul>
+<li {if meta('p_hs_'.$product['id'])}class="name-cur"{/if}><span id="name-product-detail" >商家介绍</span></li>
+<li><span id="name-comment" >用户评价（共{$commentdata['count']}条）</span></li>
+</ul>
+<script type="text/javascript">
+if(!($.browser.msie && $.browser.version<7)){
+document.write('<script type="text/javascript" src="./js/side_follow.js"><'+'/script>');
+}
+$("#name-product-detail").click(function(){
+$(this).parent("li").nextAll().removeClass("name-cur");
+$(this).parent("li").prevAll().removeClass("name-cur");
+$(this).parent("li").addClass("name-cur");
+document.getElementById("name-product-detail-block").scrollIntoView();
+});
+$("#name-comment").click(function(){
+$(this).parent("li").nextAll().removeClass("name-cur");
+$(this).parent("li").prevAll().removeClass("name-cur");
+$(this).parent("li").addClass("name-cur");
+document.getElementById("name-comment-block").scrollIntoView();
+})
+</script>            
+<div style="clear:both;"></div>
+</div>
+<script type="text/javascript">
+if(!($.browser.msie && $.browser.version<7)){
+$("#content-navbar-id").fixbox({distanceToBottom:200,threshold:8});
+}
+</script>
+<div class="mainbox">
+<div class="main">
+{~ui('loader')->js('@product.detail')}
+<a class="content-title" id="name-product-detail-block">
+<span>商家介绍</span>
+</a>
+<div id="product_detail_area">
+<h4>【商家介绍】</h4>
+<Script type="text/javascript">
+$("#t_detail_txt img").each(function(){
+if($(this).width() > $(this).parent().width()) {
+$(this).width("100%");
+}});
+$(function(){ 
+$('.deal_comment_img li').hover(function() {
+$(this).addClass('on');
+var wl = $(this).find('img').attr('width');
+if (wl < 190) {
+$(this).find('.in').css('left', '0')
+} else {
+$(this).find('.in').css('left', -wl / 4)
+}
+},
+function() {
+$(this).animate({
+height: "100px"
+},
+100).removeClass('on');
+$(this).find('.in').css('left', '0')
+});
+})
+</Script>
+<div id="product_detail_cnt" class="product_detail_cnt">{$seller['content']}</div>
+</div>
+<a class="content-title" id="name-comment-block">
+<span>用户评价（综合评分：{$commentdata['average']}分；共有评论：{$commentdata['count']}条）</span>
+</a>
+<div id="comment_area">
+<h4>【用户评价】</h4>
+<dl class="comment-txt">
+{loop $commentdata['comment'] $comment}
+<dd>
+<div class="comment-info">
+<ul class="comment-info__rating">
+<li style="z-index:0; display: list-item; width:{echo $comment['score'] * 20}%"></li>
+</ul>
+<span class="comment-info__user-time">
+<span class="name">{if $comment['anonymous']}{echo '匿名用户';}{else}{$comment['user_name']}{/if}</span>
+<span class="date">{echo date('Y-m-d H:i:s', $comment['timestamp_update'])}</span>
+</span>
+</div>
+<p>{$comment['content']}</p>
+{if $comment['img']}
+<ul class="deal_comment_img">
+<li>
+<div class="in">
+<img src="{echo imager($comment['img'], IMG_Original)}">
+</div>
+</li>
+</ul>
+{/if}
+{if $comment['reply']}
+<div class="replybg"><p class="reply">商家回复：{$comment['reply']}</p></div>
+{/if}
+</dd>
+{/loop}
+</dl>
+<div style=" padding:15px 15px 0 15px;" class="page product_list_pager">
+{~page_moyo()}
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="site-ms__right">
+<div class="t_area_out ">
+<h1 class="tth1">{$seller['sellername']}</h1>
+<div class="t_area_in">
+<ul style=" overflow:hidden;">
+<li class="tth2">
+<img class="lazy" src="{echo imager($seller['imgs'], IMG_Normal)}">
+<dl class="tth2-right">
+<dt>保证金额：&yen;{$seller['assure_money']}</dt>
+<dd>全部门店：{$seller['sub_sellercount']}家</dd>
+</dl>
+</li>
+<dl class="tth3">
+<dt>商家评分</dt>
+<dd><div id="name-comment" class="product-summary B">                              
+<em>{$commentdata['count']}</em>条评价
+<ul class="comment-info__rating">
+<li style="z-index:0; display: list-item; width:100%;"></li>
+</ul>                         
+<em>{$commentdata['average']}</em>分
+</div></dd>
+</dl>
+<dl class="tth3">
+<dt>商家信息：</dt>
+<dd>商家地址：{$seller['selleraddress']}</dd>
+<dd>联系电话：{$seller['sellerphone']}</dd>
+<dd>营业时间：{$seller[trade_time]}</dd>
+<dd class="tth3_dd">
+<div class="address-list">
+{eval $sellermap = explode(',', $seller[sellermap]);}
+{if $sellermap[0]!=''}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={~ini('baidu_map_ak.browser')}"></script>
+<script type="text/javascript">
+var map, marker;
+function map_initialize()
+{
+var location = new BMap.Point('{$sellermap[0]}', '{$sellermap[1]}');
+map = new BMap.Map("map_canvas");
+map.centerAndZoom(location, '{$sellermap[2]}');
+map.enableScrollWheelZoom(true);
+marker = new BMap.Marker(location);// 创建标注
+map.addOverlay(marker);             // 将标注添加到地图中
+}
+</script>
+<div class="left-content">
+<div id="map_canvas">
+<div style="padding:1em; color:gray;">正在载入...</div>
+</div>
+<a id="img1" class="img2"><div class="map_big">查看完整地图</div></a>
+</div>
+{/if}
+{if $sellermap[0]!=''}
+<script type="text/javascript">
+$(document).ready(function() {
+$("#img1").click(function() {
+window.open('http://api.map.baidu.com/marker?location={$sellermap[1]},{$sellermap[0]}&title={$seller[sellername]}&content=联系电话：{$seller[sellerphone]}&output=html');
+});
+<!--{if $sellermap[0]!=''}-->
+map_initialize();
+<!--{/if}-->
+});
+</script>
+{/if}
+</div>
+</dd>
+</dl>
+</ul>
+</div>
+</div>
+<div class="t_area_out">
+<h1 class="tth1">本店热销排行</h1>
+<div class="t_area_in">
+<ul class="product_list">
+<!--{loop $hot_product $hot_pro}-->
+<li>
+<p class="pl_img2"><a href="?view={$hot_pro['id']}"><img src="{echo imager($hot_pro['img'], IMG_Normal)}" width="175"></a></p>
+<p class="name2"><a href="?view={$hot_pro['id']}">{$hot_pro['flag']}</a></p>
+<div class="shop2">
+<div class="pr2">
+<font class="price">&yen;{$hot_pro['nowprice']}</font>
+<font class="markprice">&nbsp;市场店铺价：&yen;{$hot_pro['price']}</font>
+</div>
+<div style="clear:both;"></div>
+</div>
+</li>
+<!--{/loop}-->
+</ul>
+</div> 
+</div>
+</div>
+</div>
+</div>
+<!--{template footer}-->

@@ -1,0 +1,41 @@
+{if MEMBER_ROLE_TYPE=='seller'}
+<!--{template @m/header_seller}-->
+{else}
+<!--{template @m/header_my}-->
+{/if}
+<script language="javascript">
+function checkpwd(){
+if($('#truename').val()==''){
+alert('用户名不可以为空哦');
+return false;
+}	
+if($('#newpwd').val() != $('#confirmpwd').val()){
+alert('请检查密码是否一致');
+return false;
+}
+return true;
+}
+</script>
+<form method="post" action="?mod=me&code=doinfo" onsubmit="return checkpwd()">
+<div class="box-style"> 
+<h2><i class="am-icon-user"></i> 会员：{$user['name']}</h2>
+<ul class="com_adr">
+<input type="hidden" name="username" readonly class="inputsearch" id="username" value="{$user['name']}" size="30">
+<li><span class="info">
+{if ini('member.contact.keep')}
+邮箱地址： {$user['email']}
+<input type="hidden" name="email" value="{$user['email']}" />
+{else}
+<input type="text" name="email" value="{$user['email']}" placeholder="请输入邮箱" class="inputsearch"  size="30">
+{/if}
+</span></li>
+<li><span class="info"><input type="password" placeholder="新密码，如不修改请留空。" name="newpwd" id="newpwd" class="inputsearch"  size="30"></span></li>
+<li><span class="info"><input type="password" placeholder="确认密码" name="confirmpwd" id="confirmpwd" class="inputsearch"  size="30"></span></li>
+<li><span class="info"><input type="text"  placeholder="填写QQ号码" name="qq" value="{$user['qq']}" class="inputsearch"  size="30"></span></li>
+<li><span class="info"><input type="text" name="phone" id="phone" value="{$user_phone}" class="inputsearch" size="30" readonly disabled="true"></span></li>
+<li><span class="info">{if $user[phone_validate]}<a href="?mod=me&code=phone&act=rebind">您的手机号已经通过验证，点此进行更换</a>{else}<a href="index.php?mod=me&code=phone&act=bind">您的手机号还未通过验证，点此进行验证</a>{/if}</span></li>
+<li><span class="info"><input type="submit" class="search-submit formbutton"  value="提交修改"></span></li>
+</ul>
+</div>
+</form>
+<!--{template @m/footer}-->

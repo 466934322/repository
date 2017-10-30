@@ -1,0 +1,51 @@
+<!--{template @m/header_back}-->
+<style>
+.commit_btn {
+background: #f90;
+color: #fff;
+text-align: center;
+line-height: 200%;
+font-size: 1.2em;
+display: block;
+margin: 20px auto;
+border-radius: 2px;
+border: none;
+width: 100%;
+}
+.am-list p{ margin:1em 0;}
+.am-list p.reply{ color:#5eb95e;}
+</style>
+<div class="box-style">
+<form action="{$action}" enctype="multipart/form-data" method="post" class="am-form">
+<div class="am-form-group">
+<label>
+{if MEMBER_ID<=0}你还没有登录，请 <a href="?mod=account&code=register">注册</a> 或 <a href="?mod=account&code=login">登录</a>
+{else}{MEMBER_NAME}:欢迎您发表提问！
+{/if}
+</label>
+<textarea name="question" rows="3" ></textarea>
+<input type="submit" class="commit_btn" name="commit" value="提交">
+</div>
+</form>
+</div>
+<div class="box-style">
+<h3>在线问答</h3>
+<ul class="am-list am-list-static">
+{eval $__array=logic('misc')->WapAskList();}
+{loop $__array $i $value}
+<li>
+<div>
+<a name="id{$value['id']}" id="id{$value['id']}"></a>
+<p class="user">
+<strong>{$value['username']}</strong>
+<span>{eval echo date('Y-m-d',$value['time'])}</span>
+</p>
+<p class="text">{$value['content']}</p>
+<p class="reply"><strong>回复：</strong>{$value['reply']}</p>
+</div>
+</li>
+{/loop}
+</ul>
+{~page_moyo()}
+</div>
+<!--{template @m/footer}-->

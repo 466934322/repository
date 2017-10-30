@@ -1,0 +1,40 @@
+<!--{template @m/header_my}-->
+{if empty($yungou_list)}
+<div class="box-style">
+<ul class="com_adr">
+<li><span class="info">暂无相关记录</span></li>
+</li>
+</ul>
+</div>
+{/if}
+{loop $yungou_list $value}
+<div class="box-style">
+<h2><i class="am-icon-angle-double-right"></i> <a href="m.php?view={$value[id]}">{$value['name']}</a></h2>
+<ul class="com_adr">
+<li><span class="info"><a href="m.php?view={$value[id]}"><img src="{echo imager($value[img], IMG_Normal)}" /></a></span></li>
+<li><span class="info">已参与{$value['totalSalesNum']}人次</span> </li>
+{if $value['remainSalesNum']>0}<li><span class="info">剩余{$value['remainSalesNum']}人次</span> </li>{/if}
+<li><span class="info">{if $value['status'] == YUNGOU_STA_Normal}
+进行中
+{elseif $value['status'] == YUNGOU_STA_Readied}
+已结束，等待揭晓
+{elseif $value['status'] == YUNGOU_STA_Published}
+<a href="m.php?mod=yungou&code=result&pid={$value['id']}">已揭晓，云购成功；点此查看结果</a>
+{/if}</span></li>
+</ul>
+</div>
+{/loop}
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.goTop').click(function(e){
+e.stopPropagation();
+$('html, body').animate({scrollTop: 0},300);
+backTop();
+return false;
+});
+});
+</script>
+<!--{template @m/footer}-->

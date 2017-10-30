@@ -1,0 +1,7 @@
+<!--{template @admin/header}--> <form method="post" action="{$action}"> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="2">商家积分购买设置</td> </tr> </thead> <tbody> <tr> <td width="40%">是否开启商家积分购买功能？</td> <td> <label><input type="radio" name="conf[open_credit_buy]" value="1" {if $conf[open_credit_buy]} checked="true" {/if} />开启</label> &nbsp;
+<label><input type="radio" name="conf[open_credit_buy]" value="0" {if !$conf[open_credit_buy]} checked="true" {/if} />关闭</label> &nbsp;
+<br /> 关闭后，商家不支持积分购买功能
+</td> </tr> <tr> <td width="40%">设置积分和购买金钱的关系</td> <td>
+购买1积分需要支付 : <input type="text" name="conf[buy_money]" size="6" value="{$conf['buy_money']}"> 元 &nbsp;&nbsp;&nbsp;<font color="red">留空和设置0均表示不启用积分购买功能</font> <br /> 设置0.1元,则商家购买100积分,需要在线支付 10 元RMB
+</td> </tr> </tbody> </table> <br /> <div class="submitArea"> <input id="submitButton" type="submit" class="button back2" value="保存" /><br /> </div> </form>
+{template @admin/footer}

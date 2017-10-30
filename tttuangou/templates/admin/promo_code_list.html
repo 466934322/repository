@@ -1,0 +1,8 @@
+<!--{template @admin/header}--> <div class="header"> <a href="admin.php?mod=promo_code">优惠码列表</a> <font id="recharge_order_clean"></font> </div> <input type="button" value="生成1个优惠码" onclick="if(confirm('是否生成1个优惠码？')){window.location='admin.php?mod=promo_code&code=generate';}" class="btn btn-primary btn-small"> <form method="get" action="admin.php"> <input type="hidden" name="mod" value="promo_code" /> <div class="isearcher"> <p class="searcher_li"> <select class="isearcher_filter_list" name="sname"> <option value="code"{if 'code'==$sname} selected="selected" {/if}>优惠码</option> </select> <input type="text" name="svalue" value="{$svalue}" class="isearcher_input_words"> <input type="submit" value="搜索" class="btn btn-primary btn-small"> </p> </div> </form> <table id="orderTable" cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td width="10%">ID</td> <td width="20%">优惠码</td> <td width="40%">名称</td> <td>管理</td> </tr> </thead> <tbody> <!--{loop $datas $one}--> <tr id="ro_on_{$one['id']}"> <td>
+{$one['id']}
+</td> <td>
+{$one['code']}
+</td> <td>
+{$one['name']}
+</td> <td> <a href="admin.php?mod=promo_code&code=edit&id={$one['id']}">编辑</a> <a href="admin.php?mod=promo_code&code=delete&id={$one['id']}" onclick="return confirm('删除后的内容不可恢复，确认删除？');">删除</a> </td> </tr> <!--{/loop}--> </tbody> <tfoot> <tr> <td colspan="4">{~page_moyo()}</td> </tr> </tfoot> </table>
+{template @admin/footer}

@@ -1,0 +1,71 @@
+<!--{template @m/header_my}-->
+</style>
+<script type="text/javascript">
+$(document).ready(function()  
+{  
+$("#bodyheight").height($(document).height() - 91);
+} )
+</script>
+{~ui('loader')->js('@account.register')}
+{~ui('loader')->js('@phone.vfcode')}
+<div id="bodyheight">
+<div class="mainbox">
+<form method="post" action="{$action}">
+{if 'rebind' == $act}
+<div class="field">
+<input type="text" name="mail_vfcode" id="mail_vfcode" value="" class="inputsearch" placeholder="请输旧手机号码" >
+<font id="mail_vfcode_result"></font></div>
+<div class="field">
+<input type="text" name="phone" id="phone" value="" class="inputsearch" placeholder="请输要绑定的手机号码">
+<font id="phone_result"></font></div>
+{else}
+<div class="field">
+<input type="text" name="phone" id="phone" value="{$user[phone]}" class="inputsearch" placeholder="请输要绑定的手机号码">
+<font id="phone_result"></font></div>
+{/if}
+<div class="field">
+<input type="button" id="m-lbtn" value="免费获取短信验证码" class="search-submit formbutton" onclick="J_vsnd(this, 1)" />
+<script>
+var countdown=60; 
+var t = '';                                	 
+function J_vsnd(val, send) { 
+if(1 == send) {
+var phone = $('#phone').val();
+if (phone == '') {
+reg_alert('phone', '请输入手机号码！');
+return;
+}
+if (phone.length != 11){
+reg_alert('phone', '请输入正确的手机号码！');
+return;
+}
+if(false == vfcode_send()) {
+return ;
+}
+}
+if (countdown == 0) {
+val.removeAttribute("disabled");	
+val.value="免费获取短信验证码"; 
+countdown = 60;  
+clearTimeout(t);
+} else { 
+val.setAttribute("disabled", true); 
+val.value="重新发送(" + countdown + ")"; 
+countdown--; 
+t = setTimeout(function() { 
+J_vsnd(val, 0) 
+},1000)
+} 
+};
+</script>
+</div>
+<div class="field">
+<input type="text" name="vfcode" id="vfcode"  class="inputsearch" value="" placeholder="请查看手机短信输入短信验证码！">
+<font id="vfcode_result"></font></div>
+<div id="l_act" class="field">
+<input type="submit" class="search-submit formbutton" value="绑定手机号码" >
+</div>
+</form>
+</div>
+</div>
+<!--{template @m/footer}-->

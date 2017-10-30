@@ -1,0 +1,43 @@
+<html> <head> <meta http-equiv="Content-Type" content="text/html; charset={ini:settings.charset}" /> <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={~ini('baidu_map_ak.browser')}"></script> <title>百度地图API接口</title> </head> <body onLoad="initialize()" style="margin: 0;padding: 0;"> <div id="map_canvas" style="width: 600px; height: 500px"></div> <script type="text/javascript">
+var map, marker;
+function initialize() {
+var addr0 = "{$city} {$addr}";
+var city0 = "{$city}";
+if( city0 != ""  && '' != addr0 && '请选择城市' != city0){
+// 创建地址解析器实例
+var myGeo = new BMap.Geocoder();
+// 将地址解析结果显示在地图上,并调整地图视野
+myGeo.getPoint(addr0, function(point){
+if (point) {
+map_init(point.lng, point.lat, 16);
+}
+}, city0);
+}else{
+map_init('{$x}', '{$y}', '{$z}');
+}
+}
+function map_init(map_x, map_y, map_z){
+var myPoint = new BMap.Point(map_x, map_y);
+map = new BMap.Map("map_canvas");
+map.centerAndZoom(myPoint, map_z);
+map.addControl(new BMap.NavigationControl());
+map.enableScrollWheelZoom(true);
+map.addEventListener("click", xyzchanged);
+marker = new BMap.Marker(myPoint);// 创建标注
+map.addOverlay(marker);             // 将标注添加到地图中
+marker.enableDragging();
+marker.addEventListener("dragend", xyzchanged);
+placeMarker(myPoint);
+}
+function xyzchanged(e)
+{
+placeMarker(e.point);
+var xyz = e.point.lng+","+e.point.lat+","+map.getZoom();
+//alert(xyz);
+window.parent.getxy(xyz);
+}
+function placeMarker(location) {
+marker.setPosition(location);
+map.setCenter(location);
+}
+</script> </body> </html>

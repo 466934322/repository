@@ -1,0 +1,10 @@
+<!--{template @wap/header}-->
+<div class="button">
+{if MEMBER_ID}	
+<div class="well">欢迎你，{MEMBER_NAME}！</div><a class="tui" href="{ini:settings.site_url}/?mod=wap&code=account&op=logout">退出</a>
+{else}
+<a class="login" href="{ini:settings.site_url}/?mod=wap&code=account&op=login">登录</a>
+{/if}
+<a class="yz" href="?mod=wap&code=coupon&op=input">商家验证{TUANGOU_STR}券</a>
+</div>
+<!--{template @wap/footer}-->

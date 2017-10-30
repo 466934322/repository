@@ -1,0 +1,25 @@
+<!--{template @m/header_default}-->
+<div class="common_list" style="margin:0; background:#fff;">
+<ul class="common-item">
+{loop $sellers $seller}
+<li><a href="{if $seller['pay_into']>=0}?mod=seller&code=pay_bill&sid={$seller['id']}{/if}">
+<div class="pic">
+<div class="imgs_displayer">
+<div id="imageslider">
+<img class="lazy" src="{echo imager({$seller['imgs']}, IMG_Normal)}" data-original="http://dev.tttuangou.net/static/images/imager.404.jpg" style="display: inline;">
+</div>
+</div></div>
+<div class="item-name">
+<h2> {$seller['sellername']} </h2>
+<h3> {$seller['catename']} </h3>
+<h4> 人均&yen;{$seller['price_avg']} </h4>
+{if $seller['pay_into']>=0}
+<input class="landb-now my-check " type="button" value="我要买单">
+{/if}
+</div>
+</a>
+</li>
+{/loop}
+</ul>
+</div>
+<!--{template @m/footer}-->

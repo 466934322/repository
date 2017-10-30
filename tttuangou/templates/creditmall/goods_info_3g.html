@@ -1,0 +1,36 @@
+<!--{template @creditmall/header_3g}-->
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default">
+<h2 class="am-titlebar-title">{$one[name]}</h2>
+</div>
+<figure data-am-widget="figure" class="am am-figure am-figure-default "
+data-am-figure="{  pureview: 'auto' }">
+<img src="{$one[image]}" alt="{$one[name]}" />
+</figure>
+<div class="am-g am-g-fixed">
+<div class="am-u-sm-6">所需积分：<em class="price">{$one[price]}</em></div>
+<div class="am-u-sm-6">
+{if $one[expire] < time()}
+<button type="button" class="am-btn am-btn-warning am-btn-sm am-fr">已下架</button>
+{elseif $one[total] < 1} 
+<button type="button" class="am-btn am-btn-warning am-btn-sm am-fr">已兑完</button>
+{elseif $this->user[scores]<=0 || $this->user[scores]<$one[price]} 
+<button type="button" class="am-btn am-btn-warning am-btn-sm am-fr">您的积分不足</button>
+{else}
+<button type="button" class="am-btn am-btn-warning am-btn-sm am-fr" onclick="window.location.href='index.php?mod=creditmall&code=order&op=create&id={$one[id]}&3g=1'; return false;">立即兑换</button>
+{/if}
+</div>
+</div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+<div class="am-g am-g-fixed am-gallery-default">
+<div class="am-u-sm-6 am-gallery-desc">有效期：{eval echo date('Y-m-d', $one[expire])}</div>
+<div class="am-u-sm-6 am-gallery-desc am-pagination-right">库存：{$one[total]}</div>
+</div>
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default">
+<h2 class="am-titlebar-title">详细介绍</h2>
+</div>
+<article data-am-widget="paragraph" class="am-paragraph am-paragraph-default"
+data-am-paragraph="{ tableScrollable: true, pureview: true }">
+<p>{eval echo nl2br($one[desc])}</p>
+<img src="{$one[image]}" />
+</article>
+<!--{template @creditmall/footer_3g}-->

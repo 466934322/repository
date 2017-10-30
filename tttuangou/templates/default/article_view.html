@@ -1,0 +1,43 @@
+<!--{template header}-->
+<div class="site-ms__left">
+<div class="t_area_out">
+<div class="t_area_in">
+<div class="cur_top">
+<div class="wenzhang">文章</div>
+<div class="article_listl"><a href="?mod=article">返回文章列表</a></div>
+</div>
+<div class="cur">
+<div class="cur_title">{$article['title']}</div>
+<div class="clear" style="clear:both;"></div>
+<div class="article_info">
+<div class="article_au">来自：{$article['writer']}</div>
+<div class="article_ti">{echo date('Y-m-d H:i:s', $article['timestamp_create'])}</div>
+<div class="clear" style="clear:both;"></div>
+</div>
+<div class="sect" style="margin:0; padding:0; line-height:25px;">
+<ul class="article_content">
+<li>
+{$article['content']}
+</li>
+<li style=" margin-top:10px; padding-top:10px; border-top:2px dashed #eee; float:left; width:100%;">
+<b style="float:left;">分享到：</b>
+<div class="bshare-custom icon-medium" style="display:inline;">
+<a title="分享到微信" class="bshare-weixin"></a>
+<a title="分享到QQ好友" class="bshare-qqim"></a>
+<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+<a title="分享到QQ空间" class="bshare-qzone"></a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>  
+<div class="site-ms__right">
+{~ui('widget')->load()}
+</div>
+</div>
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=3&amp;lang=zh"> </script>  
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+<!--{template footer}-->

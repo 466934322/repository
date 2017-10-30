@@ -1,0 +1,32 @@
+<!--{template @m/header_back}-->
+{~ui('loader')->js('@jquery.hook')}
+<div class="box-style">
+<h2><i class="am-icon-list-ol"></i> 订单编号： {$order['orderid']}</h2>
+<ul class="com_adr">
+{if $order['sid']}
+<li><span class="info">商家名称： {$seller['sellername']}</span></li>
+{else}
+<li><span class="info">商品名称： {$order['product']['flag']}</span></li>
+{/if}
+<li><span class="info">应付总额： {$order['paymoney']}</span></li>
+<li><span class="info">支付方式： {$pay['name']}</span></li>
+{$payment_linker}
+</ul>
+</div>
+<div class="box-style">
+<a class="inlink" href="?mod=buy&code=order&id={$order['orderid']}"><h2><i class="am-icon-credit-card"></i> 重新选择支付方式</h2></a>
+</div> 
+<style>
+input[type=submit]{ 
+width: 100%;
+margin: 0;
+border: none;
+background: #fa6400;
+color: white;
+font-size: 18px;
+height: 40px;border-radius: 2px;
+display:block;
+margin-bottom:10px;
+}
+</style>
+<!--{template @m/footer}-->

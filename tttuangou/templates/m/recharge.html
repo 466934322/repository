@@ -1,0 +1,65 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="{ini:settings.charset}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>在线充值 - {ini:settings.site_name}</title>
+<meta name="keywords" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_keywords')}" />
+<meta name="description" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_description')}{if $__p = productCurrentView()},{echo strip_tags($__p['intro'])}{/if}" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--{~ui('loader')->css('@amazeui.min')}-->
+<!--{~ui('loader')->css('#m/styles/app')}-->
+<!--{~ui('loader')->js('@jquery')}-->
+<!--{~ui('loader')->js('@common')}-->
+<!--{~ui('loader')->js('@amazeui.min')}-->
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+<a href="javascript:history.go(-1);" class="am-icon-chevron-left"> </a>在线冲值</h1>
+</header>
+<script type="text/javascript">
+function checkRecharge()
+{
+var money = Math.round($('#recharge_money').val()*100)/100;
+if (isNaN(money))
+{
+foundError('充值金额必须是一个有效数字！');
+return false;
+}
+if (money <= 0)
+{
+foundError('充值金额必须大于0！');
+return false;
+}
+return true;
+}
+function foundError(msg)
+{
+$('#error_msg').html(msg).css('color', '#e53333');
+setTimeout(function(){$('#error_msg').css('color', '')}, 2000);
+}
+$(document).ready(function() {$("#recharge_money").focus();});
+</script>
+<div class="box-style">
+<h2><i class="am-icon-credit-card"></i> 网银在线充值</h2>
+<ul class="com_adr">
+<form action="?mod=recharge&code=order&op=save" method="post" onsubmit="return checkRecharge();" >
+<!--{if $upcfg['percentage'] > 0}-->
+<li><span class="info">温馨提示：充值满100元就送{$upcfg['percentage']}元！</span></li>
+<!--{/if}-->
+<li><span class="info"><input id="recharge_money" name="money" type="text" class="inputsearch" placeholder="请输入充值金额"/></span></li>
+<li><span class="info"><input type="submit" class="search-submit formbutton"  value="下一步" /></span></li>
+</form>
+</ul>
+</div>
+<div class="box-style">
+<a class="inlink" href="?mod=recharge&code=card&op=redirect"><h2><i class="am-icon-money"></i> 使用充值卡充值</h2></a>
+</div> 
+<!--{if $this->Config[site_shopurl]}-->
+<div class="box-style">
+<a class="inlink" href="{eval echo $this->Config[site_shopurl]; }"><h2><i class="am-icon-cart-arrow-down"></i> 去淘宝购买充值卡</h2></a>
+</div> 
+<!--{/if}-->
+<!--{template @m/footer}-->

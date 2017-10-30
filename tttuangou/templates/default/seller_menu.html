@@ -1,0 +1,58 @@
+<div class="t_area_out ">
+<h1>商家账户</h1>
+<div class="t_area_in">
+<div style="color: #666;font-size: 14px;">{$seller_name}</div>
+<a href="
+{~ini('settings.site_url')}/index.php?mod=seller&code=order&op=list" title="各产品单价*卖出的产品数量的总和">累计销售额： <font class="R12">&yen;{$money}</font></a><br>
+<a href="
+{~ini('settings.site_url')}/index.php?mod=fund&code=money" title="用户实际确认消费过的总金额-“给网站的分成后”（如果有的话）的金额">总结算金额： <font class="R12">&yen;{$total_money}</font></a><br>
+<a href="
+{~ini('settings.site_url')}/index.php?mod=fund" title="总结算金额-已结算金额">可结算金额： <font class="R12">&yen;{$account_money}</font></a><br>
+<a href="
+{~ini('settings.site_url')}/index.php?mod=fund&code=order" title="该笔资金由于被申请结算，所以被暂时冻结，耐心等待管理员处理即可">处理中金额： <font class="B14">&yen;{$forbid_money}</font></a><br>
+<span style="font-size:12px;color:#333333" title="该笔资金为商家提交的保证金">账户保证金： <font class="R12"  >&yen;{$assure_money}</font></span><br>
+{if false != ($credit_conf = ini('credit')) && $credit_conf[open_credit_buy] == 1 && $credit_conf[buy_money] > 0}
+<a href="index.php?mod=credit"><font color="red">购买积分</font></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="?mod=me&code=credit" style="color: #666;">积分明细</a>
+{/if}
+</div>
+</div>
+<div class="t_area_out ">
+{eval $mecss[$_GET['mod'].$_GET['code']] = ' class="snu_cur"'}
+<h1>我的产品</h1>
+<div class="t_area_in side_nav_ul">
+<li{$mecss['sellerproduct']}><a href="
+{~ini('settings.site_url')}/index.php?mod=seller&code=product&op=list" title="按商品查看总体销售情况">产品列表</a></li>
+<li{$mecss['sellerorder']}><a href="
+{~ini('settings.site_url')}/index.php?mod=seller&code=order&op=list" title="按时间查看订单支付情况">订单列表</a></li>
+<li{$mecss['sellerticket']}><a href="
+{~ini('settings.site_url')}/index.php?mod=seller&code=ticket&op=list" title="查看{TUANGOU_STR}券使用情况">{TUANGOU_STR}券列表</a></li>
+<li{$mecss['sellerdelivery']}><a href="
+{~ini('settings.site_url')}/index.php?mod=seller&code=delivery&op=list" title="查看实物发货情况">发货清单</a></li>
+<li{$mecss['fund']}><a href="
+{~ini('settings.site_url')}/index.php?mod=fund" title="账号有一定的可结算金额后可申请结算">申请结算</a>（<b {$mecss['fundorder']}><a href="
+{~ini('settings.site_url')}/index.php?mod=fund&code=order" title="查看已提交的结算情况">结算记录</a></b>）</li>
+<li{$mecss['fundmoney']}><a href="
+{~ini('settings.site_url')}/index.php?mod=fund&code=money" title="查看每一笔订单相关的结算">结算金额明细</a></li>
+<li{$mecss['listckticket']}><a href="
+{~ini('settings.site_url')}/index.php?mod=list&code=ckticket" title="对到店消费的{TUANGOU_STR}券进行验证">{TUANGOU_STR}券验证</a></li>
+<li{$mecss['sellercomment']}><a href="
+{~ini('settings.site_url')}/index.php?mod=seller&code=comment&op=list" title="我对已购买商品的评价">我的评价</a></li>
+</div>
+</div>
+<style>
+.site-ms__left{width:980px;}.t_area_out{margin-bottom: 0;border:none;}
+</style>
+<div class="t_area_out ">
+<h1>常见问题</h1>
+<div class="t_area_in">
+<h3 class="first">什么是累计销售额？</h3>
+<p>是指该商家所有卖出产品的总计销售额=各产品单价*卖出的产品数量的总和；注意因为用户购买了可能没去消费，所以此值>=用户实际确认消费过的金额>=总结算金额。</p>
+<h3 class="first">什么是总结算金额？</h3>
+<p>即商家实际的销售收入=用户实际确认消费过的总金额-“给网站的分成后”（如果有的话）的金额。</p>
+<h3 class="first">什么是可结算金额？</h3>
+<p>即商家剩余的待结算的金额=总结算金额-已结算金额。</p>
+<h3 class="first">什么是处理中金额？</h3>
+<p>已经申请了结算，但没有结算完毕的资金。</p>
+</div>
+</div>

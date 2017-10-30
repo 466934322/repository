@@ -1,0 +1,51 @@
+{if $ord_cuts[product][promo_cut]>0}
+{eval $promoCodeInfo=logic('promo_code')->getInfo(array('code'=>$ord_cuts['promo_code']));}
+<div class="pro-phone">
+<p class="title">优惠码购买每份立减&yen;{$ord_cuts[product][promo_cut]}元</p>
+<table id="cut_table" class="price_calc" width="100%">
+<!--{if !$promoCodeInfo}-->
+<tr>
+<td class="left" width="70%"> 
+<span id="promo_cut_code_displayer">
+<input type="text" id="promo_cut_code" value="" placeholder="请输入优惠码" /> 
+<input type="button" id="promo_cut_btn" value="确定" />
+</span> 
+<span id="promo_cut_msg"></span>
+</td>
+<td class="right" style="text-align: right"> <span id="price_promo_cut"></span> </td>
+</tr>
+<!--{else}-->
+<tr>
+<td class="left" width="70%"> 
+<span id="promo_cut_code_displayer"> {$promoCodeInfo[code]} </span> 
+<span id="promo_cut_msg"></span>
+</td>
+<td class="right" style="text-align: right"> <span id="price_promo_cut"> - &yen;{echo ($ord_cuts[promo_cut]>0?$ord_cuts[promo_cut]:($ord_cuts[product][promo_cut]*$ord_cuts[productnum]))} </span> </td>	
+</tr>
+<!--{/if}-->
+</table>
+</div>
+<script type="text/javascript">
+function change_of_promo_cut_code() {
+$.post('?mod=buy&code=promo_cut_save', {
+orderid: '{$ord_cuts[orderid]}',
+promo_code: $('#promo_cut_code').val()
+}, function(saveRet) {
+$('#promo_cut_msg').html('');
+if(saveRet.error) {
+$('#price_total').html($('#totalmoney_1').val());
+$('#promo_cut_msg').html(saveRet.result);
+} else {			
+var promo_cut_price = '{echo $ord_cuts[product][promo_cut] * $ord_cuts[productnum]}';
+var price_total = $('#price_total').html();
+$('#promo_cut_code_displayer').html($('#promo_cut_code').val());
+$('#price_promo_cut').html(' - &yen;' + promo_cut_price);
+$('#price_total').html(parseFloat(price_total) - parseFloat(promo_cut_price));
+}
+}, 'json');
+}
+$(document).ready(function() {
+$('#promo_cut_btn').bind('click', function(){change_of_promo_cut_code()});
+});
+</script>
+{/if}

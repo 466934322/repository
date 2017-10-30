@@ -1,0 +1,52 @@
+/* 经典模板样式 */
+
+.site-fs {
+	display: block;
+	clear: both;
+	background: #fff;
+	border: 1px solid #ededed;
+	border-bottom: 1px solid #ccc;
+	font-size: 12px;
+	margin-bottom: 15px;
+	width: auto;
+	margin-left: 0;
+	padding: 0 17px;
+}
+.deal-tile__cover {
+	float: right;
+}
+.t_area_out1 {
+	float: none;
+	margin-bottom: 15px;
+}
+.deal-tile__detail2 {
+	float: left;
+	text-align: center;
+	border: 1px solid #eee;
+	background-color: #f9f9f9;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	width: 230px;
+	min-height: 350px;
+	padding: 0 15px;
+	height: auto;
+}
+.datail-shop {
+	margin-right: 70px;
+}
+.wx_buy_wrap {
+	position: relative;
+	margin: 0 auto 20px;
+	display:block;
+}
+.wx_buy_wrap_t {
+	margin: 0 auto;
+}
+.wx_buy_wrap_c {
+	z-index: 1;
+	left: 33px;
+	position: absolute;
+}
+.site-ms__left p.deal-qrcode-content-text {
+	margin-left: 10px;
+}

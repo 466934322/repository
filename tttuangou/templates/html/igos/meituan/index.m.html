@@ -1,0 +1,28 @@
+
+<div class="tt_m s">
+<ul class="common-item">
+{loop $product $item}
+<li class="common-data"> <a href="?view={$item['id']}">
+<div class="pic">{eval ui('iimager')->single($item['id'], $item['imgs'][0])}</div>
+<div class="item-name">
+<h2> {$item['flag']} </h2>
+<h3> {$item['name']} </h3>
+<div class="item-edit">
+<p class="price"><b>&yen;{$item['nowprice']}</b><del>&yen;{$item['price']}</del></p>
+{if $item['sells_real'] < $item['succ_buyers']}
+<p class="num"><span></span>{$item['succ_buyers']}</p>
+{else}
+<p class="num"><span></span>{$item['sells_real']}</p>
+{/if} </div>
+<div class="dl-new"> 
+{if $item['linkid']}<span class="dl-mark">多种套餐</span> {/if} 
+{if $item['promo_cut']>0}  <span class="dl-mark">优惠购</span> {/if} 
+{if $item[score]>0} <span class="dl-mark">获{$item[score]}积分</span> {/if}
+</div>
+</div>
+</a> </li>
+{/loop}
+</ul>
+</div>
+{eval $__pageurl = '?'.http_build_query($_GET).'&page=1';}
+<div id="tg_pageinator" class="pg-next" style="display:none;"><a href="{$__pageurl}"></a></div>

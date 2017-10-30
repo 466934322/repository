@@ -1,0 +1,7 @@
+<!--{template @admin/header}--> <form method="post" action="{$action}"> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="2">商家积分兑换设置</td> </tr> </thead> <tbody> <tr> <td width="40%">是否开启积分转赠功能？</td> <td> <label><input type="radio" name="conf[open_credit_transfer]" value="1" {if $conf[open_credit_transfer]} checked="true" {/if} />开启</label> &nbsp;
+<label><input type="radio" name="conf[open_credit_transfer]" value="0" {if !$conf[open_credit_transfer]} checked="true" {/if} />关闭</label> &nbsp;
+<br /> 关闭后，商家不支持积分转赠功能
+</td> </tr> <tr> <td width="40%">设置用户与用户间转赠积分手续比率</td> <td> <input type="text" name="conf[user_transfer]" size="6" value="{$conf['user_transfer']}"> % &nbsp;&nbsp;&nbsp;<font color="red">请设置1-100之间的整数,留空和设置0均表示不收转赠手续费</font> <br /> 例如 : 设置5%,则A用户转赠100积分给B用户,B用户只能得到95积分
+</td> </tr> <tr> <td width="40%">设置商家与用户间转赠积分手续比率</td> <td> <input type="text" name="conf[seller_transfer]" size="6" value="{$conf['seller_transfer']}"> % &nbsp;&nbsp;&nbsp;<font color="red">请设置1-100之间的整数,留空和设置0均表示不收转赠手续费</font> <br /> 例如 : 设置5%,则C商家转赠100积分给B用户,B用户只能得到95积分
+</td> </tr> </tbody> </table> <br /> <div class="submitArea"> <input id="submitButton" type="submit" class="button back2" value="保存" /><br /> </div> </form>
+{template @admin/footer}

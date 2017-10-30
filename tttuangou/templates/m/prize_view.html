@@ -1,0 +1,39 @@
+<!--{template @m/header_home}-->
+<div class="mymain">
+<div class="myflag">活动名称： {$product['flag']}</div>
+{if !$product['overtime'] || $product['time_remain'] > 0}
+{if $prizes}
+<div class="juan">温馨提示： 您已成功抽奖，请关注开奖时间！</div>
+{else}
+<div class="juan"><a href="?view={$product['id']}" style="color:#E80000">点击进入！马上参加抽奖活动！</a></div>
+{/if}
+{else}
+<div class="juan">温馨提示： 本次抽奖活动已结束！</div>
+{eval $pzwin = logic('prize')->PrizeWIN($product['id'])}
+{if $pzwin}
+<div class="juan">本次中奖号： {$pzwin['number']}</div>
+{if $prizes && $pzwin['uid'] == MEMBER_ID}
+<div class="juan"><font color="#E80000">恭喜您中奖啦！！</font></div>
+{/if}
+{else}
+<div class="juan"><font color="#E80000">未到开奖时间，请密切关注！{if $prizes}或许中奖的就是您{/if}！</font></div>
+{/if}
+{/if}
+</div>   
+<div class="mymain">  
+{if $prizes}
+<div class="myflag">我的抽奖号:</div>
+{loop $prizes $i $ticket}
+<div class="juan">
+<div>抽奖号码： {$ticket['number']}</div>
+</div>
+{/loop}  
+{/if}
+{if $prizes}
+<div class="myflag"><font color="#E80000">中奖攻略： 邀请好友参与，提高中奖几率！</font></div>
+<div class="juan" style="height:auto;">邀请好友扫描二维码参与抽奖，您将获得多次抽奖机会，邀请的人数越多，抽奖机会越多，多人共同参与，中奖几率翻倍增长！</div>
+<div class="juan" style="height:auto; text-align:center;"><img src="
+{~driver('qrcode')->invite()}" width="70%" height="auto" /></div>
+{/if}
+</div>
+<!--{template @m/footer}-->

@@ -1,0 +1,54 @@
+<!--{template header_seller_manage}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<div class="am-list-news-bd">
+<ul class="am-list">  
+<div class="am-form-group">
+<label>结算记录号：</label>
+<p class="tg_10">{$order['orderid']}</p>
+</div>
+<div class="am-form-group">
+<label>结算金额：</label>
+<p class="tg_10">{$order['money']}</p>
+</div>
+<div class="am-form-group">
+<label>结算方式：</label>
+<p class="tg_10">
+{if $order['paytype'] =='money'}
+上门提现<br/>
+{elseif $order['paytype'] =='bank'}
+银行转帐[{$order['bankname']}]
+[{$order['bankusername']}]{$order['bankcard']}<br/>
+{elseif $order['paytype'] =='alipay'}
+支付宝[{$order['bankusername']}]{$order['alipay']}<br/>
+{/if}
+</p>
+</div>
+<div class="am-form-group">
+<label>受理时间：</label>
+<p class="tg_10">{echo date('Y-m-d H:i:s', $order['paytime'])}</p>
+</div>
+<div class="am-form-group">
+<label>结算类型：</label>
+<p class="tg_10">{if $order['from']=='admin'}后台直结{else}前台申请{/if}</p>
+</div>
+<div class="am-form-group">
+<label>结算状态：</label>
+<p class="tg_10">{eval $log=logic('fund')->get_last_log($order['orderid']);}
+{if $order['status']=='no'}
+<a title="{$log[info]}" href="?mod=seller&code=fund_del&id={$order['orderid']}">取消结算</a>
+{elseif $order['status']=='yes'}
+<font title="{$log[info]}" color="green">结算成功</font>
+{elseif $order['status']=='doing'}
+正在处理
+{elseif $order['status']=='error'}
+<font title="{$log[info]}" color="red">结算失败</font>
+{/if}</p>
+</div>
+<div class="am-form-group">
+<label>备注：</label>
+<p class="tg_10">{eval echo($log[info] && '管理员后台操作'!=$log[info] ? $log[info] : ' - ');}</p>
+</div>
+</ul>
+</div>
+</div>
+<!--{template footer_seller_manage}-->

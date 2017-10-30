@@ -1,0 +1,56 @@
+<!--{template @creditmall/header_3g}-->
+<div class="nav-bar">
+<ul class="nav">
+<li class="dropdown-toggle" style="width:50%" onclick="document.getElementById('catalog').style.display='block'">
+<span>{if $category}{$cate['name']}{else}全部{/if}</span> <b class="caret"></b> </li>
+<div id="catalog" onclick="document.getElementById('catalog').style.display='';">
+<header data-am-widget="header" class="am-header am-header-default am-no-layout"> <a href="javascript:history.go(-1);" class="new-a-back ui-link">返回 </a>
+<h3>全部分类</h3>
+</header>
+<ul class="scity">
+<li><span><a href="?mod=creditmall&code=goods&op=list&3g=1">全部</a></span></li>
+{loop $catelog $cate}
+<li><span><a href="?mod=creditmall&code=goods&op=list&3g=1&cate={$cate['id']}">{$cate['name']}</a></span></li>
+{/loop}
+</ul>
+</div>
+<li class="dropdown-toggle" style="width:50%" onclick="document.getElementById('homesort').style.display='block'">
+<span>{if $sort_type}{$sort_type}{else}默认{/if}</span> <b class="caret"></b> </li>
+<div id="homesort" onclick="document.getElementById('homesort').style.display='';">
+<header data-am-widget="header" class="am-header am-header-default am-no-layout">
+<a href="javascript:history.go(-1);" class="new-a-back ui-link">返回 </a>    <h3>筛选商品</h3>
+</header>
+<ul class="scity">
+<li><span><a href="?mod=creditmall&code=goods&op=list&3g=1" class="selected">默认</a></span></li>
+<li><span><a href="?mod=creditmall&code=goods&op=list&3g=1&sort_type=newest">最新</a></span></li>
+<li><span><a href="?mod=creditmall&code=goods&op=list&3g=1&sort_type=sellest">销量</a></span></li>
+<li><span><a href="?mod=creditmall&code=goods&op=list&3g=1&sort_type=scoreTop">积分(最高)</a></span></li>
+<li><span><a href="?mod=creditmall&code=goods&op=list&3g=1&sort_type=scorelow">积分(最低)</a></span></li>
+<li><span><a href="?mod=creditmall&code=goods&op=list&price_max=<?php echo $this->user['scores']; ?>&3g=1">我能兑换的</a></span></li>
+</ul>
+</div>
+</ul>
+</div>
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<div class="am-list-news-bd">
+<ul class="am-list">
+{loop $list $one}
+<a class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left" href="?mod=creditmall&code=goods&op=info&id={$one[id]}&3g=1">
+<div class="am-u-sm-4 am-list-thumb">
+<img src="{$one[image]}" alt="{$one[name]}" />
+</div>
+<div class="am-u-sm-8 am-list-main">
+<h3 class="am-list-item-hd">
+{$one[name]}
+</h3>
+<div class="am-list-item-text">所需积分：{$one[price]} | 有效期：{eval echo date('Y-m-d', $one[expire]);} | 库存：{$one[total]}</div>
+</div>
+</a>
+{/loop}
+</ul>
+{if false!=($page_html=page_moyo())}
+<table class="am-table"><tr><td class="page-btn-3g">{$page_html}</td></tr></table>
+{/if}
+</div>
+</div>
+<!--{template @creditmall/footer_3g}-->

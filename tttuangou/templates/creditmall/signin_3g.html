@@ -1,0 +1,32 @@
+<!--{template @creditmall/header_3g}-->
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default">
+<h2 class="am-titlebar-title">签到送积分</h2>
+</div>
+<figure data-am-widget="figure" class="am am-figure am-figure-default "
+data-am-figure="{  pureview: 'auto' }">
+<img src="templates/creditmall/assets/img/signin.jpg" />
+</figure>
+<div class="am-g am-g-fixed">
+<div class="am-u-sm-12">
+<div class="am-alert am-alert-danger">
+{$ret_msg}
+</div>
+</div>
+</div>
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default">
+<h2 class="am-titlebar-title">签到规则</h2>
+</div>
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<table class="am-table">
+<tbody>
+{eval $signin_rule=logic('signin')->rule()->get_all();}
+{loop $signin_rule $rule}
+<tr><td>连续签到第 {$rule[day]} 天，之后（含当日）每天可获得{$rule[credit]} 积分</td></tr>
+{/loop}
+</tbody>
+</table>
+</div>
+<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default">
+<h2 class="am-titlebar-title"><a href="?mod=creditmall&code=credit&op=list&3g=1">我的积分：{$this->user[scores]}，点击查看详细记录</a></h2>
+</div>
+<!--{template @creditmall/footer_3g}-->

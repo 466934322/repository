@@ -1,0 +1,5 @@
+<style>
+.creditmall_admin_nav{display: block;overflow: hidden;margin-bottom: 15px;}
+.creditmall_admin_nav a{background: #f6f6f6;padding: 2px 5px;display: inline;margin-right: 5px;width: 80px;height: 25px;float: left;text-align: center;line-height: 25px;}
+.creditmall_admin_nav a.selected{background-color: #f60; text-decoration:none; color:#fff;border-bottom: solid 1px #c66600;height: 23px;}
+</style> <div class="creditmall_admin_nav"> <a href="admin.php?mod=creditmall"{if ''==get('code')} class="selected" {/if}>积分商城设置</a> <a href="admin.php?mod=creditmall&code=goods&op=info&act=add"{if 'goods'==get('code') && 'add'==get('act')} class="selected" {/if}>添加商品</a> <a href="admin.php?mod=creditmall&code=goods&op=list"{if 'goods'==get('code') && 'add'!=get('act')} class="selected" {/if}>商品管理</a> <a href="admin.php?mod=creditmall&code=order&op=list"{if 'order'==get('code')} class="selected" {/if}>订单管理</a> </div>

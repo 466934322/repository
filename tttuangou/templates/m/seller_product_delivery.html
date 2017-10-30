@@ -1,0 +1,87 @@
+<!--{template @m/header_seller}-->
+{~ui('isearcher')->load('seller.product_delivery')}
+{loop $deliveries $i $order}
+<div class="box-style"> <a class="inlink">
+<h2><i class="am-icon-file-text-o"></i> {$order['orderid']}</h2>
+</a>
+<ul class="com_adr">
+<li><span class="info">用户名称：{echo user($order['userid'])->get('name')}</span></li>
+<li><span class="info">商品信息：{$order['product']['flag']}</span></li>
+<li><span class="info">商品单价：{$order['productprice']} 元</span></li>
+<li><span class="info">购买数量：{$order['productnum']}</span></li>
+<li><span class="info">支付方式：{if $order['paytype'] > 0}{eval $payment = logic('pay')->SrcOne($order['paytype'])}{$payment['name']}{else}未支付{/if}</span></li>
+{if $order['attrs']}
+{loop $order['attrs']['dsp'] $dsp}
+<li><span class="info">商品规格：{$dsp['name']} - {$dsp['price']} 元</span></li>
+{/loop}
+{/if}
+{if $order['address']}
+<li><span class="info">收件人姓名：{$order['address']['name']}</span></li>
+<li><span class="info">收件人电话：{$order['address']['phone']}</span></li>
+<li><span class="info">省市地址：{$order['address']['region']}</span></li>
+<li><span class="info">详细地址：{$order['address']['address']}</span></li>
+<li><span class="info">邮编：{$order['address']['zip']}</span></li>
+{if $order['extmsg']}
+<li><span class="info">买家留言：{$order['extmsg']}</span></li>
+{/if}
+{else}
+<li><span class="info">收货地址：用户没有填写收货地址</span></li>
+{/if} 
+<li><span class="info">配送方式：{if $order['express']}{$order['express']['name']}( {echo logic('express')->CID2Name($order['express']['express'])} ){else}未指定{/if}</span></li>
+{if $order['process'] != 'TRADE_FINISHED'}{if $order['invoice'] != ''}
+<li><span class="info">快递单号：{$order['invoice']}</span></li>
+{else}{/if}{else}
+<li><span class="info">快递单号：{$order['invoice']}</span></li>
+{/if}
+<div id="invoice_for_{$order['orderid']}" style="display:none;">
+<li><span class="info">
+<div style="float: left;">快递单号：</div>
+<div style="margin-left:70px;">
+<input id="trackingno_of_{$order['orderid']}" type="text" size="20" value="{$order['invoice']}" class="inputsearch" />
+</div>
+</span></li>
+<li><span class="info">
+<input id="submiter_of_{$order['orderid']}" type="button" value="{echo $order['invoice']==''?'确定上传':'确定修改'}快递单号" onclick="submitTrackingNo('{$order[orderid]}');" class="search-submit formbutton" style="width:100%;"/>
+</span></li>
+</div>
+<li><span class="info">
+<a href="#invoice-input" onclick="delivery_invoice_input('{$order[orderid]}');return false;">{if $order['process'] != 'TRADE_FINISHED'}
+{if $order['invoice'] != ''}
+<input type="button" class="search-submit formbutton" style="width:100%;" value="修改快递单号">
+{else}
+<input type="button" class="search-submit formbutton" style="width:100%;" value="发货处理">
+{/if}{else}{/if}</a></span></li>
+</ul>
+</div>
+{/loop}
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<script type="text/javascript">
+function delivery_show_detail(orderId)
+{
+$('#detail_for_'+orderId).toggle();
+}
+function delivery_invoice_input(orderId)
+{
+$('#invoice_for_'+orderId).toggle();
+}
+function submitTrackingNo(OID)
+{
+if (!confirm('确定提交吗？')) return;
+var submiter = $('#submiter_of_'+OID);
+submiter.val('正在登记').attr('disabled', 'disabled');
+var trackingno = $('#trackingno_of_'+OID).val();
+$.get('?mod=seller&code=delivery&op=single&oid='+OID+'&no='+trackingno+$.rnd.stamp(), function(data){
+if (data != 'ok')
+{
+submiter.val('保存失败');
+}
+else
+{
+submiter.val('保存成功');
+}
+});
+}
+</script>
+<!--{template @m/footer}-->

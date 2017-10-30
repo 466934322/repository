@@ -1,0 +1,145 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>天天外卖 - 支付</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+<link rel="stylesheet" href="styles/amazeui.min.css">
+<link rel="stylesheet" href="styles/waimai.css">
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default">
+<h1 class="am-header-title">
+<i class="am-icon-angle-left">返回</i>  支付
+</h1>
+</header>
+<nav data-am-widget="menu" class="am-menu  am-menu-offcanvas1" data-am-menu-offcanvas>
+<a href="javascript: void(0)" class="am-menu-toggle">
+<i class="am-menu-toggle-icon am-icon-bars"></i>
+</a>
+<div class="am-offcanvas">
+<div class="am-offcanvas-bar">
+<ul class="am-menu-nav sm-block-grid-1">
+<li class="">
+<a href="##">首页</a>
+</li>
+<li class="">
+<a href="##">外卖订单</a>
+</li>
+<li class="">
+<a href="##">账户信息</a>
+</li>
+<li class="">
+<a href="##">地址管理</a>
+</li>
+<li class="">
+<a href="##">帮助信息</a>
+</li>
+<li class="">
+<a href="##">退出</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<input type="hidden" id="totalmoney_1" value="{$order['price_of_total']}">
+<!--{eval logic('pay')->html($order, '.m')}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<div class="am-list-news-bd">
+<ul class="am-list addressLi">
+<li class="am-g">
+<h2><i class="am-icon-info-circle"></i> 订单信息</h2> 
+<ul class="com_adr">
+<li>订单号：1022356</li>
+<li class="com_adr_v">上门地址：西湖区万塘路200号</li>
+<li>预约时间：2015-07-10 10:30</li>
+<li>联系电话：1022356</li>
+<li>联系人：余雨</li>
+<li>订单金额：23</li>
+</ul>
+</li>
+<li class="am-g" id="address_new" style="display='none">
+<h2><i class="am-icon-credit-card"></i> 支付方式</h2>
+<ul class="com_adr">
+<li style="line-height:0.3em; padding:10px 0;">
+<table border="0" class="PayTypeList">
+<tbody><tr class="pay_tr" style="cursor: pointer;" onmouseover="pay_tr_mouseover(this)" onmouseout="pay_tr_mouseout(this)" onclick="pay_tr_click('1')">
+<td width="100%">余额支付</td>
+<td width="30px"><input class="mt" id="payment_id_1" name="payment_id" type="radio" value="1"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li class="am-g">
+<h2><i class="am-icon-cny"></i> 应付总额：<span id="totalmoney1">95.90</span> 元</h2>
+</li>
+<li class="am-g">
+<form id="order_submit" action="?mod=buy&code=order&op=save" method="post">
+<input id="order_id" name="order_id" type="hidden" value="{$order['orderid']}" />
+<ul class="com_adr">
+{if $order['is_countdown'] == 1}
+{if $order['timelimit']>0}
+<li><span class="info" id="timeLimit"></span></li>
+<li><span class="info"><input id="order_submit_button" type="submit" class="am-btn am-btn-danger am-btn-block" value="确认订单，并支付" /></span></li>
+{else}
+<li><span class="info"><input id="order_submit_button" type="submit" class="am-btn am-btn-default am-btn-block" value="抢购失败" disabled="disabled" /></span></li>
+<li><span class="info" id="timeLimit">支付超时导致订单失效</span></li>
+{/if}
+{else}
+<li><span class="info"><input id="order_submit_button" type="submit" class="am-btn am-btn-danger am-btn-block" value="确认订单，并支付" /></span></li>
+{/if}
+<font id="submit_status"></font>
+<!--{if $order['product']['type'] == 'stuff'}-->
+<input id="express_id" name="express_id" type="hidden" value="{$order['expresstype']}">
+<!--{/if}-->
+</ul>
+</form>
+</li>
+</ul>
+</div>
+</div>
+<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default " id="">
+<ul class="am-navbar-nav am-cf am-avg-sm-4">
+<li>
+<a href="">
+<span class="am-icon-home"></span>
+<span class="am-navbar-label">首页</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-file-text"></span>
+<span class="am-navbar-label">订单</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-user"></span>
+<span class="am-navbar-label">我的</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-sign-in"></span>
+<span class="am-navbar-label">登录</span>
+</a>
+</li>
+<li>
+<a href="">
+<span class="am-icon-user-plus"></span>
+<span class="am-navbar-label">注册</span>
+</a>
+</li>
+</ul>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/amazeui.min.js"></script>
+</body>
+</html>

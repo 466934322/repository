@@ -1,0 +1,24 @@
+<!--{template @m/header_back}-->
+<style>
+html, button, input, select, textarea { color: #4a4f54;  }
+body { overflow: hidden;  background:#5c9eda url(images/downapp_mobile.jpg) no-repeat; background-size: 100%;margin: 0;}
+a{ text-decoration: none; }
+.wrapper { width: 100%; overflow:hidden; margin: 0; }
+.wrapper ul{ height:697px; display:block;}
+.btn{ color: #fff; text-align: center;line-height: 200%;font-size: 100%; display: block; margin: 105% auto 0;border-radius: 2px; border:none; width:80%;border: solid 1px #fff;cursor:pointer;  padding: 3px 0;}
+.btn2{ color: #fff; text-align: center;line-height: 200%;font-size: 100%; display: block; margin: 10px auto;border-radius: 2px; border:none; width:80%; border: solid 1px #fff;cursor:pointer; padding: 3px 0;}
+.a_btn{ margin:20px auto;display: block; font-size:0.8em; width:80%; text-align:center; color:#fff;}
+.footer-padding{ display:none;}
+</style>
+<!--{if $android_url || $iphone_url}-->
+<div class="wrapper">
+<!--{if $android_url}-->
+<a class="btn" title="免费下载{ini:settings.site_name}安卓客户端" href="{$android_url}" target="_blank">下载{ini:settings.site_name}安卓客户端</a>
+<!--{/if}-->
+<!--{if $iphone_url}-->
+<a class="btn2" title="AppStore下载{ini:settings.site_name}客户端" href="{$iphone_url}" target="_blank">AppStore下载{ini:settings.site_name}客户端</a>
+<!--{/if}-->
+<a class="btn2" title="访问上一页" href="javascript:history.go(-1);" target="_blank">继续访问上一页</a>
+</div>
+<!--{/if}-->
+<!--{template @m/footer}-->

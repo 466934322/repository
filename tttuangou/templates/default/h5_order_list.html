@@ -1,0 +1,55 @@
+<!--{template header_seller_manage}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default" style="margin:0;">
+<div class="am-list-news-hd am-cf" style="margin: 0 10px;">
+<button type="button" class="am-btn {if $day==1}am-btn-tt01{/if} am-radius" onclick="window.location='?mod=seller&code=h5_order_list&day=1'; return false;">今日</button>
+<button type="button" class="am-btn {if $day==-1}am-btn-tt01{/if} am-radius" onclick="window.location='?mod=seller&code=h5_order_list&day=-1'; return false;">昨日</button>
+<div id="doc-dropdown-justify" style="display:inline;">
+<div class="am-dropdown" data-am-dropdown="{justify: '#doc-dropdown-justify'}">
+<button class="am-btn am-btn-default am-dropdown-toggle">自定义时间段 <span class="am-icon-caret-down"></span></button>
+<div class="am-dropdown-content">
+<form action="?mod=seller&code=h5_order_list" method="post">
+<p><input type="text" name="start_time" class="am-form-field" id="time_begin" placeholder="开始时间" data-am-datepicker readonly/></p>
+<p><input type="text" name="end_time" class="am-form-field" id="time_end" placeholder="结束时间" data-am-datepicker readonly/></p>
+<button type="submit" class="am-btn am-btn-default am-radius" id="get_time">确定</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="am-list-news-bd">
+<ul class="am-list">    
+<li class="am-g am-list-item-desced">
+<div class="am-scrollable-horizontal">
+<table class="am-table am-table-bordered am-table-striped am-text-nowrap">
+<thead><tr>
+<th>付款时间</th>
+<th>订单号</th>
+<th>支付方式</th>
+<th>订单金额</th>
+</tr></thead>
+<tbody>
+{loop $orders $i $order}
+<tr><td>{echo date('Y-m-d H:i:s', $order['paytime'])}</td>
+<td>{$order['orderid']}</td>
+<td>{if $order['paytype'] > 0}
+{eval $payment = logic('pay')->SrcOne($order['paytype'])}
+{$payment['name']}
+{else}
+----
+{/if}</td>
+<td>&yen;{$order['totalprice']}</td></tr>
+{/loop}
+</tbody>
+</table>
+<div class="pageA">{~page_moyo()}</div>
+{if $orders == ''}
+<div class="am-alert am-alert-warning2" data-am-alert>
+没有数据,请重新选择
+</div>
+{/if}
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!--{template footer_seller_manage}-->

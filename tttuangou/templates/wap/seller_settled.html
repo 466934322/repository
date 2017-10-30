@@ -1,0 +1,115 @@
+<!--{eval $hidden_header_footer=is_client_request()?1:0;}-->
+<!--{~ui('loader')->css('#admin/css/admincp')}-->
+<!--{~ui('loader')->js('@jquery')}-->
+<!--{~ui('loader')->js('@jquery.notify')}-->
+<!--{~ui('loader')->addon('dialog.art4.1.0')}-->
+<!--{~ui('loader')->addon('dialog.art.iframe4.1.0')}-->
+<!--{~app('ucard')->init()}-->
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->js('@getcity')}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={~ini('baidu_map_ak.browser')}"></script>
+<!--{template @m/header_home}-->
+<style>
+.top_bar{position: static;}
+.footerhight{ height:0px;}
+input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]) {
+width: 100%;
+display: block;
+padding: 0.7rem;
+}
+</style>
+<div id="bodyheight">
+<div class="mainbox">
+<form action="{$action}" method="post" enctype="multipart/form-data" >
+<div class="field">
+店铺所在城市和区域<em>(必填)</em>:
+<select name="area" id="allCityList">
+<option value="-1">正在加载</option>
+</select>
+{eval logic('city')->home_place_inputer()}
+</div>
+<div class="field">
+商家分类<em>(必填)</em>:
+{if logic('catalog')->Enabled()}
+{~ui('loader')->js('#html/catalog/catalog.mgr.ajax')}
+{eval ui('catalog')->home_inputer()}
+{else}
+未开启分类
+{/if}
+<div class="field">
+商家名称<em>(必填)</em>:
+<input name="sellername" type="text" class="inputsearch" id="sellername">
+</div>
+<div class="field">
+详细地址<em>(必填)</em>:
+<input name="selleraddress" type="text" class="inputsearch" id="selleraddress">
+</div>
+<div class="field">
+地理位置:
+<input type="hidden" id="map" name="sellermap" />
+<a href="javascript:;" onclick="showMapAPI();" id="map_update">(点击设定您的地理位置)</a>
+</div>
+<div class="field">
+商家电话<em>(必填)</em>:(多个电话用英文逗号隔开)
+<input type="text" name="sellerphone" class="inputsearch" >
+</div>
+<div class="field">
+商家网站:(请以http://开头)
+<input type="text" name="sellerurl" class="inputsearch" >
+</div>
+<div class="field">
+人均消费:
+<input type="text" name="price_avg" class="inputsearch" > &nbsp;元
+</div>
+<div class="field">
+营业时间:(例如9:30-22:00)
+<input type="text" name="trade_time" class="inputsearch" >
+</div>
+<div class="field">
+商家介绍:
+<input type="text" name="content" class="inputsearch" >
+</div>
+<div class="field">
+身份证:(支持gif、png、jpg,图片2M以内)
+<input type="file" name="id_card" >
+</div>
+<div class="field">
+营业执照:(支持gif、png、jpg,图片2M以内)
+<input type="file" name="zhizhao" >
+</div>
+<div id="l_act" style="padding: 5px 10px 20px 10px;">
+<input type="submit" class="search-submit formbutton" value="确认提交" >
+</div>
+</form>
+</div>
+</div>
+<script type="text/javascript">
+function table_submit(){
+if( document.getElementById("sellername").value=="" ){
+alert("请填写商家名");
+return false;
+}
+if( document.getElementById("sellerphone").value=="" ){
+alert("请填写联系方式");
+return false;
+}
+return true;
+}
+function getxy(i)
+{
+$('#map_update').html('商家地点已设置，请提交保存');
+$('#map').val(i);
+}
+function showMapAPI(){
+var url = "?mod=seller_join&code=addmap&id="+ $('#map').val();
+art.dialog({
+title: '您只需要点击地图上的标签到指定的地方，关闭该窗口即可，系统会自己收集您的坐标！',
+content: '<iframe src="'+url+'" width="100%" height="500"></iframe>',
+padding: '0',
+fixed: true,
+resize: false,
+drag: false
+});
+}
+</script>
+<!--{template @m/footer}-->

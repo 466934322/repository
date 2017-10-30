@@ -1,0 +1,91 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="{ini:settings.charset}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{if $order_list}充值记录{else}充值方式{/if} - {ini:settings.site_name}</title>
+<meta name="keywords" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_keywords')}" />
+<meta name="description" content="{~ini('settings.'.(mocod()=='index.main'?'index_':'').'meta_description')}{if $__p = productCurrentView()},{echo strip_tags($__p['intro'])}{/if}" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--{~ui('loader')->css('@amazeui.min')}-->
+<!--{~ui('loader')->css('#m/styles/app')}-->
+<!--{~ui('loader')->js('@jquery')}-->
+<!--{~ui('loader')->js('@amazeui.min')}-->
+</head>
+<body>
+<header data-am-widget="header" class="am-header am-header-default"><h1 class="am-header-title">
+{if $order_list}<a class="am-icon-chevron-left app-left" href="?mod=me&code=index"></a>{else}<a class="am-icon-chevron-left app-left" href="javascript:history.go(-1)"></a>{/if}
+{if $order_list}充值记录{else}充值方式{/if}</h1>
+</header>
+{~ui('loader')->js('@jquery.hook')}
+<!--{if $order_list}-->
+<div class="pFilter"> 
+<ul class="clearfix"> 
+<li class="liL_{$tabcssall}" style="width:33.3%;"><a class="m ui-link" href="?mod=recharge&code=order">全　部</a></li>
+<li class="liL_{$tabcssyes}" style="width:33.3%;"><a class="m ui-link" href="?mod=recharge&code=order&pay=yes">充值成功</a></li>
+<li class="liL_{$tabcssno}" style="width:33.3%;"><a class="m ui-link" href="?mod=recharge&code=order&pay=no">等待付款</a></li>
+</div>
+<!--{loop $list $one}-->
+<div class="box-style">
+<h2><i class="am-icon-list-ol"></i> 订单编号：{$one['orderid']}</h2>
+<ul class="com_adr">
+<li><span class="info">充值金额：{$one['money']}</span></li>
+<li><span class="info">充值方式：
+{if $one['payment'] > 0}
+{echo logic('pay')->misc()->ID2Name($one['payment'])}
+{/if}</span></li>
+<li><span class="info">{if $one['paytime'] > 0}
+支付时间：{echo date('Y-m-d H:i:s', $one['paytime'])}
+{else}
+充值进度：等待付款
+{/if}</span></li>
+<li><span class="info">
+{if $one['paytime']==0}
+{if $one['payment']==0}
+<a href="?mod=recharge&code=order&id={$one['orderid']}"><input type="button" class="search-submit formbutton" style="width:47%;float:left;" value="前去付款"></a>
+{else}
+<a href="?mod=recharge&code=pay&id={$one['orderid']}&ibank="><input type="button" class="search-submit formbutton" style="width:47%;float:left;" value="前去付款"></a>
+{/if}
+<a href="?mod=recharge&code=del&id={$one['orderid']}"><input type="button" class="search-submit formbutton" style="width:47%;float:right;" value="取消充值"></a>
+{else}
+充值进度：充值成功
+{if $one['add_money'] > 0}
+返现金额：已返现{$one['add_money']}元
+{/if}
+{/if}</span></li>
+</ul>
+</div>
+<!--{/loop}-->
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.goTop').click(function(e){
+e.stopPropagation();
+$('html, body').animate({scrollTop: 0},300);
+backTop();
+return false;
+});
+});
+</script>
+<!--{else}-->
+<form action="?mod=recharge&code=payment&op=save&id={$order['orderid']}" method="post">
+<div class="box-style">
+<h2><i class="am-icon-list-ol"></i> 订单编号： {$order['orderid']}</h2>
+<ul class="com_adr">
+<li><span class="info">充值金额： {$order['money']}</span></li>
+</ul>
+</div> 
+<!--{eval logic('pay')->html($order)}-->   
+<div class="box-style">
+<ul class="com_adr"> 
+<li><span class="info"><input type="submit" class="ssearch-submit formbutton" value="下一步" /></span></li>
+</ul>
+</div>
+</form>
+<!--{/if}-->
+{~ui('loader')->js('@pay.selector')}
+<!--{template @m/footer}-->

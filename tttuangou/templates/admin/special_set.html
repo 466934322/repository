@@ -1,0 +1,182 @@
+<!--{template @admin/header}--> <form method="post" action="" enctype="multipart/form-data"> <input type="hidden" name="id" value="{$one[id]}" /> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="2">专题编辑</td> </tr> </thead> <tbody> <tr> <td width="10%">专题图片</td> <td>
+{if $one[pic]}<img style="width:30px" src="{$one[pic]}" /><br />{/if}
+<input type="file" name="picfile" value="" style="width:259px" /><br />
+图片建议大小175x175
+</td> </tr> <tr> <td width="10%">专题名称 <font color="red">*</font></td> <td><input type="text" name="one[name]" value="{$one[name]}" style="width:259px" /><br />
+请输入专题名称（建议不超过5个字）
+</td> </tr> <tr> <td width="10%">专题简介</td> <td><textarea name="one[intro]" style="width:259px">{$one[intro]}</textarea><br />
+请输入专题简介，可以为空（建议不超过6个字）
+</td> </tr> <tr> <td width="10%">显示排序 <font color="red">*</font></td> <td><input type="text" name="one[display_order]" value="{$one[display_order]}" size="10" /><br />
+数字越大，显示越靠前
+</td> </tr> <tr> <td width="10%">专题状态 <font color="red">*</font></td> <td><label><input type="radio" name="one[status]" value="1" {if $one[status]} checked="true" {/if} />启用</label> &nbsp; 
+<label><input type="radio" name="one[status]" value="0" {if !$one[status]} checked="true" {/if} />不启用</label> &nbsp; 
+<br />
+设置了状态为“启用”，才会显示出来
+</td> </tr> <tr> <td width="10%">专题类型 <font color="red">*</font></td> <td> <select id="special_type" onchange="type_change()" name="one[type]"> <option value="link"{if 'link'==$one[type]} selected="true" {/if}>链接</option> <option value="product"{if 'product'==$one[type]} selected="true" {/if}>产品</option> <option value="seller"{if 'seller'==$one[type]} selected="true" {/if}>商家</option> </select> <br />
+请选择专题类型
+</td> </tr> </tbody> </table> <div class="submitArea"> <input id="submitButton" name="dosubmit" type="submit" class="button back2" value="保存" /><br /> </div> <div class="type_setting_area" id="type_link_setting" style="display:none"> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="2">设置专题链接</td> </tr> </thead> <tbody> <tr> <td width="30%">链接地址</td> <td><input type="text" name="one[settings][link]" value="{$one[settings][link]}" size="40" /><br />
+请输入完整的链接地址，例如http://www.abc.com;
+</td> </tr> </tbody> </table> </div> <div class="type_setting_area" id="type_product_setting" style="display:none"> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="2">新增专题产品</td> </tr> </thead> <tbody> <tr> <td width="30%">请输入产品名称</td> <td> <div> <input type="text" id="search_product_name" name="product_name" value="" size="40" /> 
+&nbsp; <input type="button" value="搜 索" onclick="product_search()" /> </div> <div id="product_search_area"> </div> </td> </tr> </tbody> </table> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="4">设置专题产品</td> </tr> <tr class="tr_nav"> <td>排序</td> <td>名称</td> <td>产品状态</td> <td>操作</td> </tr> </thead> <tbody id="product_list_area">
+{loop $one[settings][product] $k $item}
+<tr id="product_list_{$item[id]}"> <td width="10%"> <input type="hidden" name="one[settings][product][{$k}][id]" value="{$item[id]}" /> <input type="hidden" name="one[settings][product][{$k}][name]" value="{$item[name]}" /> <input id="product_order_{$item[id]}" type="text" name="one[settings][product][{$k}][order]" value="{$item[order]}" size="10" onblur="product_edit('{$item[id]}')" /> </td> <td width="50%">{$item[name]}</td> <td width="20%">
+{if $item['begintime'] > time()}
+即将开团，开团时间<br />
+{echo date('Y-m-d H:i:s', $item['begintime'])}
+{else}
+{echo logic('product')->STA_Name($item['status'])}
+{if $item['status'] == PRO_STA_Normal}
+<br/>{$item['succ_total']} 人成团，差 {$item['succ_remain']} 人
+{/if}
+{/if}
+</td> <td width="20%"><a href="#" onclick="product_del('{$item[id]}');return false;">删除</a></td> </tr>
+{/loop}
+</tbody> </table> </div> <div class="type_setting_area" id="type_seller_setting" style="display:none"> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="2">新增专题商家</td> </tr> </thead> <tbody> <tr> <td width="30%">请输入商家名称</td> <td> <div> <input type="text" id="search_seller_name" name="seller_name" value="" size="40" /> 
+&nbsp; <input type="button" value="搜 索" onclick="seller_search()" /> </div> <div id="seller_search_area"> </div> </td> </tr> </tbody> </table> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td colspan="4">设置专题商家</td> </tr> <tr class="tr_nav"> <td>排序</td> <td>名称</td> <td>操作</td> </tr> </thead> <tbody id="seller_list_area">
+{loop $one[settings][seller] $k $item}
+<tr id="seller_list_{$item[id]}"> <td width="10%"> <input type="hidden" name="one[settings][seller][{$k}][id]" value="{$item[id]}" /> <input type="hidden" name="one[settings][seller][{$k}][name]" value="{$item[name]}" /> <input id="seller_order_{$item[id]}" type="text" name="one[settings][seller][{$k}][order]" value="{$item[order]}" size="10" onblur="seller_edit('{$item[id]}')" /> </td> <td width="50%">{$item[name]}</td> <td width="20%"><a href="#" onclick="seller_del('{$item[id]}');return false;">删除</a></td> </tr>
+{/loop}
+</tbody> </table> </div> <div class="submitArea"> <input id="submitButton" name="dosubmit" type="submit" class="button back2" value="保存" /> <br /> </div> </form> <script type="text/javascript">
+function type_change() {
+var type_val = $('#special_type').val();
+$('.type_setting_area').hide();
+$('#type_' + type_val + '_setting').show();
+}
+function product_search() {
+var search_name = $('#search_product_name').val();
+if(search_name.length < 1) {
+alert('请输入搜索关键词');
+$('#search_product_name').focus();
+return false;
+}
+$.post('admin.php?mod=special&code=product&op=ajax', {
+'act' : 'search',
+'id' : '{$id}',
+'name' : search_name
+}, function (r) {
+$('#product_search_area').html(r);
+});
+}
+function product_search_onclick(pid) {
+if($('#product_search_' + pid).attr('checked')) {
+product_add(pid);
+} else {
+product_del(pid);
+}
+}
+function product_add(pid) {
+//Jiliang Qiu to do Task #2050 on 2015/06/02;
+var status = $('#product_search_name_' + pid).data('status');
+var namev = $('#product_search_name_' + pid).html();
+$.post('admin.php?mod=special&code=product&op=ajax', {
+'act' : 'add',
+'id' : '{$id}',
+'order' : '99',      
+'name' : namev,
+'pid' : pid
+}, function (r) {
+if(r) {
+alert(r);
+} else {
+$('#product_list_' + pid).remove();
+$('#product_list_area').append('<tr id="product_list_' + pid + '"><td width="10%"><input type="hidden" name="one[settings][product][' + pid + '][id]" value="' + pid + '" /><input type="hidden" name="one[settings][product][' + pid + '][name]" value="' + namev + '" /><input id="product_order_' + pid + '" type="text" name="one[settings][product][' + pid + '][order]" value="99" size="10" onblur="product_edit(' + pid + ')" /></td><td>' + namev + '</td><td>'+ status +'</td><td><a href="#" onclick="product_del(' + pid + ');return false;">删除</a></td></tr>');
+}
+});
+}
+function product_del(pid) {
+$.post('admin.php?mod=special&code=product&op=ajax', {
+'act' : 'del',
+'id' : '{$id}',
+'pid' : pid
+}, function (r) {
+if(r) {
+alert(r);
+} else {
+$('#product_list_' + pid).remove();
+}
+});    
+}
+function product_edit(pid) {
+$.post('admin.php?mod=special&code=product&op=ajax', {
+'act' : 'edit',
+'id' : '{$id}',
+'pid' : pid,
+'order' : $('#product_order_' + pid).val()
+}, function (r) {
+if(r) {
+alert(r);
+}
+});
+}
+function seller_search() {
+var search_name = $('#search_seller_name').val();
+if(search_name.length < 1) {
+alert('请输入搜索关键词');
+$('#search_seller_name').focus();
+return false;
+}
+$.post('admin.php?mod=special&code=seller&op=ajax', {
+'act' : 'search',
+'id' : '{$id}',
+'name' : search_name
+}, function (r) {
+$('#seller_search_area').html(r);
+});
+}
+function seller_search_onclick(pid) {
+if($('#seller_search_' + pid).attr('checked')) {
+seller_add(pid);
+} else {
+seller_del(pid);
+}
+}
+function seller_add(pid) {
+var status = $('#seller_search_name_' + pid).data('status');
+var namev = $('#seller_search_name_' + pid).html();
+$.post('admin.php?mod=special&code=seller&op=ajax', {
+'act' : 'add',
+'id' : '{$id}',
+'order' : '99',      
+'name' : namev,
+'pid' : pid
+}, function (r) {
+if(r) {
+alert(r);
+} else {
+$('#seller_list_' + pid).remove();
+var sHTML = '<tr id="seller_list_' + pid + '"><td width="10%"><input type="hidden" name="one[settings][seller][' + pid + '][id]" value="' + pid + '" /><input type="hidden" name="one[settings][seller][' + pid + '][name]" value="' + namev + '" /><input id="seller_order_' + pid + '" type="text" name="one[settings][seller][' + pid + '][order]" value="99" size="10" onblur="seller_edit(' + pid + ')" /></td><td>' + namev + '</td><td><a href="#" onclick="seller_del(' + pid + ');return false;">删除</a></td></tr>';
+$('#seller_list_area').append(sHTML);
+//$('#seller_list_area').html(sHTML);
+}
+});
+}
+function seller_del(pid) {
+$.post('admin.php?mod=special&code=seller&op=ajax', {
+'act' : 'del',
+'id' : '{$id}',
+'pid' : pid
+}, function (r) {
+if(r) {
+alert(r);
+} else {
+$('#seller_list_' + pid).remove();
+}
+});    
+}
+function seller_edit(pid) {
+$.post('admin.php?mod=special&code=seller&op=ajax', {
+'act' : 'edit',
+'id' : '{$id}',
+'pid' : pid,
+'order' : $('#seller_order_' + pid).val()
+}, function (r) {
+if(r) {
+alert(r);
+}
+});
+}
+$(document).ready(function () {
+type_change();
+});
+</script>
+{template @admin/footer}

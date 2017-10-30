@@ -1,0 +1,96 @@
+<!--{template @m/header_my}-->
+<div class="pFilter"> 
+<ul class="clearfix"> 
+<li class="liL_{$_s3}"><a class="m ui-link" href="?mod=me&code=order&pay=0">待付款</a></li>
+<li class="liL_{$_s2}"><a class="m ui-link" href="?mod=me&code=order&pay=1">已付款</a></li>
+<li class="liL_{$_s4}"><a class="m ui-link" href="?mod=me&code=order&refund=1">有退款</a></li>
+<li class="liL_{$_s1}"><a class="m ui-link" href="?mod=me&code=order">全　部</a></li>
+</div>
+<!--{loop $order_all $i $value}-->
+<div class="box-style">
+<a class="inlink" href="?view={$value['product']['id']}"><h2><i class="am-icon-list-ol"></i> 订单编号：{$value['orderid']}</h2></a>
+<ul class="com_adr">
+{if $value['productid'] == 99999 && $value['sid']}
+<li><span class="info">商家名称：{$value['sellername']}</span></li>
+{else}
+<li><span class="info">商品名称：{$value['product']['flag']}</span></li>
+<li><span class="info">购买数量：{$value['productnum']}</span></li>
+{/if}
+<li><span class="info">商品总价：&yen;{echo $value['totalprice']}元</span></li>
+{if $value['expresstime']>0}
+<li><span class="info">物流公司：{$value['express']['name']}</span></li>
+<li><span class="info">运输单号：{$value['invoice']}</span></li>
+{/if}
+<li><span class="info">下单时间：{echo date('Y-m-d H:i:s', $value['buytime']);}</span></li>
+{if $value['paytime']>0}
+<li><span class="info">付款时间：{echo date('Y-m-d H:i:s', $value['paytime']);}</span></li>
+<li><span class="info">支付金额：&yen;{$value[paymoney]}元</span></li>    
+{/if}
+{if $value['promo_cut_price']>0}
+<li><span class="info">优惠码购：优惠码 {$value[promo_code]} 总共立减 &yen; {$value[promo_cut_price]}元</span></li>
+{/if}
+<li><span class="info">{if $value['refund_process'] == 1}订单状态：已申请退款
+{elseif $value['refund_process'] == 2}订单状态：退款成功
+{elseif $value['refund_process'] == 3}订单状态：申请退款被拒绝
+{elseif $value['status'] != ORD_STA_Normal}
+订单状态：
+{if $value['status'] == ORD_STA_Cancel}
+已取消
+{elseif $value['status'] == ORD_STA_Overdue}
+已过期
+{elseif $value['status'] == ORD_STA_Faild}
+失败
+{elseif $value['status'] == ORD_STA_Refund}
+已经退款
+{/if}
+{else}
+{if $value['product']['type'] == 'prize'} 
+<a href="?mod=prize&code=view&pid={$value['productid']}"><input type="submit" class="formbutton" value="查看抽奖号"></a></a> 
+{elseif $value['process'] == 'WAIT_BUYER_PAY'} 
+<a href="?mod=buy&code=order&id={$value['orderid']}"><input type="button" class="formbutton" style="width:47%;float:left;" value="重新选择支付方式"></a> 
+<a href="?mod=buy&code=pay&id={$value['orderid']}"><input type="button" class="formbutton" style="width:47%;float:right;" value="去付款"></a> 
+{elseif $value['process'] == 'WAIT_SELLER_SEND_GOODS'}
+订单状态：等待卖家发货
+{elseif $value['process'] == 'WAIT_BUYER_CONFIRM_GOODS'} <a href="{eval echo logic('pay')->ConfirmLinker($value)}"><input type="submit" class="formbutton"  value="待收货"></a> {elseif $value['process'] == 'TRADE_FINISHED'}
+订单状态：交易完成 {if $value['productid'] != 99999 && 'ticket'==$value['product']['type']}<a href="?mod=me&amp;code=coupon&amp;status=0" style="color:#FF0000">【点此查看{TUANGOU_STR}券】</a>{/if}
+{elseif $value['process'] == '__CREATE__'} <a href="?mod=buy&code=order&id={$value['orderid']}"><input type="submit" class="formbutton"  value="去付款"></a> 
+{elseif $value['process'] == '__PAY_YET__'}
+订单状态：已经付款
+{elseif $value['process'] == '_TimeLimit_'}
+订单状态：抢购失败
+{/if}
+{/if}</span></li> 
+<!--{if $value['refund']}-->
+{if $value['refund_op_money'] > 0 || $value['refund_op_reason'] != ''}
+<li><span class="info">退款金额：{$value['refund_op_money']} 元</span></li>
+<li><span class="info">受理意见：{$value['refund_op_reason']}</span></li>
+{else}
+<li><span class="info">退款状态：正在处理中</span></li>
+{/if}
+<!--{/if}-->
+<!--{if !$value['product']['yungou'] && !meta('p_nar_'.$value['productid'])}--> 
+{if $value['refund_process'] == 0 && $value['pay'] == 1 && $value['status'] != ORD_STA_Refund && !$value['cannot_refund'] && $value['productid'] != 99999}
+<li><span class="info"><a href="m.php?mod=refund&oid={$value['orderid']}"><input type="submit" class="formbutton"  value="申请退款"></a></span></li>
+{/if}
+<!--{/if}-->
+{if $value['comment'] == 1}
+<li><span class="info"><a href="m.php?mod=comment&oid={$value['orderid']}"><input type="submit" class="formbutton"  value="我要评价"></a></span></li>
+{elseif $value['comment'] == 2}
+{/if} 
+</ul>
+</div>
+<!--{/loop}-->
+<nav class="pageinator clearfix">
+<div class="pg-next">{~page_moyo()}</div>
+</nav>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.goTop').click(function(e){
+e.stopPropagation();
+$('html, body').animate({scrollTop: 0},300);
+backTop();
+return false;
+});
+});
+</script>
+<!--{template @m/footer}-->

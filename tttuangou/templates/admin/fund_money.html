@@ -1,0 +1,44 @@
+<!--{template @admin/header}-->
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->addon('picker.date')}
+<div class="header" style="background:none; border:none; padding:0;"> <div class="is_current"><a href="admin.php?mod=fund&code=money">结算金额明细</a></div>
+{if 1 === MEMBER_ID}
+<div class="is_button"><a href="admin.php?mod=fund&code=moneyfix"><font color="green"><b>可疑结算记录</b></font></a></div>
+{if 'moneyfix'==$this->Code}
+<div class="is_button"><a href="admin.php?mod=fund&code=moneyfixupdate"><font color="red"><b>查找可疑结算记录</b></font></a></div>
+{/if}
+{/if}
+</div>
+{if 'moneyfix'==$this->Code}
+<div>
+注意：请将查找出来的可疑记录进行核实后，再进行删除操作（删除结算记录的同时，相应商家的结算金额也会减少。2014年4月之前建站的用户需特别注意）--<a  target=_blank href="http://bbs.tttuangou.com/forum.php?mod=viewthread&tid=134&extra=">了解详情</a> </div>
+{/if}
+<div class="cont"> <form action="admin.php?" method="get"> <input type="hidden" name="mod" value="fund" /> <input type="hidden" name="code" value="{$this->Code}" /> <input type="hidden" name="day" value="{$day}" /> <button class="b_btn s_btn" onclick="window.location='{$url}'; return false;">全部</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=7'; return false;">最近7日</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=1'; return false;">昨日明细</button> &nbsp; 
+<button class="b_btn s_btn" onclick="window.location='{$url}&day=-1'; return false;">今日明细</button> &nbsp; 
+记录时间开始：<input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',startDate:'',vel:'time_begin'})" size="22" class="Wdate" value="{$time_begin_txt}" /> <input name="time_begin" type="hidden" id="time_begin" value="{$time_begin_txt}" />
+结束：<input type="text" onfocus="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',startDate:'',vel:'time_end'})" size="22" class="Wdate" value="{$time_end_txt}" /> <input name="time_end" type="hidden" id="time_end" value="{$time_end_txt}" /> &nbsp; 
+<select name="kvar"> <option value="uname"{if 'uname'==$kvar} selected="true" {/if}>账号</option> <option value="orderid"{if 'orderid'==$kvar} selected="true" {/if}>订单号</option> <option value="ticketid"{if 'ticketid'==$kvar} selected="true" {/if}>{TUANGOU_STR}券号</option> </select>：<input type="text" name="kval" value="{$kval}" size="15" /> &nbsp; 
+&nbsp; 
+<button class="b_btn s_btn" type="submit">搜索</button> </form> </div> <style>
+td.line{text-align:center;border-bottom:1px solid #eee;height:69px;}
+#report tr td{ padding-left:10px; padding-right:10px;}
+.s_btn{ float:none;margin: 0 5px 0 0;}
+</style>
+{if 'moneyfix'==$this->Code}<form method="post" action="admin.php?mod=fund&code=moneyfix&fix=1">{/if}
+<div class="cont">
+{if $list}
+<table  id="report"> <tr> <th width="5%" style="text-align:left">ID</th> <th width="10%" style="text-align:left">记录时间</th> <th width="10%" style="text-align:left">订单号</th> <th width="10%" style="text-align:left">账号信息</th> <th width="15%" style="text-align:left">商品信息</th> <th width="8%" style="text-align:left">券号</th> <th width="7%" style="text-align:left">份数</th> <th width="7%" style="text-align:left">金额</th> <th width="10%" style="text-align:left">消费时间</th> <th width="10%" style="text-align:left">分成比例</th> <th width="10%" style="text-align:left">结算金额</th> </tr> <!--{loop $list $one}--> <tr> <td class="line">{if 'moneyfix'==$this->Code}<input type="checkbox" name="ids[]" value="{$one['id']}" />{/if}{$one['id']}</td> <td class="line">{echo date('Y-m-d H:i:s', $one['addtime'])}</td> <td class="line"><a href="admin.php?mod=order&code=vlist&search=wd:{$one['orderid']}&ssrc=order_id&sstr={$one['orderid']}">{$one['orderid']}</a></td> <td class="line"><a href="admin.php?mod=tttuangou&code=mainseller&keyWordType=uid&keyword={$one[uid]}"><font uid="{$one[uid]}" class="ucard">{$one[uname]}</font></a></td> <td class="line">{if $one['type'] == 'pay_bill'}买单订单{else}{$one['flag']}{/if}</td> <td class="line"> <!--{if $one['number']}--> <a href="admin.php?mod=coupon&code=vlist&search=wd:{$one['number']}&ssrc=coupon_no&sstr={$one['number']}">{$one['number']}</a> <!--{/if}--> </td> <td class="line">{if $one['type'] == 'pay_bill'}1{else}{$one['mutis']}{/if}份</td> <td class="line">{$one['deal_money']}元</td> <td class="line">{$one['usetime']}</td> <td class="line">{$one['salary_pre']}</td> <td class="line">{$one['salary_money']}元</td> </tr> <!--{eval $total_mutis +=$one['mutis']; $total_deal_money +=$one['deal_money']; $total_salary_money +=$one['salary_money'];}--> <!--{/loop}-->
+{if 'moneyfix'==$this->Code}<tr><td colspan="11"><label><input name="chkall" type="checkbox" onclick="checkall(this.form, 'ids')" /> 全选 </label> &nbsp; <input type="submit" value="删除" onclick="if(true == confirm('删除结算记录后，相应的商家结算金额也会减去；删除的数据不可恢复，确认删除？')) {return confirm('确认删除？');}else{return false;}" /></td></tr></form>{/if}
+<tr> <td>&nbsp;  </td> <td>&nbsp;  </td> <td>&nbsp;  </td> <td>&nbsp;  </td> <td>&nbsp;  </td> <td>&nbsp;  </td> <td>总计：{$total_mutis}份</td> <td>总计：{$total_deal_money}元</td> <td>&nbsp;  </td> <td>&nbsp;  </td> <td>总计：{$total_salary_money}元</td> </tr> </table> <div class="pagem product_list_pager">{~page_moyo()}</div>
+{else}
+<div><p>		
+没有找到相关的记录！！
+{if 'moneyfix'==$this->Code}
+<a href="admin.php?mod=fund&code=moneyfixupdate"><font color="red"><b>现在开始查找可疑结算记录？？</b></font></a>
+{/if}
+</p></div>
+{/if}
+</div>
+{template @admin/footer}

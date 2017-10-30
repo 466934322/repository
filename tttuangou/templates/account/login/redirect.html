@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+{~'<base h'.'ref="'.ini('settings.site_url').'/" />'}
+<meta http-equiv="Content-Type" content="text/html; charset={ini:settings.charset}" />
+<meta http-equiv="X-UA-Compatible" content="Chrome=1,IE=edge" />
+<title>快捷登录</title>
+{~ui('loader')->js('@jquery')}
+</head>
+<body>
+正在为您转接到登录页面，请稍候...
+{$html}
+<script type="text/javascript">
+$(document).ready(function(){
+$('#submitform').submit();
+});
+</script>
+</body>
+</html>

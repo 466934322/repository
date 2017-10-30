@@ -1,0 +1,16 @@
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->js('@getcity')}
+<select id="__cplace_region" name="city_place_region" onchange="cplace_region_change()">
+<option value="0">全部</option>
+{loop $places $i $region}
+<option value="{$region['id']}"{if $region['selected']} selected="selected"{eval $regiond=$region['id']}{/if}>{$region['name']}</option>
+{/loop}
+</select>
+<select id="__cplace_street" name="city_place_street">
+<option value="0">全部</option>
+{if $regiond && isset($places[$regiond])}
+{loop $places[$regiond]['streets'] $street}
+<option value="{$street['id']}"{if $street['selected']} selected="selected"{/if}>{$street['name']}</option>
+{/loop}
+{/if}
+</select>

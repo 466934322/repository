@@ -1,0 +1,29 @@
+<!--{template @creditmall/header_3g}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+<div class="am-list-news-hd am-cf">
+<h2>我的积分：</h2>
+<span class="am-list-news-more"><em class="price">{$this->user[scores]}</em></span>
+</div>
+<table class="am-table">
+<thead>
+<tr>
+<th>时间</th>
+<th>商品</th>
+<th>积分</th>
+</tr>
+</thead>
+<tbody>
+{loop $list $one}
+<tr onclick="window.location.href='?mod=creditmall&code=order&op=info&id={$one[sn]}&3g=1'; return false;">
+<td><a href='?mod=creditmall&code=order&op=info&id={$one[sn]}&3g=1'>{eval echo date('Y-m-d', $one[add_time]);}</a></td>
+<td>{$one[goods_name]}</td>
+<td><span class="am-badge am-badge-warning">{$one[pay_money]}</span></td>
+</tr>
+{/loop}
+{if false!=($page_html=page_moyo())}
+<tr><td colspan="3" class="page-btn-3g">{$page_html}</td></tr>
+{/if}
+</tbody>
+</table>
+</div>
+<!--{template @creditmall/footer_3g}-->

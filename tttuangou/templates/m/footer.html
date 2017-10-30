@@ -1,0 +1,97 @@
+<style>
+#address_new,#rd_add,.express_div ul,.box-style ul{
+font-size: 1.4rem;
+}
+</style>
+<script>
+$(function(){
+var sUserAgent = navigator.userAgent.toLowerCase();
+var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+var bIsQQ = sUserAgent.match(/mqqbrowser/i) == "mqqbrowser";
+var bIsandR = sUserAgent.match(/applewebkit/i) == "applewebkit";
+if(bIsUc||bIsQQ||bIsandR){
+$('.noApp_link').show();
+}
+var mainHeight=$(window).height();
+var layoutHeight=$(document).height();
+$(".dropdown-toggle,#user-postion-name").on('click',function () {
+$("body").css('height', layoutHeight);
+$("body").css('overflow', 'hidden');
+});
+$(".scity a").on('click',function () {
+$("body").removeAttr('style');
+});
+});
+</script>
+<footer class="footer-padding" style="display: {echo $hidden_header_footer?'none':'block';}">
+<div class="f_con">
+<p>
+<a href="index.php?ignore_jump=1" class="f-color ui-link" data-ajax="false">电脑版</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="m.php" class="f-color1 ui-link" data-ajax="false">触屏版</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="?mod=downapp" class="f-color ui-link" data-ajax="false">客户端下载</a>&nbsp;&nbsp;&nbsp;&nbsp;
+{if 'index'==$_GET['mod'] && (MEMBER_ID < 1 || MEMBER_ROLE_TYPE=='normal')}<a href="index.php?mod=wap&code=seller_settled" style="color: #FFA500"> 商家入驻 </a>{/if}
+</p>
+<p class="f-color2 f_copyright">{conf copyright} &copy;2008-2016</p>
+</div>
+</footer>
+<nav style="display: {echo $hidden_header_footer?'none':'block';}" data-am-widget="menu" class="am-menu  am-menu-offcanvas1" data-am-menu-offcanvas>
+<a href="javascript: void(0)" class="am-menu-toggle"> <i class="am-menu-toggle-icon am-icon-bars"></i> </a>
+<div class="am-offcanvas">
+<div class="am-offcanvas-bar">
+<ul class="am-menu-nav sm-block-grid-1">
+<li class=""> <a style="display:block" href="?">首页</a> </li>
+<li class=""> <a style="display:block" href="?mod=catalog">全部{TUANGOU_STR}</a> </li>
+<li class=""> <a style="display:block" href="?mod=countdown">限时抢购</a> </li>
+<li class=""> {if MEMBER_ID}<a href="?mod=me&code=index">个人中心</a>{else}<a href="?mod=account&code=login">个人中心</a>{/if} </li>
+<li class=""> <a style="display:block" href="?mod=me&code=favorite">我的收藏</a> </li>
+<li class=""> <a style="display:block" href="index.php?mod=wap&code=seller_settled">商家入驻</a> </li>
+<li class=""> <a style="display:block" href="?mod=downapp">下载客户端</a> </li>
+{if MEMBER_ID}<li class=""> <a style="display:block" href="?mod=account&code=logout">退出（{MEMBER_NAME}）</a> </li>{/if}
+</ul>
+</div>
+</div>
+</nav>
+<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
+id="" style="display: {echo ($hidden_header_footer || true===isAppRequest)?'none':'block';}">
+<ul class="am-navbar-nav am-cf am-avg-sm-4">
+<li>
+<a href="m.php">
+<span class="am-icon-home"></span>
+<span class="am-navbar-label">首页</span>
+</a>
+</li>
+<!--{if MEMBER_ID < 1 && api_uid() < 1}-->
+<li>
+<a href="m.php?mod=account&code=login" data-ajax="false" class="ui-link">
+<span class="am-icon-sign-in"></span>
+<span class="am-navbar-label">登录</span>
+</a>
+</li>
+<li>
+<a href="m.php?mod=account&code=register&u={echo (int) $_GET[u];}" class="floatleft a-width-left ui-link" data-ajax="false">
+<span class="am-icon-user-plus"></span>
+<span class="am-navbar-label">注册</span>
+</a>
+</li>
+<!--{else}-->
+{if $credit_open == 1}
+<li>
+<a href="index.php?mod=creditmall&code=goods&op=list&3g=1">
+<i class="am-icon-gift"></i>
+<span class="am-navbar-label">积分商城</span></a>
+</a>
+</li>
+{/if}
+<li>
+<a href="m.php?mod=me&code=index">
+<span class="am-icon-user"></span>
+<span class="am-navbar-label">个人中心</span>
+</a>
+</li>
+<!--{/if}-->
+</ul>
+</div>
+<!--{eval echo ui('loader')->js('@'.$this->Module.'.'.$this->Code)}-->
+</body>
+</html>
+<!--{~handler('member')->UpdateSessions()}-->

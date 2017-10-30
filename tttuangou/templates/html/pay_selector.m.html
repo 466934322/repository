@@ -1,0 +1,61 @@
+{eval
+$me_money = round(user()->get('money')*1, 2);
+$allowSelfPay = false;
+$pay_money = round($pay_money, 2);
+$remain_money = round(($pay_money - $me_money),2);
+$dspSelfPay = $product_type == 'recharge' ? false : true;
+}
+<div id="paytype_list">
+{if $me_money >= $pay_money}
+{eval $allowSelfPay = true}
+{/if}
+{if $product_type == 'recharge'}{eval $allowSelfPay = false}{/if}
+{if $product_id}
+{eval $listString = meta('paymentlist_of_'.$product_id)}
+{else}
+{eval $listString = false}
+{/if}
+{eval $__array=logic('pay')->GetList();}
+<div class="box-style">
+<h2><i class="am-icon-credit-card"></i> 支付方式</h2> 
+<ul class="com_adr">
+{loop $__array $i $pay}
+{if !$allowSelfPay && $pay['code'] == 'self'}
+{eval continue}
+{/if}
+{if $pay['code'] == 'cod' && $product_type != 'stuff'}
+{eval continue}
+{/if}
+{if $pay_money <=0 && $pay['code'] != 'self'}
+{eval continue}
+{/if}
+{if $product_type == 'recharge' && in_array($pay['code'], array('bank', 'lianlianpay', 'icbc','yeepay', ))}
+{eval continue}
+{/if}
+{if $product_type != 'recharge' && $pay['code'] == 'recharge'}
+{eval continue}
+{/if}
+{if $listString}
+{if !stristr($listString, $pay['code'].',')}
+{eval continue}
+{/if}
+{/if}
+{if $pay['code'] == 'yeepay' && $pay['config']['yeepayType'] == '2'}
+{eval continue}
+{/if}
+{if false == in_array($pay['code'], array('self', 'alipaywap', 'tenpaywap', 'lianlianpay', 'wxpay', 'alipaywap2',))}
+{eval continue}
+{/if}
+<li style="line-height:0.3em; padding:10px 0;">
+<table border="0" class="PayTypeList">
+<tr class="pay_tr" style="cursor: pointer;" onmouseover="pay_tr_mouseover(this)" onmouseout="pay_tr_mouseout(this)" onclick="pay_tr_click('{$pay['id']}')">
+<td width="100%">{$pay['name']}</td>
+<td width="30px"><input class="mt" id="payment_id_{$pay['id']}" name="payment_id" type="radio" value="{$pay['id']}"/></td>
+</tr>
+</table>
+</li>
+{/loop}
+</ul>
+</div> 
+</div>
+{~ui('loader')->js('@pay.selector')}

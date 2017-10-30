@@ -1,0 +1,44 @@
+<!--{template @m/header_my}-->
+{if empty($credit_list)}
+<div class="box-style">
+<ul class="com_adr">
+<li><span class="info">暂无充值交易记录</span></li>
+</li>
+</ul>
+</div>
+{/if}
+<div class="box-style">
+<ul class="com_adr">
+<li><span class="info">您当前的总积分是：{$total_credit} 分</span></li>
+</li>
+</ul>
+</div>
+{loop $credit_list $value}
+<div class="box-style">
+<h2><i class="am-icon-angle-double-right"></i> {$value['info']}</h2>
+<ul class="com_adr">
+<li><span class="info">积分变动：
+{if in_array($value['type'], array('give_credit', 'minus'))}
+<font color="#f76120" size="4" title="支出">-{$value['score']}</font> 
+{else}
+<font color="#009900" size="4" title="收入">+{$value['score']}</font> 
+{/if}
+</span> </li>
+<li><span class="info">交易时间：{eval echo date('Y-m-d H:i:s',$value['gettime'])}</span></li>
+</ul>
+</div>
+{/loop}
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.goTop').click(function(e){
+e.stopPropagation();
+$('html, body').animate({scrollTop: 0},300);
+backTop();
+return false;
+});
+});
+</script>
+<!--{template @m/footer}-->

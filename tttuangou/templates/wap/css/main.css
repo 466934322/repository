@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+body{ margin:0; padding:0;}
+a{ text-decoration:none; color:#909090;}
+img{ display:block;}
+input{ outline:none; margin:0; padding:0;}
+.logo{padding-top:18%; padding-bottom:18%; width:58%; padding-left:21%; padding-right:21%;}
+.button{overflow:hidden;  }
+.login{margin-left:3%; margin-right:3%; border:1px #2ec2b3 solid; font-size:1.2em; border-radius:4px; width:94%; line-height:220%; float:left; text-align:center; margin-bottom:1em; color:#2ec2b3;}
+.yz{ margin-right:3%; margin-left:3%; background-color:#2ec2b3;font-size:1.2em; color:#ffffff; border-radius:4px; width:94%; line-height:220%; float:left; text-align:center;}
+
+
+.line{ height:1px; width:100%; background-color:#e7e7e7;}
+.dl{ height:300%; width:100%; overflow:hidden;line-height:300%;}
+.zh{ font-size:1em; line-height:300%; margin-left:3%; float:left;}
+.zh1{ border:none; font-size:1em; color:#323232; float:left; margin-left:20px; line-height:300%;}
+
+.dlbutton{ margin-top:1em; line-height:220%; font-size:1.2em; color:#ffffff; background-color:#2ec2b3; border:none; margin-right:3%; margin-left:3%; width:94%; border-radius:4px;}
+.mm{ font-size:0.9em; color:#909090; margin-right:3%; margin-top:10px; float:right;}
+
+
+.xf{ background-color:#2ec2b3; font-size:1em; color:#ffffff; border:none; border-radius:4px; padding-top:0.5em; padding-bottom:0.5em; width:45.5%; float:left; margin-top:20px; margin-left:3%;}
+.qk{ background-color:#c7c7c7; font-size:1em; color:#ffffff; border:none; border-radius:4px; padding-top:0.5em; padding-bottom:0.5em; width:45.5%; float:right; margin-top:20px; margin-right:3%; }
+
+
+.well{float:left; font-size:1em; margin-left:3%; margin-bottom:20px; color:#909090;}
+.tui{float:right; border:1px solid #c7c7c7; border-radius:2px; font-size:0.6em; padding:3px 10px 3px 10px; margin-right:3%; color:#909090}
+
+.foot{font-size:0.9em; color:#909090; text-align:center; padding-left:20%; padding-right:20%; width:60%; margin-top:20%;}
+
+.msg{text-align:center; color:#F00; margin-top:20px;}

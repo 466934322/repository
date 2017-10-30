@@ -1,0 +1,13 @@
+{~ui('loader')->js('@seccode')}
+<style>
+#seccode_img{width: 95px; margin-right:10px;}
+#seccode_check_result img{  vertical-align: middle;}
+.input_h{ width:140px;}
+</style>
+<div id="seccode{$id}_block">
+<input class="input_h" type="text" name="seccode{$id}" id="seccode{$id}_input" onblur="checkSeccode('seccode{$id}')" placeholder="请输入后面图中的字符" />
+<span id="seccode{$id}_display"></span>
+<a href="javascript:updateSeccode('seccode{$id}');">换一个</a>
+<span id="seccode{$id}_check_result" style="display:none"></span>
+<script type="text/javascript">$(document).ready(function(){seccode({"id":"seccode{$id}", "wp":"seccode{$id}_display"})})</script>
+</div>

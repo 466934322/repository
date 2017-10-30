@@ -1,0 +1,10 @@
+<div class="box-style">
+<h2><i class="am-icon-bookmark-o"></i> 商品属性</h2>
+<ul class="com_adr">
+{loop $ord_attrs $value}
+{loop $value['dsp'] $dsp}
+<li><span class="info">{$dsp['name']} - {$dsp['price']} 元</span></li>
+{/loop}
+{/loop}
+</ul>
+</div>

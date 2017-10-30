@@ -1,0 +1,46 @@
+<!--{template @m/header_back}-->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default" style="margin:0;">
+<div class="am-list-news-hd am-cf">
+您当前的账户金额为：<span class="tg-b">{$user_money}元</span>
+</div>
+<div class="am-list-news-bd">
+<ul class="am-list">
+<li class="am-g am-list-item-desced">
+<div class="am-scrollable-horizontal">
+<table class="am-table am-table-bordered am-table-striped am-text-nowrap">
+<thead><tr>
+<th>日期</th>
+<th>摘要</th>
+<th>金额（元）</th>
+</tr></thead>
+<tbody>
+<!--{loop $usermoney $value}-->
+<tr>
+<td>
+{eval echo date('Y-m-d H:i:s',$value['time'])}
+</td>
+<td>{$value['name']}</td>
+<td>{if $value['money']==0}
+{$value['money']}
+{elseif $value['type']=='minus' && $value['money']<0}
++ {echo abs($value['money'])}
+{elseif $value['type']=='minus'}
+- {$value['money']}
+{else}
++ {$value['money']}
+{/if}</td>
+</tr>
+<!--{/loop}-->
+</tbody>
+</table>
+<div class="pageA">{~page_moyo()}</div>
+</div>
+</li>
+{if !$usermoney}
+<div class="am-alert am-alert-warning2" data-am-alert>
+暂无交易记录
+</div>
+{/if}
+</ul>
+</div>
+</div>

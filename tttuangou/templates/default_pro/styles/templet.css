@@ -1,0 +1,260 @@
+/* default_pro Ä£°åÑùÊ½ */
+
+.bannerArea {
+	margin-bottom: 10px;
+	height: 466px
+}
+.banner-img {
+	z-index: 1;
+	position: relative;
+	width: 100%;
+	height: 465px;
+	overflow: hidden
+}
+.banner-img .banner-box LI {
+	position: absolute;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-position: center 50%;
+	height: 466px
+}
+.banner-img .banner-btn-box {
+	position: relative;
+	margin: 0 auto;
+	width: 1200px;
+	height: 466px;
+	cursor: pointer
+}
+.banner-img .banner-btn {
+	position: absolute;
+	bottom: 10px;
+	left: 230px
+}
+.banner-img .banner-btn SPAN {
+	text-align: center;
+	line-height: 15px;
+	background-color: #eaeaea;
+	text-indent: -9999px;
+	width: 15px;
+	display: block;
+	float: left;
+	height: 15px;
+	color: #fff;
+	font-size: 10px;
+	cursor: pointer;
+	margin-right: 10px;
+	border-radius: 50% 50% 50% 50%;
+	box-shadow: 0 0 5px rgba(0,0,0,0.4)
+}
+.banner-img .banner-btn .on {
+	background-color: #c80002
+}
+.exp{display: inline-table; width:100%;}
+.banner_bg {
+	width: 100%;
+	height: 465px;
+	overflow: hidden;
+	margin:0 auto;
+}
+#turn {
+	z-index: 1;
+	position: relative;
+	width: 100%;
+	height: 466px
+}
+#bigUl {
+	z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 466px
+}
+#bigUl LI {
+	z-index: 0;
+	position: absolute;
+	width: 100%;
+	height: 466px
+}
+#bigUl LI .bigImg {
+	position: absolute;
+	width: 100%;
+	display: block;
+	height: 100%;
+	overflow: hidden;
+	top: 0;
+	left: 0
+}
+.ban_cter {
+	z-index: 11;
+	position: relative;
+	margin: 0 auto;
+	width: 1200px;
+	height: 466px
+}
+.mav {
+	z-index: 7;
+	position: absolute;
+	width: 195px;
+	height: 390px;
+	top: 0;
+	right: 0
+}
+.mav A {
+	position: relative;
+	width: 195px;
+	display: block;
+	height: 233px
+}
+.mav A IMG {
+	width: 195px;
+	height: 233px;
+	-webkit-transition: -webkit-transform .4s;
+	-moz-transition: -moz-transform .4s;
+	transition: transform .4s
+}
+.mav A:hover IMG {
+	-webkit-transform: translateX(5%);
+	-moz-transform: translateX(5%);
+	-ms-transform: translateX(5%);
+	transform: translateX(5%)
+}
+.mav A.cs-hover IMG {
+	-webkit-transform: translateX(5%);
+	-moz-transform: translateX(5%);
+	-ms-transform: translateX(5%);
+	transform: translateX(5%)
+}
+.mav1 {
+	z-index: 7;
+	position: absolute;
+	width: 195px;
+	height: 466px;
+	top: 0;
+	right: 0
+}
+.mav1 A {
+	position: relative;
+	width: 195px;
+	display: block;
+	height: 466px
+}
+.mav1 A IMG {
+	width: 195px;
+	height: 466px;
+	-webkit-transition: -webkit-transform .4s;
+	-moz-transition: -moz-transform .4s;
+	transition: transform .4s
+}
+.mav1 A:hover IMG {
+	-webkit-transform: translateX(5%);
+	-moz-transform: translateX(5%);
+	-ms-transform: translateX(5%);
+	transform: translateX(5%)
+}
+.mav1 A.cs-hover IMG {
+	-webkit-transform: translateX(5%);
+	-moz-transform: translateX(5%);
+	-ms-transform: translateX(5%);
+	transform: translateX(5%)
+}
+.smallBtn {
+	z-index: 9999;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	height: 25px;
+	top: 431px;
+	left: -150px
+}
+.smallBtn #small {
+	z-index: 9999;
+	position: relative;
+	margin: 0 auto;
+	width: 322px;
+	height: 25px
+}
+.smallBtn #small LI {
+	line-height: 22px;
+	width: 22px;
+	background: #222;
+	float: left;
+	height: 22px;
+	color: #fff;
+	font-size: 12px;
+	cursor: pointer;
+	font-weight: 700;
+	margin-right: 10px;
+	border-radius: 50%;
+	box-shadow: 0 0 5px;
+	opacity: .8
+}
+.smallBtn #small LI.on {
+	background: #c40000
+}
+.banner-adimg {
+	position: absolute;
+	width: 195px;
+	background: #f7f7f7;
+	height: 400px;
+	overflow: hidden;
+	top: 10px;
+	right: 0
+}
+.banner-adimg UL {
+	overflow: hidden;
+	padding: 3px
+}
+.banner-adimg LI {
+	border-bottom: #dedede 1px solid;
+	width: 184px;
+	float: left;
+	height: 124px;
+	overflow: hidden;
+	padding: 3px 0
+}
+.hd_scroll {
+	position: relative;
+	width: 724px;
+	display: inline;
+	float: left;
+	height: 164px;
+	margin-left: 220px
+}
+.hd_scroll .adv {
+	border-bottom: #ddd 1px solid;
+	position: relative;
+	width: 720px;
+	height: 164px;
+	overflow: hidden
+}
+.hd_scroll .adv UL {
+	z-index: 9;
+	position: absolute;
+	width: 2000px;
+	top: 0;
+	padding-top: 5px;
+	left: 0;
+}
+.hd_scroll .adv UL LI {
+	margin: 0 9px;
+	width: 155px;
+	float: left;
+	height: 150px;
+	border-right: #dedede 1px solid;
+	padding: 5px
+}
+.hd_scroll .adv A:hover IMG {
+	filter: alpha(opacity=86);
+	opacity: .86;
+	-moz-opacity: .86
+}
+A.abtn {
+	z-index: 10;
+	position: absolute;
+	text-indent: -20000px;
+	width: 14px;
+	display: block;
+	background: url(../images/arrow3.gif) no-repeat 0 center;
+	height: 160px;
+	overflow: hidden;
+	top: 4px
+}

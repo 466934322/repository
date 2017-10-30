@@ -1,0 +1,41 @@
+<!--{template @m/header_seller}-->
+{~ui('isearcher')->load('seller.product_order')}
+{loop $orders $i $order}
+<div class="box-style"> 
+<a class="inlink"><h2><i class="am-icon-list-alt"></i> {$order['orderid']}</h2></a>
+<ul class="com_adr">
+<li><span class="info">用户名称：{echo user($order['userid'])->get('name')}</span></li>
+<li><span class="info">商品信息：{$order['product']['flag']}</span></li>
+<li><span class="info">商品单价：{$order['productprice']}</span></li>
+<li><span class="info">购买数量：{$order['productnum']}</span></li>
+<li><span class="info">订单金额：{$order['totalprice']} 元{if $order['expressprice']>0}（含运费：$order['expressprice'] 元）{/if}</span></li>
+{if $order['attrs']}
+<li><span class="info">商品属性：{loop $order['attrs']['dsp'] $dsp}{$dsp['name']}：{$dsp['price']} 元；{/loop}</span></li>
+{/if}
+{if $order['extmsg']}
+<li><span class="info">买家备注：{$order['extmsg']}</span></li>
+{/if}
+<li><span class="info">订单状态：{echo logic('order')->STA_Name($order['status'])}</span></li>
+<li><span class="info">处理进程：{echo logic('order')->PROC_Name($order['process'])}</span></li>
+{if $order['paytype'] > 0}
+<li><span class="info">支付方式：{eval $payment = logic('pay')->SrcOne($order['paytype'])}{$payment['name']}</span></li>
+{/if}
+<li><span class="info">下单时间：{echo date('Y-m-d H:i:s', $order['buytime'])}</span></li>
+{if $order['pay'] == 1}
+<li><span class="info">支付时间：{echo date('Y-m-d H:i:s', $order['paytime'])}</span></li>
+{/if}
+{if $order['pay'] == 1}
+{if $order['product']['type'] == 'ticket'} <a href="?mod=seller&code=ticket&op=list&search=wd:{$order['orderid']}&ssrc=order_id&sstr={$order['orderid']}">
+<input type="button" class="search-submit formbutton" style="width:100%;" value="查看{TUANGOU_STR}券">
+</a> {else} 
+<a href="?mod=seller&code=delivery&op=list&search=wd:{$order['orderid']}&ssrc=order_id&sstr={$order['orderid']}">
+<input type="button" class="search-submit formbutton" style="width:100%;" value="查看发货清单">
+</a> {/if}
+{/if}
+</ul>
+</div>
+{/loop}
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<!--{template @m/footer}-->

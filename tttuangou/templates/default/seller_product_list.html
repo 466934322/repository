@@ -1,0 +1,83 @@
+<!--{template header}-->
+<div class="site-ms__right user_nav">
+{template seller_menu}
+</div>
+<div class="site-ms__left mangerBox">
+<div class="t_area_out">
+<div class="t_area_in">
+<div class="cont">
+{~ui('isearcher')->load('seller.product_list')}
+<table class="tab_list">
+<tr>
+<th width="30%">产品名称</th>
+<th width="15%">销售情况</th>
+<th width="15%">商品状态</th>
+<th width="18%">购买/售出/库存</th>
+<th width="13%">运行状态</th>
+<th width="9%">管理</th>
+</tr>
+{loop $products $i $product}
+<tr>
+<td title="{$product['name']}"><a href="?view={$product['id']}" target="_blank">{$product['flag']}</a><br><br>
+上架时间：{echo date('Y-m-d H:i', $product['begintime'])}<br>
+{if $product[overtime]}下架时间：{echo date('Y-m-d H:i', $product['overtime'])}{/if}</td>
+<td>{if in_array($product['type'], array('ticket', 'stuff'))}
+总额：&yen;{$product['views']['money']['all']}元<br>
+{if !$product['yungou']}
+入账：&yen;{$product['views']['money']['real']}元
+{/if}
+{/if}</td>
+<td>
+{if $product['yungou']}
+云购数：{$product['sells_real']}人次
+{else}
+{if $product['type'] == 'ticket'}
+{TUANGOU_STR}券（<a href="?mod=seller&code=ticket&op=list&search=pid:{$product['id']}&ssrc=product_name&sstr={$product['flag']}">明细</a>）：<br>
+已消费：{$product['views']['tikCount']['TICK_STA_Used']}<br>
+未消费：{$product['views']['tikCount']['TICK_STA_Unused']}<br>
+已过期：{$product['views']['tikCount']['TICK_STA_Overdue']}<br>
+已失效：{$product['views']['tikCount']['TICK_STA_Invalid']}
+{elseif $product['type'] == 'stuff'}
+发货区（<a href="?mod=seller&code=delivery&op=list&search=pid:{$product['id']}&ssrc=product_name&sstr={$product['flag']}">明细</a>）：<br>
+已发货：{$product['views']['delivery']['sended']}<br>
+待发货：{$product['views']['delivery']['waiting']}<br>
+已收货：{$product['views']['delivery']['finished']}
+{elseif $product['type'] == 'prize'}
+抽奖数：{$product['views']['sells_real']}人
+{/if}
+{/if}
+</td>
+<td>
+{if $product['yungou']}
+购买：{$product['succ_real']}人<br />
+售出：{$product['sells_real']}份<br />
+库存：{echo $product['surplus'] > 0 ? $product['surplus'].'份': '售罄'}<br />
+{else}
+购买：{$product['succ_real']}人<br>
+售出：{$product['views']['sells_real']}份 <br>
+库存：{echo $product['maxnum'] > 0 ? ($product['surplus'] > 0 ? $product['surplus'] : '售罄') : '无限'}
+{/if}
+</td>
+<td><b>{echo logic('product')->STA_Name($product['status'])}</b></td>
+<td>
+<a href="?mod=seller&code=order&op=list&search=pid:{$product['id']}&ssrc=product_name&sstr={$product['flag']}">相关订单</a>
+</td>
+</tr>
+{/loop}
+<tr>
+<td colspan="6" style="border:none;">
+{~page_moyo()}
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border:none;">
+<font color="#999999"> *&nbsp;说明：“入账”，指的是所有已消费的{TUANGOU_STR}券的价值（虚拟）或者已经发货的订单的价值（实物，不含运费）</font>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--{template footer}-->

@@ -1,0 +1,39 @@
+<!--{template @m/header_my}-->
+<div class="box-style">
+<div class="term">
+<div class="product_detail_cnt"> 当好友接受您的邀请，在网站上首次成功购买，系统会在 24 小时内按照网站返利比例返还相应金额到您的个人中心帐户，下次{TUANGOU_STR}时可直接用于支付。没有数量限制，邀请越多，返利越多。 </div>
+<ul class="com_adr">
+<input id="inviteURL"  type="hidden" value="{eval echo $this->Config[site_url]; }/?u={MEMBER_ID}" onclick="copyText(this.value);">
+<li><span class="info">
+<input type="submit" value="点击复制连接分享给好友" class="search-submit formbutton" width="98%" onclick="copyText($('#inviteURL').val());">
+</span></li>
+</ul>
+</div>
+</div>
+{if empty($finder)}
+<div class="box-style">
+<ul class="com_adr">
+<li><span class="info">您还没有邀请到任何人，加油哦！</span></li>
+</ul>
+</div>
+{else}  
+{loop $finder $i $one}
+<div class="box-style"> <a class="inlink" href="?view={$value['id']}">
+<h2><i class="am-icon-list-ul"></i> {$value['flag']}</h2>
+</a>
+<ul class="com_adr">
+<li><span class="info">邀请时间：{echo my_date_format2($one['buytime'])}</span></li>
+<li><span class="info">受邀请人：{$one['username']}</span></li>
+<li><span class="info">购买的产品：{$one['flag']}</span></li>
+<li><span class="info">返利状态：{if $one['status']==1}
+等待验证中
+{elseif $one['status']==2}
+已返利
+{else}
+已经取消
+{/if}</span></li>
+</ul>
+</div>
+{/loop}
+{/if}
+<!--{template @m/footer}-->

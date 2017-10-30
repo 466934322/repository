@@ -1,0 +1,28 @@
+ 
+<style>
+.common-item .list_block{ padding:10px 0;}
+.common-item .list_block .pic,.common-item .list_block .pic img{ width:100%; height:auto; margin:0;}
+.common-item .list_block .item-name{ display:block; clear:both; padding:10px 10px 0; font-size:12px; overflow:hidden;}
+.common-item .list_block .item-name .item-name-ll{ width:50%;white-space: nowrap; text-overflow: ellipsis; -o-text-overflow: ellipsis;overflow: hidden; float:left;}
+.common-item .list_block .item-name .item-name-rr{ width:40%;overflow: hidden; float:right; font-weight:500; text-align:right;}
+.common-item .list_block .item-name .item-name-rr b{ color:#f60; margin-right:10px;}
+</style>
+<li class="list_block">
+<a href="?view={$item['id']}">
+<div class="pic">{eval ui('iimager')->single($item['id'], $item['imgs'][0])}</div>
+<div class="item-name">
+<div class="item-name-ll">{$item['name']} </div>
+<div class="item-name-rr"><b>&yen;{$item['nowprice']}</b>
+{if $item['sells_real'] < $item['sells_out']} {if $item['is_countdown'] > 0}
+剩余{$item['surplus']}
+{else}
+已售{$item['sells_out']}
+{/if}{else} {if $item['maxnum'] > 0}
+剩余{$item['maxnum']-$item['sells_real']}
+{else}
+已售{$item['sells_real']}
+{/if}{/if}
+</div>
+</div>
+</a>
+</li>

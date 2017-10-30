@@ -1,0 +1,106 @@
+<!--{template @m/header_back}-->
+{~ui('loader')->css('@jquery.tipTip')}
+{~ui('loader')->css('@buy.checkout')}
+{~ui('loader')->css('@jquery.validationEngine')}
+{~ui('loader')->js('@jquery.tipTip')}
+{~ui('loader')->js('@jquery.hook')}
+{~ui('loader')->js('@jquery.cache')}
+{~ui('loader')->js('@jquery.form')}
+{~ui('loader')->js('@jquery.validationEngine.cn')}
+{~ui('loader')->js('@jquery.validationEngine')}
+<script type="text/javascript">
+var product_array = new Array();
+<!--{loop $cartItems $product}-->
+product_array.push({'productid':{$product['id']},
+'price':{$product['nowprice']},
+'oncemax':{$product['oncemax']},
+'oncemin':{$product['oncemin']},
+'surplus':{$product['surplus']},
+{if $product['type'] == 'stuff'}
+'weight':{$product['weight']}
+{/if}
+});
+<!--{/loop}-->
+function order_finish(id)
+{
+window.location = '{~rewrite("?mod=buy&code=order&id=")}'+id;
+}
+</script>
+{~ui('loader')->js('@buy.checkout', UI_LOADER_ONCE)}
+<!--{loop $cartItems $product}-->
+<div class="box-style">
+<h2><i class="am-icon-bookmark-o"></i> {$product['flag']}</h2>
+<ul class="com_adr">
+<li><span class="info">购买数量：
+<input type="text" name="num_buys[{$product['id']}]" id="num_buys[{$product['id']}]" productid="{$product['id']}" oncemin="{$product['oncemin']}" value="{$product['num']}" maxlength="7" class="inputsearch" style="width:80px;">
+</span></li>
+{eval $isExitAttr = logic('attrs')->get($product['id']);}    
+{if $isExitAttr} 
+<!--{eval logic('attrs')->html($product)}-->
+{/if}
+{if 'stuff'==$product['type'] && $product['weight'] > 0}
+<li><span class="info">商品重量：<font id="product_weight_{$product['id']}">{$product['weight_view']}</font></span></li> 								
+{/if}  
+<li><span class="info">商品单价：{$product['nowprice']}元</span></li>
+<li><span class="info">商品小计：<span id="price_product_{$product['id']}">{eval echo round($product['nowprice']*$product['oncemin'], 2)}</span>元</span></li>
+</ul>
+</div>
+<!--{eval logic('express')->html($product)}-->
+<!--{/loop}--> 
+<!--{eval logic('notify' )->html($product)}-->
+<!--{eval logic('address')->html($cartItems)}-->	
+<script>								
+//express_display(28,91);
+//express_display(28,17);
+</script>
+<!--{eval if(is_array($cartItems) && 1 == count($cartItems)) logic('cut' )->html($product)}-->
+<div class="box-style">
+<h2><i class="am-icon-cny"></i> 应付总额明细</h2>
+<ul class="com_adr">
+<div id="tr_price_total"></div>
+<li><span class="info">应付总额：<font id="price_total" class="price" style="margin:0px; padding:0px;">{echo $product['nowprice']*$product['oncemin']}</font>元</span></li>
+</ul>
+</div>
+<form id="checkout_submit" action="?mod=buy&code=checkout&op=save" method="post">
+<input id="product_id" name="product_id" type="hidden" value="200" />
+<!--{loop $cartItems $product}-->
+<input id="product_id[{$product['id']}]" type="hidden" name="product_id[{$product['id']}]" value="{$product['id']}" />
+<!--{/loop}-->
+<div class="box-style">
+<h2><i class="am-icon-pencil-square-o"></i> 订单附言</h2>
+<ul class="com_adr">
+<li style="height:auto"><span class="info"><textarea style="width:100%; height:40px; border:none" placeholder="可留空" class="extmsg" name="extmsg"></textarea></span></li>
+</ul>
+</div>  
+<div class="box-style">
+<ul class="com_adr">
+<div class="pro-attrs-cat-tips"></div>
+<li><span class="info"><input id="checkout_submit_button" type="submit" value="提交订单" name="buy" class="search-submit formbutton" /></span></li>
+<font id="submit_status"></font>
+</ul>
+</div> 
+</form> 
+<script type="text/javascript">fizinit();</script>
+<style>
+.pro-attrs-popbod{ padding:0;}
+.pro-attrs-poptit h3 { margin: 0;}
+.pro-attrs-popbod {
+padding-top: 15px;padding-bottom: 15px;
+}
+.com_adr .pro-attrs dd {
+width: 80%;
+}
+.pro-attrs-popbod .btn{ margin-left:20%;}
+.pro-attrs-poptit {
+padding: 5px 0;
+background: #fff; 
+}
+.address_list .title{ font-size:1em; font-weight:500;}
+#rd_add label {
+float: none;
+display: inline;
+font-size: 1em;
+font-weight: 500;
+}
+</style>
+<!--{template @m/footer}-->

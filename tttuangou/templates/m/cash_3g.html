@@ -1,0 +1,140 @@
+<!--{template @m/header_back}-->
+<script type="text/javascript">
+function trim(str){
+var re=/\s*(\S[^\0]*\S)\s*/;
+re.exec(str);
+return RegExp.$1;
+}
+function checkCash()
+{
+var money = Math.round($('#cash_money').val()*100)/100;
+var maxmoney = {$maxmoney};
+var paytype = $("input[name='paytype']:checked").val();
+if (isNaN(money))
+{
+foundError('提现金额必须是一个有效数字！');
+return false;
+}
+if (money <= 0)
+{
+foundError('请输入提现金额，或提现金额输入错误，提现金额必须大于0元');
+return false;
+}
+if (money > maxmoney)
+{
+foundError('提现金额过大，您的帐户余额只有' + maxmoney + '元');
+return false;
+}
+if(paytype=='alipay'){
+var alipaynumber = trim($('#alipaynumber').val());
+var aliusername = trim($('#aliusername').val());  
+if(alipaynumber.length < 6){
+foundError('您没有填写支付宝帐号或支付宝帐号填写错误！');
+return false;
+}else if(aliusername.length < 2){
+foundError('您没有填写收款人姓名或收款人姓名填写错误！');
+return false;
+}
+}else if(paytype=='bank'){
+var bankname = $('#bankname').val();
+var banknumber = trim($('#banknumber').val());
+var bankusername = trim($('#bankusername').val());
+if(bankname.length < 3){
+foundError('请选择一个转帐银行！');
+return false;
+}else if(banknumber.length < 8){
+foundError('您没有填写银行卡号或银行卡号填写错误！');
+return false;
+}else if(bankusername.length < 2){
+foundError('您没有填写开户人姓名或开户人姓名填写错误！');
+return false;
+}
+if('~other~' == bankname && ($('#other_bank_name').val()).length < 4) {
+foundError('请正确填写其他银行的银行名称！');
+return false;
+}
+}
+return true;
+}
+function foundError(msg)
+{
+$('#error_msg').html(msg).css('color', '#f76120');
+setTimeout(function(){$('#error_msg').css('color', '')}, 2000);
+}
+</script>
+<style>
+.am-accordion-gapped{ margin:0;}
+.go_order_btn{background: #fb7252;color: #fff;text-align: center;line-height: 200%;font-size: 1.2em;display: block;margin: 20px auto;border-radius: 2px; border:none; width:100%;}
+</style>
+<!--{if $maxmoney > 0}-->
+<div class="box-style">
+<form class="am-form" action="../default/?mod=cash&code=order&op=save" method="post" onsubmit="return checkCash();" >
+<h3>您最大可提现金额为：<span style="color:#f30">{~user()->get('money')}元</span></h3>
+<div class="am-form-group">
+<label for="doc-ipt-email-1">提现金额</label>
+<input type="email" id="cash_money" name="money" type="text" placeholder="请输入提现金额">
+</div>
+<label>请选择提现方式：</label>
+<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{  }'>
+<dl class="am-accordion-item am-active">
+<dt class="am-accordion-title">
+支付宝
+</dt>
+<dd class="am-accordion-bd am-collapse am-in">
+<div class="am-accordion-content">
+<label>支付宝帐号</label>
+<input id="alipaynumber" name="alipaynumber" type="text" placeholder="请输入支付宝帐号"/>
+<label>收款人姓名</label>
+<input id="aliusername" name="aliusername" type="text" placeholder="请输入收款人姓名"/>
+</div>
+</dd>
+</dl>
+<dl class="am-accordion-item">
+<dt class="am-accordion-title">
+银行转账
+</dt>
+<dd class="am-accordion-bd am-collapse ">
+<div class="am-accordion-content">
+<label>转帐银行</label>
+<select onchange="bankname_change()" id="bankname" name="bankname"><option value="">请选择...</option>
+<!--{loop $bank $key $val}-->
+<option value="{$key}">{$val}</option>
+<!--{/loop}-->
+</select>
+<script>
+function bankname_change() {
+if('~other~' == $('#bankname').val()) {
+$('#P_other_bank_name').show();
+} else {
+$('#P_other_bank_name').hide();
+}
+}
+</script>
+<p id="P_other_bank_name" >
+<label style=" overflow:hidden;">银行名称</label><input id="other_bank_name" name="other_bank_name" type="text"/> （请准确填写银行的全称，例如“杭州联合农村商业银行”）
+</p>
+<label style=" overflow:hidden;">银行卡号</label><input id="banknumber" name="banknumber" type="text"/>
+<label style=" overflow:hidden;">开户人姓名</label><input id="bankusername" name="bankusername" type="text"/>
+</div>
+</dd>
+</dl>
+<dl class="am-accordion-item">
+<dt class="am-accordion-title">
+上门提现
+</dt>
+<dd class="am-accordion-bd am-collapse ">
+<div class="am-accordion-content">
+上门提现地址：{$payaddress}
+</div>
+</dd>
+</dl>
+</section>
+<input id="cashSubmit" type="submit" class="go_order_btn" value=" 提交申请 " disabled/>
+</div>
+</form>
+<p id="error_msg"></p>
+<!--{else}-->
+<div class="box-style">
+<span style="color:#f30">您没有可提现的帐户余额，无法进行提现！</span><br>（余额至少需要&yen;1元以上）
+</div>
+<!--{/if}-->

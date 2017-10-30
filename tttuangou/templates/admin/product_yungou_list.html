@@ -1,0 +1,23 @@
+<!--{template @admin/header}-->
+{~ui('loader')->css('@jquery.thickbox')}
+{~ui('loader')->js('@jquery.thickbox')}
+<div class="header"> <a href="?mod=yungou&code=vlist" style="float:left; display: block;">云购活动列表 </a><a href="?mod=product&code=add&~iiframe=yes" class="b_add" style="text-decoration:none;">添加云购 </a> </div> <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder"> <thead> <tr class="tr_nav"> <td width="22%">产品名称（悬浮查看长标题）</td> <td width="22%">统计概览</td> <td width="13%">运行状态</td> <td width="12%">显示设定</td> <td width="12%">发送订阅</td> <td width="12%">管理操作</td> </tr> </thead> <tbody> <!--{loop $yunGouArr $yunGou}--> <tr> <td title="{$yunGou['name']}"> <a href="{conf site_url}/?view={$yunGou['id']}" target="_blank">{$yunGou['flag']}</a> </td> <td>
+当前云购人次：{$yunGou['totalSalesNum']}&nbsp;&nbsp;<font color="#808080">(含虚拟人数)</font><br/>
+实际云购人次：{$yunGou['realSalesNum']}<br/>
+剩余云购人次：{$yunGou['remainSalesNum']}
+</td> <td>
+{if $yunGou['status'] == YUNGOU_STA_Normal}
+进行中
+{elseif $yunGou['status'] == YUNGOU_STA_Readied}
+已结束，等待揭晓
+{elseif $yunGou['status'] == YUNGOU_STA_Published}
+已揭晓，云购成功
+{/if}
+<br/> <a href="?mod=yungou&code=manager&pid={$yunGou['id']}">[云购管理]</a> </td> <td>
+{$yunGou['display']}
+<div style="color:#808080;" title="显示优先级">TOP +{$yunGou['order']}</div> </td> <td> <a href="?mod=subscribe&code=generate&from=product&idx={$yunGou['id']}&type=sms&keepThis=true&TB_iframe=true&height=300&width=600" class="thickbox" title="短信订阅通知"><img src="templates/default/images/sms_edit.png" /></a>&nbsp;
+<a href="?mod=subscribe&code=generate&from=product&idx={$yunGou['id']}&type=mail&keepThis=true&TB_iframe=true&height=300&width=600" class="thickbox" title="邮件订阅通知"><img src="templates/default/images/email.png" /></a> </td> <td> <a href="?mod=yungou&code=numberlist&pid={$yunGou['id']}">[ 号码列表 ]</a><br/> <a href="?mod=product&code=edit&id={$yunGou['id']}&~iiframe=yes">编辑</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="?mod=product&code=del&id={$yunGou['id']}" onclick="return confirm('删除产品会清空所有相关的订单，{TUANGOU_STR}券，支付，发货等数据！\n此操作不可恢复！\n\n您确定要删除吗？');">删除</a> </td> </tr> <!--{/loop}--> <!--{if !$yunGouArr}--> <tr> <td colspan="6"> <font style="color:#CA3434;font-weight:bold;">目前没有云购产品</font> <br/>
+（添加产品时选择“启用云购”即可）
+</td> </tr> <!--{/if}--> </tbody> <tfoot> <tr> <td colspan="6">{~page_moyo()}</td> </tr> </tfoot> </table>
+{template @admin/footer}

@@ -1,0 +1,59 @@
+<!--{template @m/header_seller}-->
+<style>
+.box-style h2 {
+border-bottom: solid 1px #F2F2F2;
+}
+.my-mt .icon-font {
+font-size: 16px;
+line-height: 26px;
+}
+.my-mt span {
+font-size: 16px;
+}
+</style>
+{~ui('isearcher')->load('seller.product_list')}
+{loop $products $i $product}
+<div class="box-style">
+<a class="inlink"><h2><i class="am-icon-bookmark-o"></i> {$product['flag']}</h2></a> 
+{if $product['type'] == 'ticket'}
+<ul class="mg-4 my-mt cf">
+<li><a><i class="icon-font">未消费</i><span>{$product['views']['tikCount']['TICK_STA_Unused']}</span></a></li>
+<li><a><i class="icon-font">已消费</i><span>{$product['views']['tikCount']['TICK_STA_Used']}</span></a></li>
+<li><a><i class="icon-font">已过期</i><span>{$product['views']['tikCount']['TICK_STA_Overdue']}</span></a></li>
+<li><a><i class="icon-font">已失效</i><span>{$product['views']['tikCount']['TICK_STA_Invalid']}</span></a></li>
+</ul>
+{elseif $product['type'] == 'stuff'}
+<ul class="mg-4 my-mt cf">
+<li style="width: 33.2%;"><a><i class="icon-font">已发货</i><span>{$product['views']['delivery']['sended']}</span></a></li>
+<li style="width: 33.2%;"><a><i class="icon-font">待发货</i><span>{$product['views']['delivery']['waiting']}</span></a></li>
+<li style="width: 33.2%;"><a><i class="icon-font">已收货</i><span>{$product['views']['delivery']['finished']}</span></a></li>
+</ul>
+{elseif $product['type'] == 'prize'}
+<ul class="com_adr">  
+<li><span class="info">抽奖人数：{$product['views']['sells_real']}</span></li>
+</ul>
+{/if} 
+<ul class="com_adr">  
+{if in_array($product['type'], array('ticket', 'stuff'))}
+<li><span class="info">总销售额：{$product['views']['money']['all']}元</span></li>
+<li><span class="info">有效金额：{$product['views']['money']['real']}元</span></li>
+{/if}
+<li><span class="info">购买人数：{$product['succ_real']}</span></li>
+<li><span class="info">售出份数：{$product['views']['sells_real']}</span></li>
+<li><span class="info">剩余库存：{echo $product['maxnum'] > 0 ? ($product['surplus'] > 0 ? $product['surplus'] : '已售完') : '不限库存数量'}</span></li>
+<li><span class="info">运行状态：{echo logic('product')->STA_Name($product['status'])}</span></li>
+<li><span class="info">上架时间：{echo date('Y-m-d H:i', $product['begintime'])}</span></li>
+{if $product[overtime]}<li><span class="info">下架时间：{echo date('Y-m-d H:i', $product['overtime'])}</span></li>{/if}
+<a href="?mod=seller&code=order&op=list&search=pid:{$product['id']}&ssrc=product_name&sstr={$product['flag']}"><input type="button" class="search-submit formbutton" style="width:47%;float:left;" value="查询订单"></a>
+{if $product['type'] == 'ticket'}
+<a href="?mod=seller&code=ticket&op=list&search=pid:{$product['id']}&ssrc=product_name&sstr={$product['flag']}"><input type="button" id="btn_tickUse" class="search-submit formbutton" name="submit" style="width:47%;float:right" value="查询{TUANGOU_STR}券"></a>
+{elseif $product['type'] == 'stuff'}
+<a href="?mod=seller&code=delivery&op=list&search=pid:{$product['id']}&ssrc=product_name&sstr={$product['flag']}"><input type="button" id="btn_tickUse" class="search-submit formbutton" name="submit" style="width:47%;float:right" value="查询发货情况"></a>
+{/if}   
+</ul>
+</div>
+{/loop}
+<nav class="pageinator clearfix">
+<div class="pg-next"> {~page_moyo()}</div>
+</nav>
+<!--{template @m/footer}-->

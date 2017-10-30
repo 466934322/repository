@@ -1,0 +1,30 @@
+<!--{if false != ($data = logic('product')->GetAllTuangou($product['sellerid'],5,0,$product['id']))}-->
+<div class="t_area_out">
+<div class="t_area_in">
+<h5 class="detail-centit">
+商家的其他商品
+<div class="detail-centit_sub">
+<span class="sub_sale">已售</span>
+<span class="sub_value_cn">原价</span>
+<span class="sub_price">{TUANGOU_STR}价</span>
+</div>
+</h5>
+<!--{loop $data $product2}-->
+<!--{if $product2['id']!=$product['id']}-->
+<p class="otherBiz">
+<a target="_blank" href="?view={$product2['id']}">
+<span class="biz_title">{$product2['name']}</span>
+<span class="price">&yen;{$product2['nowprice']}</span>
+<span class="value_cn">&yen;{$product2['price']}</span>
+<span id="tuanState" class="sale">{$product2['sells_count']}</span>
+</a>
+</p>
+<!--{/if}-->
+<!--{/loop}-->
+<p class="otherBiz"><a></a></p>
+<div style=" padding:15px 15px 0 15px; display: none" class="page product_list_pager">
+{~page_moyo()}
+</div>
+</div>
+</div>
+<!--{/if}-->

@@ -1,0 +1,82 @@
+<!--{if true===INDEX_DEFAULT}-->
+<div class="promo_tab">
+<!--{~logic('sort')->product_navigate()}-->
+<!--{~logic('tag')->navigate(6)}-->
+</div>
+<!--{/if}-->
+<div class="product_wrap">  
+<div class="product_item">
+<style type="text/css">
+.deal-tile__title{ padding:10px 15px 0;}
+.deal-tile__detail{ padding:0 15px;height: 40px;}
+</style>
+{loop $product $item}
+{eval $icc++}
+<div class="t_area_out template2">
+<a class="product_item_a" href="?view={$item['id']}" target="_blank" title="{$item['name']}">
+<div class="t_area_in" >
+<div class="deal-tile__cover">
+<div class="deal-tile__cover_img mt">
+{eval ui('iimager')->single($item['id'], $item['imgs'][0])}
+</div>
+<div class="deal-tile__cover_tag">
+{if $item['linkid']}<i><span title="多个套餐">多种套餐</span></i>{/if}
+{eval logic('product_tag')->html($item['id'])}
+</div>
+</div>
+<div class="deal-tile__title">{$item['name']}<p class="short-title">{eval echo trim(strip_tags($item['intro']));}</p></div>
+<div class="deal-tile__detail">
+<div class="price">&yen;{$item['nowprice']}</div>
+<div class="at_shuzi">
+{if count($item[cuts][cuts])>1 || ((($item[cuts][cuts]?1:0)+($item[rebate_money]>0?1:0)+($item[limit_level]>0?1:0)+($item[promo_cut]>0?1:0))>1)}
+<div class="sz_cuts">多种优惠+</div>
+{else}
+{if $item[promo_cut] > 0}<div class="sz_cuts">优惠码购买每份立减{$item[promo_cut]}元</div>{/if}
+{loop $item[cuts][cuts] $cut}<div class="sz_cuts">{$cut[desc]}</div>{/loop}
+{if $item[rebate_money] > 0}<div class="sz_cuts">购物返现{$item[rebate_money]}元</div>{/if}
+{if $item[role_rebate_user] == 0}
+{if $item[share_rebate_money] > 0}<div class="sz_cuts">分享返利{$item[share_rebate_money]}元</div>{/if}
+{else}
+{if $item[share_rebate_money] > 0 && user()->get('get_share_rebate') ==1}<div class="sz_cuts">分享返利{$item[share_rebate_money]}元</div>{/if}
+{/if}
+{if $item[limit_level] > 0}<div class="sz_cuts">购买需要达到VIP{$item[limit_level]}级</div>{/if}
+{/if}
+<div class="sz_pc">
+<div class="price_prime"><span>原价:</span><b class="prime_cost">&yen;{$item['price']}</b></div>
+{if $item['presell']}
+<div class="price_prepay"><span>{TUANGOU_STR}价:</span><b>&yen;{$item['presell']['price_full']}</b></div>
+{/if}
+</div>
+</div>
+</div>
+<div class="deal-tile__extra">
+{if false != ($summary=logic('comment')->front_get_summary($item['id']))}
+<div class="product-summary">                              
+<ul class="comment-info__rating">
+<li style="z-index:0; display: list-item; width:{echo $summary['average'] * 20}%;"></li>
+</ul>
+<em>{$summary['count']}</em>条评价
+</div> 
+{/if}
+<div id="tuanState" class="mb_0626">
+{if $item['is_countdown'] > 0}
+剩余数量<b>{$item['surplus']}</b>
+{else}
+已售<b>{$item['sells_count']}</b>
+{/if}
+</div>
+</div>	
+</div>
+</a>
+</div>
+{/loop}
+<script>$(".short-title span").removeAttr("style");</script>
+<div class="product_list_pager">{~page_moyo()}</div>
+</div>
+</div>
+</div>
+<div class="site-ms__right">
+<!--{~logic('signin')->html()}-->
+<!--{~ui('widget')->load('index_home')}-->
+</div>
+</div>
